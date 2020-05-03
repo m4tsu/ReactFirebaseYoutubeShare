@@ -1,0 +1,45 @@
+import React, { FC } from "react";
+import { VideoIdType } from "utils/validateUrl";
+import styled from "styled-components";
+import { VideoType } from "types/Video";
+
+type Props = {
+  videoId: VideoIdType;
+  videoType: VideoType;
+};
+
+export const VideoView: FC<Props> = ({ videoId, videoType }) => {
+  if (videoId) {
+    return (
+      <VideoWrapper>
+        <iframe
+          src={
+            videoType === "playlist"
+              ? `https://www.youtube.com/embed/videoseries?list=${videoId}`
+              : `https://www.youtube.com/embed/${videoId}`
+          }
+          frameBorder="0"
+          allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
+          allowFullScreen
+          title="Embedded content from youtube."
+        />
+      </VideoWrapper>
+    );
+  }
+
+  return <></>;
+};
+
+const VideoWrapper = styled.div`
+  position: relative;
+  width: 100%;
+  padding-top: 56.25%;
+  margin-bottom: 1em;
+  iframe {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 100% !important;
+    height: 100% !important;
+  }
+`;

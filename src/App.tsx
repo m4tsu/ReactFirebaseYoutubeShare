@@ -1,26 +1,48 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { useContext } from "react";
+import { Top } from "components/Top";
+import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import { AppBar } from "components/layouts/AppBar";
+import { Mypage } from "components/Pages/Mypage/Mypage";
+import { Container, Dimmer, Loader } from "semantic-ui-react";
+import styled from "styled-components";
+import { Auth } from "components/Auth";
+import { AuthContext } from "context";
+import Signin from "components/Pages/SignIn/SignIn";
+import { UserPage } from "components/Pages/UserPage/UserPage";
+import { NoMatch } from "components/Pages/NoMatch";
 
-function App() {
+const Main = styled(Container)`
+  margin-top: 40px;
+`;
+
+const App = () => {
+  const { currentUser, loading } = useContext(AuthContext);
+  console.log(currentUser, loading);
+  if (loading) {
+    return (
+      <Dimmer active inverted>
+        <Loader inverted />
+      </Dimmer>
+    );
+  }
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Router>
+      <AppBar />
+      <Main>
+        <Switch>
+          <Route exact path="/login" component={Signin} />
+          {/* <Auth> */}
+          {/* TODO 今はmypageだけログイン必要だからそっちでリダイレクト仕込む */}
+          <Route path="/mypage" component={Mypage} />
+          {/* </Auth> */}
+          <Route path="/:uid" component={UserPage} />
+          <Route exact path="/" component={Top} />
+          <Route component={NoMatch} />
+        </Switch>
+      </Main>
+    </Router>
   );
-}
+};
 
 export default App;
