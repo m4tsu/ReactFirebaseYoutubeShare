@@ -1,9 +1,6 @@
-import { useMemo, useCallback, useContext, useState, useEffect } from "react";
-// import { db } from "FirebaseConfig";
+import { useContext, useState, useEffect } from "react";
 import { Video } from "types/Video";
-import { AppUser } from "types/AppUser";
-import { firestore, User } from "firebase";
-import { FirebaseContext, AuthContext } from "context";
+import { FirebaseContext } from "context";
 
 type UseVideoArg = {
   uid: string;
@@ -25,8 +22,10 @@ export const useVideo = ({ uid, id }: UseVideoArg) => {
         const doc = await query.get();
         console.log(doc.exists);
         if (doc.exists) {
+          const data = doc.data() as Video;
           const videoData = {
-            ...(doc.data() as Video),
+            ...data,
+            comment: data.comment.replace(/\\n/g, "\n"),
             id: doc.id,
           };
           setVideo(videoData);

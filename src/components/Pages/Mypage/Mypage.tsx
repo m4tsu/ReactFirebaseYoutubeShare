@@ -30,10 +30,10 @@ export const Mypage: FC = () => {
 
   return (
     <Grid>
-      <Grid.Column computer={5}>
+      <Grid.Column computer={5} mobile={16}>
         <SideMenu />
       </Grid.Column>
-      <Grid.Column computer={11}>
+      <Grid.Column computer={11} mobile={16}>
         <Switch>
           <Route exact path={`${match.path}/video`}>
             <Videos currentUser={currentUser} />

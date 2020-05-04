@@ -1,6 +1,11 @@
 import React, { FC, useState, useEffect } from "react";
-import { Modal, Button, TextAreaProps, TextArea } from "semantic-ui-react";
-import { useHistory } from "react-router";
+import {
+  Modal,
+  Button,
+  TextAreaProps,
+  TextArea,
+  Form,
+} from "semantic-ui-react";
 import { editVideo } from "utils/editVideo";
 
 type Props = {
@@ -21,7 +26,6 @@ export const EditModal: FC<Props> = ({
   initialComment,
 }) => {
   const [comment, setComment] = useState<string>("");
-  const history = useHistory();
 
   useEffect(() => {
     setComment(initialComment);
@@ -46,21 +50,23 @@ export const EditModal: FC<Props> = ({
   console.log(comment);
 
   return (
-    <Modal size="mini" open={open} onClose={closeModal}>
+    <Modal size="tiny" open={open} onClose={closeModal}>
       <Modal.Header>コメントの編集</Modal.Header>
       <Modal.Content>
-        <TextArea
-          name="comment"
-          onChange={handleChangeComment}
-          label="コメント"
-          value={comment}
-        />
+        <Form>
+          <TextArea
+            name="comment"
+            onChange={handleChangeComment}
+            label="コメント"
+            value={comment}
+          />
+        </Form>
       </Modal.Content>
       <Modal.Actions>
-        <Button color="teal" onClick={closeModal}>
+        <Button negative onClick={closeModal}>
           キャンセル
         </Button>
-        <Button positive content="決定" onClick={handleClickYes} />
+        <Button color="teal" content="決定" onClick={handleClickYes} />
       </Modal.Actions>
     </Modal>
   );

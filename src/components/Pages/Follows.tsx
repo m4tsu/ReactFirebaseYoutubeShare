@@ -1,8 +1,9 @@
-import React, { FC } from "react";
+import React, { FC, useContext, useEffect } from "react";
 import { Dimmer, Loader, List, Image } from "semantic-ui-react";
 import { Link, useRouteMatch } from "react-router-dom";
 import { useFollows } from "utils/useFollows";
 import { Loading } from "components/Atoms/Loading";
+import { SideMenuContext } from "context";
 
 type FollowingProps = {
   uid: string;
@@ -10,7 +11,15 @@ type FollowingProps = {
 
 export const Follows: FC<FollowingProps> = ({ uid }) => {
   const { follows, loading } = useFollows(uid);
-  const match = useRouteMatch();
+  const { setMenuLocation } = useContext(SideMenuContext);
+
+  useEffect(() => {
+    setMenuLocation("following");
+
+    return () => {
+      setMenuLocation("other");
+    };
+  }, [setMenuLocation]);
 
   if (loading) {
     return <Loading />;

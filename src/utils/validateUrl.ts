@@ -14,7 +14,7 @@ type Result = {
 
 const videoPatterns = [
   /^https:\/\/youtu.be\/(.+)$/,
-  /^https:\/\/www.youtube.com\/watch?v=(.+)$/,
+  /^https:\/\/www.youtube.com\/watch\?v=(.+)$/,
 ];
 const playlistPattern = /^https:\/\/www.youtube.com\/playlist\?list=(.+)$/;
 

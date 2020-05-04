@@ -86,19 +86,26 @@ export const New: FC = () => {
             fluid
             name="videoUrl"
             label="動画URL"
+            icon="youtube"
+            iconPosition="left"
             placeholder={
               videoType === "video"
-                ? "https://www.youtube.com/watch?v=ABCD123"
+                ? "https://www.youtube.com/watch?v=ABCD123 or https://youtu.be/ABCD123"
                 : "https://www.youtube.com/playlist?list=ABCD123"
             }
             onChange={handleChangeUrl}
           />
-
-          <StyledTextArea
-            name="comment"
-            onChange={handleChangeComment}
-            label="コメント"
-          />
+          <Form.Field>
+            <label htmlFor="comment">
+              コメント
+              <StyledTextArea
+                id="comment"
+                name="comment"
+                maxLength="1000"
+                onChange={handleChangeComment}
+              />
+            </label>
+          </Form.Field>
 
           <Button
             color="teal"

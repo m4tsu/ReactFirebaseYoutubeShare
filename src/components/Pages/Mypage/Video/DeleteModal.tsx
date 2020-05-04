@@ -1,4 +1,4 @@
-import React, { FC, useState } from "react";
+import React, { FC } from "react";
 import { Modal, Button } from "semantic-ui-react";
 import { useHistory } from "react-router";
 import { deleteVideo } from "utils/deleteVideo";

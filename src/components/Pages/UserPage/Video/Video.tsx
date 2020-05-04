@@ -1,4 +1,4 @@
-import React, { FC, useContext } from "react";
+import React, { FC } from "react";
 import { useRouteMatch, RouteComponentProps } from "react-router";
 import { useVideo } from "utils/useVideo";
 import { VideoView } from "components/Pages/VideoView";

@@ -27,23 +27,20 @@ export const UserPage: FC = () => {
   console.log(match);
   console.log("anothers page");
 
-  if (loading) {
+  if (loading || !user) {
     return (
       <Dimmer active>
         <Loader />
       </Dimmer>
     );
   }
-  if (!user) {
-    return <p>ユーザーが見つかりません</p>;
-  }
 
   return (
     <Grid>
-      <Grid.Column computer={5}>
+      <Grid.Column computer={5} mobile={16}>
         <SideMenu user={user} />
       </Grid.Column>
-      <Grid.Column computer={11}>
+      <Grid.Column computer={11} mobile={16}>
         <Switch>
           <Route exact path={`${match.path}/video`} component={Videos} />
           <Route exact path={`${match.path}/followers`}>

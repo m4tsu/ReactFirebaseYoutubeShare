@@ -11,9 +11,26 @@ const StyledMenu = styled(Menu)`
   background-color: ${({ theme }) => theme.colors.main};
 `;
 
-// const MenuLink = styled(Link)`
-//   color: inherit !important;
-// `;
+const StyledMenuItem = styled(Menu.Item)`
+  padding: 0 !important;
+  a {
+    text-align: center;
+    display: block;
+    padding: 0.8em;
+  }
+`;
+
+const DropdownLink = styled(Link)`
+  display: block;
+  padding: 1em;
+  text-align: center;
+  color: rgba(0, 0, 0, 0.87) !important;
+
+  :hover {
+    background: rgba(0, 0, 0, 0.05) !important;
+    color: rgba(0, 0, 0, 0.95) !important;
+  }
+`;
 
 export const AppBar: FC = () => {
   const { currentUser } = useContext(AuthContext);
@@ -34,11 +51,12 @@ export const AppBar: FC = () => {
         {currentUser ? (
           <Dropdown item trigger={<Image avatar src={currentUser.photoURL} />}>
             <Dropdown.Menu>
-              <Dropdown.Item>
+              {/* <Dropdown.Item>
                 <MenuLink to="/mypage/video">マイページ</MenuLink>
-              </Dropdown.Item>
+              </Dropdown.Item> */}
+              <DropdownLink to="/mypage/video">マイページ</DropdownLink>
               <Dropdown.Divider />
-              <Dropdown.Item>フォロー中</Dropdown.Item>
+              <DropdownLink to="/mypage/following">フォロー中</DropdownLink>
               <Dropdown.Divider />
               <Dropdown.Item onClick={signout}>ログアウト</Dropdown.Item>
             </Dropdown.Menu>

@@ -1,6 +1,6 @@
 import { createContext } from "react";
 // import firebase from "FirebaseConfig";
-import firebase, { User } from "firebase/app";
+import firebase from "firebase/app";
 import { AppUser } from "types/AppUser";
 
 export type FirebaseContextValue = {
@@ -24,4 +24,16 @@ export const AuthContext = createContext<authContextValue>({
   credential: null,
   setCredential: () => undefined,
   loading: true,
+});
+
+type SideMenuContextValue = {
+  menuLocation: "video" | "following" | "followers" | "other";
+  setMenuLocation: React.Dispatch<
+    React.SetStateAction<"video" | "following" | "followers" | "other">
+  >;
+};
+
+export const SideMenuContext = createContext<SideMenuContextValue>({
+  menuLocation: "other",
+  setMenuLocation: () => undefined,
 });

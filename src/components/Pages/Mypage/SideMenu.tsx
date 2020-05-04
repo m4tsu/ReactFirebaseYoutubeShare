@@ -1,20 +1,27 @@
 import React, { FC, useContext } from "react";
-import { Menu, Image, Dimmer, Loader } from "semantic-ui-react";
-import { AuthContext } from "context";
+import { Menu, Image, Dimmer, Loader, Grid } from "semantic-ui-react";
+import { AuthContext, SideMenuContext } from "context";
 import styled from "styled-components";
 import { Link, useRouteMatch, Redirect } from "react-router-dom";
-import { AppUser } from "types/AppUser";
 
 const Icon = styled(Image)`
-  margin: 0 auto;
+  margin: 0px auto;
+  margin-left: 0px;
+  /* width: 55px;
+  height: 55px; */
 `;
 
-// type SideMenuProps = {
-//   user: AppUser;
-// };
+const DisplayName = styled(Grid.Column)`
+  padding-top: 0px !important;
+`;
+
+const StyledMenu = styled(Menu)`
+  margin: 0 auto !important;
+`;
 
 export const SideMenu: FC = () => {
   const { currentUser, loading } = useContext(AuthContext);
+  const { menuLocation } = useContext(SideMenuContext);
   const match = useRouteMatch();
   console.log(match);
 
@@ -31,20 +38,25 @@ export const SideMenu: FC = () => {
   }
 
   return (
-    <Menu vertical>
+    <StyledMenu vertical>
       <Menu.Item>
-        <Icon src={currentUser.photoURL} circular />
-        {currentUser.displayName}
+        <Grid verticalAlign="middle">
+          <Grid.Column width={6}>
+            <Icon src={currentUser.photoURL} circular />
+          </Grid.Column>
+
+          <DisplayName width={16}>{currentUser.displayName}</DisplayName>
+        </Grid>
       </Menu.Item>
-      <Menu.Item>
+      <Menu.Item active={menuLocation === "video"}>
         <Link to="/mypage/video">登録した動画</Link>
       </Menu.Item>
-      <Menu.Item>
+      <Menu.Item active={menuLocation === "following"}>
         <Link to="/mypage/following">フォロー中</Link>
       </Menu.Item>
-      <Menu.Item>
+      <Menu.Item active={menuLocation === "followers"}>
         <Link to="/mypage/followers">フォロワー</Link>
       </Menu.Item>
-    </Menu>
+    </StyledMenu>
   );
 };
