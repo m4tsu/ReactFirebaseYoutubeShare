@@ -1,8 +1,16 @@
 import { firestore } from "firebase";
 
 export type VideoType = "video" | "playlist";
+
+export type NewVideo = {
+  videoId: string;
+  type: VideoType;
+  comment: string;
+  userId?: string;
+};
+
 export type Video = {
-  id?: string;
+  id: string;
   videoId: string;
   type: VideoType;
   comment: string;

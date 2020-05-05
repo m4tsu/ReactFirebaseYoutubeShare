@@ -1,19 +1,15 @@
 import React, { FC, useContext, useState, useEffect } from "react";
-import { Menu, Image, Dimmer, Loader, Grid, Button } from "semantic-ui-react";
+import { Menu, Image, Grid } from "semantic-ui-react";
 import { AuthContext, FirebaseContext, SideMenuContext } from "context";
 import styled from "styled-components";
-import { Link, useRouteMatch, Redirect } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { AppUser } from "types/AppUser";
-import { ButtonMain } from "components/Atoms/Button";
-import { useFollow } from "utils/useFollow";
 import { checkFollow } from "utils/checkFollow";
 import { FollowBtn } from "./FollowBtn";
 
 const Icon = styled(Image)`
   margin: 0px auto;
   margin-left: 0px;
-  /* width: 55px;
-  height: 55px; */
 `;
 
 const DisplayName = styled(Grid.Column)`
@@ -29,7 +25,6 @@ type SideMenuProps = {
 };
 
 export const SideMenu: FC<SideMenuProps> = ({ user }) => {
-  const { follow, unfollow, loading } = useFollow();
   const [isFollowing, setIsFollowing] = useState<boolean>(false);
   const { menuLocation } = useContext(SideMenuContext);
   const { db } = useContext(FirebaseContext);
@@ -70,8 +65,8 @@ export const SideMenu: FC<SideMenuProps> = ({ user }) => {
           <DisplayName width={16}>{user.displayName}</DisplayName>
         </Grid>
       </Menu.Item>
-      <Menu.Item active={menuLocation === "video"}>
-        <Link to={`/${user.uid}/video`}>登録した動画</Link>
+      <Menu.Item active={menuLocation === "videos"}>
+        <Link to={`/${user.uid}/videos`}>登録した動画</Link>
       </Menu.Item>
       <Menu.Item active={menuLocation === "following"}>
         <Link to={`/${user.uid}/following`}>フォロー中</Link>

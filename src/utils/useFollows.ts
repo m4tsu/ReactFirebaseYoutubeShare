@@ -10,7 +10,12 @@ export const useFollows = (uid: string) => {
   console.log(uid);
   useEffect(() => {
     if (!db) throw new Error("Firestore is not initialized");
-    const followsQuery = db.collection("users").doc(uid).collection("follows");
+    const followsQuery = db
+      .collection("users")
+      .doc(uid)
+      .collection("follows")
+      .orderBy("createdAt", "desc")
+      .limit(8);
 
     const load = async () => {
       setLoading(true);

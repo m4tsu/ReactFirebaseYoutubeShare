@@ -27,9 +27,9 @@ export const AuthContext = createContext<authContextValue>({
 });
 
 type SideMenuContextValue = {
-  menuLocation: "video" | "following" | "followers" | "other";
+  menuLocation: "videos" | "following" | "followers" | "other";
   setMenuLocation: React.Dispatch<
-    React.SetStateAction<"video" | "following" | "followers" | "other">
+    React.SetStateAction<"videos" | "following" | "followers" | "other">
   >;
 };
 

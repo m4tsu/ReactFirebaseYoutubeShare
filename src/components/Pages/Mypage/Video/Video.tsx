@@ -8,15 +8,11 @@ import { Button, Divider } from "semantic-ui-react";
 import { FirebaseContext } from "context";
 import { DeleteModal } from "components/Pages/Mypage/Video/DeleteModal";
 import { EditModal } from "components/Pages/Mypage/Video/EditModal";
+import { Comment } from "components/Atoms/Comment";
 
 type Params = RouteComponentProps & {
   id: string;
 };
-
-export const Comment = styled.p`
-  white-space: pre-wrap;
-  word-wrap: break-word;
-`;
 
 const ActionBtnContainer = styled.div`
   text-align: right;
@@ -29,8 +25,6 @@ export const Video: FC<{ uid: string }> = ({ uid }) => {
   const [openEdit, setOpenEdit] = useState(false);
   const { id } = match.params;
   const { video, loading } = useVideo({ uid, id });
-  console.log(match);
-  console.log(video);
 
   const handleClickDeleteBtn = () => {
     setOpenDelete(true);

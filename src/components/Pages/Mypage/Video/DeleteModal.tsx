@@ -24,7 +24,7 @@ export const DeleteModal: FC<DeleteModalProps> = ({
   };
   const handleClickYes = () => {
     deleteVideo({ uid, id, db });
-    history.push(`/mypage/video`);
+    history.push(`/mypage/videos`);
   };
 
   return (

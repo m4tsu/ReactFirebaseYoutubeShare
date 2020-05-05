@@ -25,11 +25,15 @@ export const Followers: FC<FollowersProps> = ({ uid }) => {
     return <Loading />;
   }
 
+  if (followers.length === 0) {
+    return <p>フォロワーがいません</p>;
+  }
+
   return (
     <List>
       {followers.map((follow) => (
         <List.Item key={follow.uid}>
-          <Link to={`/${follow.uid}/video`}>
+          <Link to={`/${follow.uid}/videos`}>
             <Image src={follow.photoURL} />
             <p>{follow.displayName}</p>
           </Link>

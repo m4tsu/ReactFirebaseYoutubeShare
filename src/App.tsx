@@ -11,13 +11,14 @@ import { UserPage } from "components/Pages/UserPage/UserPage";
 import { NoMatch } from "components/Pages/NoMatch";
 
 const Main = styled(Container)`
+  margin-bottom: 40px;
   margin-top: 40px;
 `;
 
 const App = () => {
   const { currentUser, loading } = useContext(AuthContext);
   const [menuLocation, setMenuLocation] = useState<
-    "video" | "following" | "followers" | "other"
+    "videos" | "following" | "followers" | "other"
   >("other");
   console.log(currentUser, loading);
   if (loading) {

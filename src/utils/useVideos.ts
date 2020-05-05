@@ -1,12 +1,13 @@
 import { useMemo, useCallback, useContext, useState, useEffect } from "react";
 // import { db } from "FirebaseConfig";
-import { Video } from "types/Video";
+import { Video, NewVideo } from "types/Video";
 import { AppUser } from "types/AppUser";
 import { firestore, User } from "firebase";
 import { FirebaseContext, AuthContext } from "context";
 
 export const useVideos = (uid: string) => {
   const [videos, setVideos] = useState<Video[]>([]);
+  const [videosCount, setVideosCount] = useState<number>(0);
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<Error | null>(null);
   const { db } = useContext(FirebaseContext);
@@ -19,6 +20,7 @@ export const useVideos = (uid: string) => {
       .orderBy("createdAt", "desc");
 
     const load = async () => {
+      console.log("fetch videos");
       setLoading(true);
       try {
         const snap = await query.get();
@@ -27,6 +29,7 @@ export const useVideos = (uid: string) => {
           id: doc.id,
         }));
         setVideos(videosData);
+        setVideosCount(videosData.length);
         setError(null);
       } catch (err) {
         setError(err);
@@ -36,7 +39,7 @@ export const useVideos = (uid: string) => {
     load();
   }, [db, uid]);
 
-  return { videos, loading, error };
+  return { videos, videosCount, loading, error };
 };
 
 export const useAddVideo = () => {
@@ -51,7 +54,7 @@ export const useAddVideo = () => {
   }, [db, currentUser]);
 
   const addVideo = useCallback(
-    async (newVideo: Video) => {
+    async (newVideo: NewVideo) => {
       setLoading(true);
       try {
         if (!videosRef) return null;

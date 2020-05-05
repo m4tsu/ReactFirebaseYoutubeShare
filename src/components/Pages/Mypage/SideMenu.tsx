@@ -38,7 +38,7 @@ export const SideMenu: FC = () => {
   }
 
   return (
-    <StyledMenu vertical>
+    <Menu vertical>
       <Menu.Item>
         <Grid verticalAlign="middle">
           <Grid.Column width={6}>
@@ -48,8 +48,8 @@ export const SideMenu: FC = () => {
           <DisplayName width={16}>{currentUser.displayName}</DisplayName>
         </Grid>
       </Menu.Item>
-      <Menu.Item active={menuLocation === "video"}>
-        <Link to="/mypage/video">登録した動画</Link>
+      <Menu.Item active={menuLocation === "videos"}>
+        <Link to="/mypage/videos">登録した動画</Link>
       </Menu.Item>
       <Menu.Item active={menuLocation === "following"}>
         <Link to="/mypage/following">フォロー中</Link>
@@ -57,6 +57,6 @@ export const SideMenu: FC = () => {
       <Menu.Item active={menuLocation === "followers"}>
         <Link to="/mypage/followers">フォロワー</Link>
       </Menu.Item>
-    </StyledMenu>
+    </Menu>
   );
 };

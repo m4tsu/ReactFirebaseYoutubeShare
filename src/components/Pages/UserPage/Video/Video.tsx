@@ -3,6 +3,8 @@ import { useRouteMatch, RouteComponentProps } from "react-router";
 import { useVideo } from "utils/useVideo";
 import { VideoView } from "components/Pages/VideoView";
 import { Loading } from "components/Atoms/Loading";
+import { Divider } from "semantic-ui-react";
+import { Comment } from "components/Atoms/Comment";
 
 type Params = RouteComponentProps & {
   uid: string;
@@ -22,5 +24,11 @@ export const Video: FC = () => {
     return <p>見つかりません</p>;
   }
 
-  return <VideoView videoId={video.videoId} videoType={video.type} />;
+  return (
+    <>
+      <VideoView videoId={video.videoId} videoType={video.type} />
+      <Divider />
+      <Comment>{video.comment}</Comment>
+    </>
+  );
 };

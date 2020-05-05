@@ -1,18 +1,18 @@
 import React, { FC } from "react";
-import { Grid, Dimmer, Loader } from "semantic-ui-react";
+import { Grid } from "semantic-ui-react";
 import {
   Switch,
   Route,
-  Link,
   useRouteMatch,
   RouteComponentProps,
 } from "react-router-dom";
-import { Videos } from "components/Pages/UserPage/Video/Videos";
+import { Videos } from "components/Pages/Videos";
 import { Video } from "components/Pages/UserPage/Video/Video";
 import { SideMenu } from "components/Pages/UserPage/SideMenu";
 import { useUser } from "utils/useUser";
 import { Follows } from "components/Pages/Follows";
 import { Followers } from "components/Pages/Followers";
+import { Loading } from "components/Atoms/Loading";
 import { NoMatch } from "../NoMatch";
 
 type Params = RouteComponentProps & {
@@ -28,11 +28,7 @@ export const UserPage: FC = () => {
   console.log("anothers page");
 
   if (loading || !user) {
-    return (
-      <Dimmer active>
-        <Loader />
-      </Dimmer>
-    );
+    return <Loading />;
   }
 
   return (
@@ -42,15 +38,16 @@ export const UserPage: FC = () => {
       </Grid.Column>
       <Grid.Column computer={11} mobile={16}>
         <Switch>
-          <Route exact path={`${match.path}/video`} component={Videos} />
+          <Route exact path={`${match.path}/videos`} component={Videos}>
+            <Videos uid={user.uid} />
+          </Route>
           <Route exact path={`${match.path}/followers`}>
             <Followers uid={user.uid} />
           </Route>
           <Route exact path={`${match.path}/following`}>
             <Follows uid={user.uid} />
           </Route>
-
-          <Route exact path={`${match.path}/video/:id`} component={Video} />
+          <Route exact path={`${match.path}/videos/:id`} component={Video} />
           <Route component={NoMatch} />
         </Switch>
       </Grid.Column>

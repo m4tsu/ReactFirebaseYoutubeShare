@@ -56,7 +56,7 @@ export const New: FC = () => {
   const handleClick = () => {
     if (!videoId) return;
     addVideo({ videoId, type: videoType, comment });
-    history.push("/mypage/video");
+    history.push("/mypage/videos");
   };
 
   return (

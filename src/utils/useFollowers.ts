@@ -11,7 +11,9 @@ export const useFollowers = (uid: string) => {
   useEffect(() => {
     const followersQuery = db
       .collectionGroup("follows")
-      .where("followedId", "==", uid);
+      .where("followedId", "==", uid)
+      .orderBy("createdAt", "desc")
+      .limit(8);
 
     const load = async () => {
       setLoading(true);
