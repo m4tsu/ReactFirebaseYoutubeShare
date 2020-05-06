@@ -1,5 +1,5 @@
 import React, { FC, useContext } from "react";
-import { Grid, Dimmer, Loader } from "semantic-ui-react";
+import { Grid } from "semantic-ui-react";
 import { Switch, Route, useRouteMatch, Redirect } from "react-router-dom";
 import { Videos } from "components/Pages/Videos";
 import { Video } from "components/Pages/Mypage/Video/Video";
@@ -8,8 +8,7 @@ import { SideMenu } from "components/Pages/Mypage/SideMenu";
 import { AuthContext } from "context";
 import { Follows } from "components/Pages/Follows";
 import { Followers } from "components/Pages/Followers";
-import { Loading } from "components/Atoms/Loading";
-import { GridColumnGray } from "components/Atoms/GridColumnGray";
+import { Loading } from "components/Common/Loading";
 import { NoMatch } from "../NoMatch";
 
 export const Mypage: FC = () => {
@@ -34,7 +33,9 @@ export const Mypage: FC = () => {
           <Route exact path={`${match.path}/videos`}>
             <Videos uid={currentUser.uid} />
           </Route>
-          <Route exact path={`${match.path}/videos/new`} component={New} />
+          <Route exact path={`${match.path}/videos/new`}>
+            <New uid={currentUser.uid} />
+          </Route>
           <Route exact path={`${match.path}/following`}>
             <Follows uid={currentUser.uid} />
           </Route>

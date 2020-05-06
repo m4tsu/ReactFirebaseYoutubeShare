@@ -41,13 +41,11 @@ export const EditModal: FC<Props> = ({
   };
 
   const handleChangeComment = (
-    event: React.FormEvent<HTMLTextAreaElement>,
+    _: React.FormEvent<HTMLTextAreaElement>,
     data: TextAreaProps
   ) => {
     setComment(data.value as string);
   };
-
-  console.log(comment);
 
   return (
     <Modal size="tiny" open={open} onClose={closeModal}>

@@ -14,7 +14,6 @@ export const editVideo = async ({ db, uid, id, comment }: Arg) => {
       },
       { merge: true }
     );
-    console.log("edit");
   } catch (err) {
     console.log(err);
   }

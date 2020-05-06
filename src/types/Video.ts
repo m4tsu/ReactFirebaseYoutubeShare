@@ -1,4 +1,4 @@
-import { firestore } from "firebase";
+import { firebase } from "FirebaseConfig";
 
 export type VideoType = "video" | "playlist";
 
@@ -17,6 +17,6 @@ export type Video = {
   userId?: string;
 };
 export type fsVideo = Video & {
-  createdAt: firestore.Timestamp | null;
-  updatedAt: firestore.Timestamp | null;
+  createdAt: firebase.firestore.Timestamp | null;
+  updatedAt: firebase.firestore.Timestamp | null;
 };

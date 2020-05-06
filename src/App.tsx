@@ -20,7 +20,6 @@ const App = () => {
   const [menuLocation, setMenuLocation] = useState<
     "videos" | "following" | "followers" | "other"
   >("other");
-  console.log(currentUser, loading);
   if (loading) {
     return (
       <Dimmer active inverted>
@@ -33,7 +32,7 @@ const App = () => {
     <Router>
       <AppBar />
       <SideMenuContext.Provider value={{ menuLocation, setMenuLocation }}>
-        <Main>
+        <Main id="main">
           <Switch>
             <Route exact path="/login" component={Signin} />
             {/* <Auth> */}

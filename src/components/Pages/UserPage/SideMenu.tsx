@@ -5,6 +5,7 @@ import styled from "styled-components";
 import { Link } from "react-router-dom";
 import { AppUser } from "types/AppUser";
 import { checkFollow } from "utils/checkFollow";
+import { CenteredMenu } from "components/Common/CenteredMenu";
 import { FollowBtn } from "./FollowBtn";
 
 const Icon = styled(Image)`
@@ -14,10 +15,7 @@ const Icon = styled(Image)`
 
 const DisplayName = styled(Grid.Column)`
   padding-top: 0px !important;
-`;
-
-const StyledMenu = styled(Menu)`
-  margin: 0 auto !important;
+  font-weight: 500 !important;
 `;
 
 type SideMenuProps = {
@@ -48,7 +46,7 @@ export const SideMenu: FC<SideMenuProps> = ({ user }) => {
   }, [currentUser, db, user]);
 
   return (
-    <StyledMenu vertical size="large">
+    <CenteredMenu vertical size="large">
       <Menu.Item>
         <Grid centered verticalAlign="middle">
           <Grid.Column width={6}>
@@ -74,6 +72,6 @@ export const SideMenu: FC<SideMenuProps> = ({ user }) => {
       <Menu.Item active={menuLocation === "followers"}>
         <Link to={`/${user.uid}/followers`}>フォロワー</Link>
       </Menu.Item>
-    </StyledMenu>
+    </CenteredMenu>
   );
 };

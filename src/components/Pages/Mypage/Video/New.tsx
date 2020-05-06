@@ -12,21 +12,26 @@ import { VideoIdType, validateUrl } from "utils/validateUrl";
 import { VideoView } from "components/Pages/VideoView";
 import { useAddVideo } from "utils/useVideos";
 import { VideoType } from "types/Video";
-import { useHistory } from "react-router";
+import { useHistory } from "react-router-dom";
 import styled from "styled-components";
+import { ShareModal } from "components/Common/ShareModal";
 
 const StyledTextArea = styled(TextArea)`
   margin-bottom: 1em !important;
 `;
 
-export const New: FC = () => {
+type NewProps = {
+  uid: string;
+};
+
+export const New: FC<NewProps> = ({ uid }) => {
   const [videoUrl, setVideoUrl] = useState<string>("");
   const [videoType, setVideoType] = useState<VideoType>("video");
   const [urlValid, setUrlValid] = useState<boolean>(false);
   const [videoId, setVideoId] = useState<VideoIdType>(null);
   const [comment, setComment] = useState<string>("");
-  const history = useHistory();
-  const { addVideo } = useAddVideo();
+  const [openShareModal, setOpenShareModal] = useState(false);
+  const { addVideo } = useAddVideo(uid);
 
   useEffect(() => {
     const { valid, id } = validateUrl({ url: videoUrl, type: videoType });
@@ -56,7 +61,7 @@ export const New: FC = () => {
   const handleClick = () => {
     if (!videoId) return;
     addVideo({ videoId, type: videoType, comment });
-    history.push("/mypage/videos");
+    setOpenShareModal(true);
   };
 
   return (
@@ -97,7 +102,7 @@ export const New: FC = () => {
           />
           <Form.Field>
             <label htmlFor="comment">
-              コメント
+              紹介コメント
               <StyledTextArea
                 id="comment"
                 name="comment"
@@ -119,6 +124,13 @@ export const New: FC = () => {
           </Button>
         </Segment>
       </Form>
+      <ShareModal
+        sharePath={`/${uid}/videos/${videoId}`}
+        redirectUrl="/mypage/videos"
+        open={openShareModal}
+        setOpen={setOpenShareModal}
+        shareTitle={comment}
+      />
     </>
   );
 };

@@ -1,4 +1,4 @@
-import { firestore } from "firebase";
+import { firebase } from "FirebaseConfig";
 
 export type AppUser = {
   uid: string;
@@ -7,6 +7,6 @@ export type AppUser = {
 };
 
 export type fsAppUser = AppUser & {
-  createdAt: firestore.Timestamp | null;
-  updatedAt: firestore.Timestamp | null;
+  createdAt: firebase.firestore.Timestamp | null;
+  updatedAt: firebase.firestore.Timestamp | null;
 };

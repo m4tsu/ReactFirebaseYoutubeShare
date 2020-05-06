@@ -1,6 +1,4 @@
 import { createContext } from "react";
-// import firebase from "FirebaseConfig";
-import firebase from "firebase/app";
 import { AppUser } from "types/AppUser";
 
 export type FirebaseContextValue = {

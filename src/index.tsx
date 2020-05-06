@@ -1,17 +1,13 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import firebase from "firebase/app";
-import { firebaseConfig } from "FirebaseConfig";
 import { FirebaseApp } from "FirebaseApp";
 import { ThemeProvider } from "styled-components";
 
-import "./index.css";
+import "./index.scss";
 import { theme } from "theme";
 import App from "./App";
 import * as serviceWorker from "./serviceWorker";
 import "semantic-ui-css/semantic.min.css";
-
-firebase.initializeApp(firebaseConfig);
 
 ReactDOM.render(
   <React.StrictMode>

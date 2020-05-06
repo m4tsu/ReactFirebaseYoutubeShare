@@ -1,13 +1,10 @@
-import { useMemo, useCallback, useContext, useState, useEffect } from "react";
-// import { db } from "FirebaseConfig";
+import { useCallback, useContext, useState, useEffect } from "react";
 import { Video, NewVideo } from "types/Video";
-import { AppUser } from "types/AppUser";
-import { firestore, User } from "firebase";
-import { FirebaseContext, AuthContext } from "context";
+import { firebase } from "FirebaseConfig";
+import { FirebaseContext } from "context";
 
 export const useVideos = (uid: string) => {
   const [videos, setVideos] = useState<Video[]>([]);
-  const [videosCount, setVideosCount] = useState<number>(0);
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<Error | null>(null);
   const { db } = useContext(FirebaseContext);
@@ -20,7 +17,6 @@ export const useVideos = (uid: string) => {
       .orderBy("createdAt", "desc");
 
     const load = async () => {
-      console.log("fetch videos");
       setLoading(true);
       try {
         const snap = await query.get();
@@ -29,7 +25,6 @@ export const useVideos = (uid: string) => {
           id: doc.id,
         }));
         setVideos(videosData);
-        setVideosCount(videosData.length);
         setError(null);
       } catch (err) {
         setError(err);
@@ -39,37 +34,34 @@ export const useVideos = (uid: string) => {
     load();
   }, [db, uid]);
 
-  return { videos, videosCount, loading, error };
+  return { videos, loading, error };
 };
 
-export const useAddVideo = () => {
+export const useAddVideo = (uid: string) => {
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<Error | null>(null);
   const { db } = useContext(FirebaseContext);
-  const { currentUser } = useContext(AuthContext);
-  const videosRef = useMemo(() => {
-    if (!currentUser) return null;
-
-    return db.collection("users").doc(currentUser.uid).collection("videos");
-  }, [db, currentUser]);
 
   const addVideo = useCallback(
     async (newVideo: NewVideo) => {
+      const videoRef = db
+        .collection("users")
+        .doc(uid)
+        .collection("videos")
+        .doc(newVideo.videoId);
       setLoading(true);
       try {
-        if (!videosRef) return null;
-        const docRef = await videosRef.add({
+        await videoRef.set({
           ...newVideo,
-          createdAt: firestore.FieldValue.serverTimestamp(),
-          updatedAt: firestore.FieldValue.serverTimestamp(),
+          createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+          updatedAt: firebase.firestore.FieldValue.serverTimestamp(),
         });
-        console.log(docRef);
       } catch (err) {
         setError(err);
       }
       setLoading(false);
     },
-    [videosRef]
+    [db, uid]
   );
 
   return { addVideo, loading, error };

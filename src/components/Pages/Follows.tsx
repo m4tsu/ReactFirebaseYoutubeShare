@@ -1,9 +1,8 @@
 import React, { FC, useContext, useEffect } from "react";
-import { List, Image } from "semantic-ui-react";
-import { Link } from "react-router-dom";
 import { useFollows } from "utils/useFollows";
-import { Loading } from "components/Atoms/Loading";
+import { Loading } from "components/Common/Loading";
 import { SideMenuContext } from "context";
+import { UsersList } from "./UsersList";
 
 type FollowingProps = {
   uid: string;
@@ -29,16 +28,5 @@ export const Follows: FC<FollowingProps> = ({ uid }) => {
     return <p>フォロー中のユーザーがいません</p>;
   }
 
-  return (
-    <List>
-      {follows.map((follow) => (
-        <List.Item key={follow.uid}>
-          <Link to={`/${follow.uid}/videos`}>
-            <Image src={follow.photoURL} />
-            <p>{follow.displayName}</p>
-          </Link>
-        </List.Item>
-      ))}
-    </List>
-  );
+  return <UsersList users={follows} />;
 };

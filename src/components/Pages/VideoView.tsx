@@ -9,17 +9,6 @@ type Props = {
   size?: "small";
 };
 
-const sizeList = {
-  small: {
-    height: 270,
-    width: 480,
-  },
-  large: {
-    height: 450,
-    width: 800,
-  },
-};
-
 const ResponsiveVideoWrapper = styled.div`
   position: relative;
   width: 100%;
@@ -36,7 +25,7 @@ const ResponsiveVideoWrapper = styled.div`
 
 export const VideoView: FC<Props> = ({ videoId, videoType, size }) => {
   if (!videoId) {
-    return <p>見つかりません</p>;
+    return <></>;
   }
   if (size) {
     return (

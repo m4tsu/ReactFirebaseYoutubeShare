@@ -1,6 +1,5 @@
-import firebase, { User } from "firebase/app";
-import "firebase/firestore";
-import "firebase/auth";
+import { User } from "firebase/app";
+import { firebase } from "FirebaseConfig";
 import { AppUser } from "types/AppUser";
 
 type Arg = {
@@ -15,7 +14,6 @@ type Credential = {
 };
 
 export const writeUser = async ({ db, firebaseUser, credential }: Arg) => {
-  console.log("writeUser");
   // ツイッターアカウントでログイン時のディスプレイネームとアイコンURL
   const photoURL = (credential.additionalUserInfo?.profile as any)
     .profile_image_url_https;
@@ -34,8 +32,6 @@ export const writeUser = async ({ db, firebaseUser, credential }: Arg) => {
       diff.photoURL = photoURL;
     }
     if (diff.displayName || diff.photoURL) {
-      console.log("user update!!!!");
-      console.log(diff);
       batch.update(userDoc.ref, {
         ...diff,
         updatedAt: firebase.firestore.FieldValue.serverTimestamp(),

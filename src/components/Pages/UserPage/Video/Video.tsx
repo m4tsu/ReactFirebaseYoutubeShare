@@ -2,9 +2,9 @@ import React, { FC } from "react";
 import { useRouteMatch, RouteComponentProps } from "react-router";
 import { useVideo } from "utils/useVideo";
 import { VideoView } from "components/Pages/VideoView";
-import { Loading } from "components/Atoms/Loading";
+import { Loading } from "components/Common/Loading";
 import { Divider } from "semantic-ui-react";
-import { Comment } from "components/Atoms/Comment";
+import { Comment } from "components/Common/Comment";
 
 type Params = RouteComponentProps & {
   uid: string;

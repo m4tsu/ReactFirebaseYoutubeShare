@@ -1,6 +1,6 @@
 import React, { FC, useContext } from "react";
 import { AuthContext } from "context";
-import { Menu, Container, Image, Dropdown, Icon } from "semantic-ui-react";
+import { Menu, Container, Image, Dropdown } from "semantic-ui-react";
 import styled from "styled-components";
 import { useAuth } from "utils/useAuth";
 import { Link } from "react-router-dom";
@@ -17,41 +17,60 @@ const DropdownLink = styled(Link)`
   }
 `;
 
+const HeaderContainer = styled(Container)`
+  justify-content: space-between;
+`;
+
+const NoPaddedMenuItem = styled(Menu.Item)`
+  padding: 0 !important;
+`;
+
+const MenuItemLink = styled(Link)`
+  padding: 1em;
+`;
+
+const FlexBox = styled.div`
+  display: flex;
+`;
+
 export const AppBar: FC = () => {
   const { currentUser } = useContext(AuthContext);
   const { signout } = useAuth();
 
   return (
     <Menu fixed="top" inverted color="teal">
-      <Container>
-        <Menu.Item header>
-          <Link to="/">
-            <Icon name="youtube" />
-          </Link>
-        </Menu.Item>
-
-        <Menu.Item>
-          <Link to="/mypage/videos/new">動画を登録する</Link>
-        </Menu.Item>
-        {currentUser ? (
-          <Dropdown item trigger={<Image avatar src={currentUser.photoURL} />}>
-            <Dropdown.Menu>
-              {/* <Dropdown.Item>
+      <HeaderContainer>
+        <NoPaddedMenuItem header>
+          <MenuItemLink to="/">つべったー</MenuItemLink>
+        </NoPaddedMenuItem>
+        <FlexBox>
+          <NoPaddedMenuItem header>
+            <MenuItemLink to="/mypage/videos/new">動画を登録する</MenuItemLink>
+          </NoPaddedMenuItem>
+          {currentUser ? (
+            <Dropdown
+              item
+              trigger={<Image avatar src={currentUser.photoURL} />}
+            >
+              <Dropdown.Menu>
+                {/* <Dropdown.Item>
                 <MenuLink to="/mypage/video">マイページ</MenuLink>
               </Dropdown.Item> */}
-              <DropdownLink to="/mypage/videos">マイページ</DropdownLink>
-              <Dropdown.Divider />
-              <DropdownLink to="/mypage/following">フォロー中</DropdownLink>
-              <Dropdown.Divider />
-              <Dropdown.Item onClick={signout}>ログアウト</Dropdown.Item>
-            </Dropdown.Menu>
-          </Dropdown>
-        ) : (
-          <Menu.Item>
-            <Link to="/login">ログイン</Link>
-          </Menu.Item>
-        )}
-      </Container>
+                <DropdownLink to="/mypage/videos">マイページ</DropdownLink>
+                <Dropdown.Divider />
+                <DropdownLink to="/mypage/following">フォロー中</DropdownLink>
+                <DropdownLink to="/mypage/followers">フォロワー</DropdownLink>
+                <Dropdown.Divider />
+                <Dropdown.Item onClick={signout}>ログアウト</Dropdown.Item>
+              </Dropdown.Menu>
+            </Dropdown>
+          ) : (
+            <Menu.Item>
+              <Link to="/login">ログイン</Link>
+            </Menu.Item>
+          )}
+        </FlexBox>
+      </HeaderContainer>
     </Menu>
   );
 };

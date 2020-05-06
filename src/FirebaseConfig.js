@@ -1,7 +1,6 @@
 import firebase from "firebase/app";
 import "firebase/firestore";
-
-require("firebase/auth");
+import "firebase/auth";
 
 export const firebaseConfig = {
   apiKey: process.env.REACT_APP_FB_API_KEY,
@@ -12,8 +11,7 @@ export const firebaseConfig = {
   messagingSenderId: process.env.REACT_APP_MESSAGING_SENDER_ID,
   appId: process.env.REACT_APP_FB_APP_ID,
 };
-// firebase.initializeApp(firebaseConfig);
-export default firebase;
-// export const auth = firebase.auth();
-// export const db = firebase.firestore();
-// export const provider = new firebase.auth.TwitterAuthProvider();
+firebase.initializeApp(firebaseConfig);
+const auth = firebase.auth();
+const db = firebase.firestore();
+export { firebase, auth, db };

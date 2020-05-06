@@ -4,12 +4,18 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  font-weight: 500;
   margin: 0;
-  padding-top: 55px!important;
-
+  padding-top: 55px !important;
 }
 
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
+}
+
+#main {
+  a {
+    color: inherit;
+  }
 }

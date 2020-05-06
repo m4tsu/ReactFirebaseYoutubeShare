@@ -22,8 +22,9 @@ export const DeleteModal: FC<DeleteModalProps> = ({
   const closeModal = () => {
     setOpen(false);
   };
-  const handleClickYes = () => {
-    deleteVideo({ uid, id, db });
+
+  const handleClickYes = async () => {
+    await deleteVideo({ uid, id, db });
     history.push(`/mypage/videos`);
   };
 

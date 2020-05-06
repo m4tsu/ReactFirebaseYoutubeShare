@@ -20,7 +20,6 @@ export const useVideo = ({ uid, id }: UseVideoArg) => {
       setLoading(true);
       try {
         const doc = await query.get();
-        console.log(doc.exists);
         if (doc.exists) {
           const data = doc.data() as Video;
           const videoData = {
@@ -33,7 +32,6 @@ export const useVideo = ({ uid, id }: UseVideoArg) => {
         }
       } catch (err) {
         setError(err);
-        console.log(err);
       }
       setLoading(false);
     };

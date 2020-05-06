@@ -1,4 +1,4 @@
-import React, { FC, useContext, useEffect, useState } from "react";
+import React, { FC, useContext, useEffect, useState, useMemo } from "react";
 import {
   Grid,
   Button,
@@ -9,11 +9,10 @@ import {
 import queryString from "query-string";
 import { useVideos } from "utils/useVideos";
 import { Link, useRouteMatch, useLocation, useHistory } from "react-router-dom";
-import { Loading } from "components/Atoms/Loading";
+import { Loading } from "components/Common/Loading";
 import { SideMenuContext } from "context";
 // import { Comment } from "components/Pages/Mypage/Video/Video";
 import styled from "styled-components";
-import { Video } from "types/Video";
 import { VideoView } from "./VideoView";
 
 type VideosProps = {
@@ -33,17 +32,25 @@ const PaginationWrapper = styled.div`
   padding: 2em;
 `;
 
+const FlexSegment = styled(Segment)`
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  p {
+    margin: 1em 0;
+  }
+`;
+
 // TODO: なんかレンダリング多い
 export const Videos: FC<VideosProps> = ({ uid }) => {
-  const { videos, videosCount, loading } = useVideos(uid);
+  const { videos, loading } = useVideos(uid);
   const { setMenuLocation } = useContext(SideMenuContext);
   const [activePage, setActivePage] = useState<number>(1);
-  const [pageVideos, setPageVideos] = useState<Video[]>([]);
   const match = useRouteMatch();
   const location = useLocation();
   const history = useHistory();
-  console.log(match);
-  console.log(queryString.parse(location.search));
+
   useEffect(() => {
     setMenuLocation("videos");
 
@@ -57,23 +64,18 @@ export const Videos: FC<VideosProps> = ({ uid }) => {
     setActivePage(page ? Number(page) : 1);
   }, [location]);
 
-  useEffect(() => {
+  const pageVideos = useMemo(() => {
     const topVideoIndex = (activePage - 1) * 4;
-    setPageVideos(videos.slice(topVideoIndex, topVideoIndex + 4));
-  }, [videos, activePage]);
+
+    return videos.slice(topVideoIndex, topVideoIndex + 4);
+  }, [activePage, videos]);
 
   const handlePageChange = (
     e: React.MouseEvent<HTMLAnchorElement, MouseEvent>,
     data: PaginationProps
   ) => {
-    // const page = data.activePage ? Number(data.activePage) : 1;
-    // setActivePage(page);
     history.push(`${match.url}?page=${data.activePage}`);
   };
-
-  console.log(activePage);
-  console.log(videos);
-  console.log(pageVideos);
 
   if (loading) {
     return <Loading />;
@@ -84,17 +86,23 @@ export const Videos: FC<VideosProps> = ({ uid }) => {
       <Grid>
         {pageVideos.map((video) => {
           return (
-            <Grid.Column width={8} key={video.id} textAlign="center">
+            <Grid.Column
+              key={video.id}
+              textAlign="center"
+              mobile={16}
+              tablet={8}
+              computer={8}
+            >
               <Link to={`${match.url}/${video.id}`}>
-                <Segment style={{ height: "100%" }}>
+                <FlexSegment>
                   <VideoView
                     videoId={video.videoId}
                     videoType={video.type}
                     // size="small"
                   />
                   <Comment>{video.comment}</Comment>
-                  <Button circular icon="arrow right" />
-                </Segment>
+                  <Button fluid icon="arrow right" />
+                </FlexSegment>
               </Link>
             </Grid.Column>
           );
@@ -102,7 +110,7 @@ export const Videos: FC<VideosProps> = ({ uid }) => {
       </Grid>
       <PaginationWrapper>
         <Pagination
-          totalPages={Math.ceil(videosCount / 4)}
+          totalPages={Math.ceil(videos.length / 4)}
           activePage={activePage}
           onPageChange={handlePageChange}
         />

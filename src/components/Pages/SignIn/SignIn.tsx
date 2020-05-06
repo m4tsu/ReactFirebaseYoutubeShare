@@ -1,12 +1,10 @@
 import React, { FC, useContext } from "react";
 import { useHistory, Redirect } from "react-router-dom";
-import firebase from "firebase/app";
-// import firebaseui from "firebaseui"
+import { firebase } from "FirebaseConfig";
 import styled from "@emotion/styled";
 import StyledFirebaseAuth from "react-firebaseui/StyledFirebaseAuth";
 import { Grid, Header, Message, Segment } from "semantic-ui-react";
 import { FirebaseContext, AuthContext } from "context";
-// import paths from "paths";
 
 const GridWrapper = styled.main``;
 const Signin: FC = () => {

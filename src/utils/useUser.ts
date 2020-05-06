@@ -1,7 +1,6 @@
-import { useMemo, useCallback, useContext, useState, useEffect } from "react";
-import { firestore, User } from "firebase";
+import { useContext, useState, useEffect } from "react";
 import { AppUser } from "types/AppUser";
-import { FirebaseContext, AuthContext } from "context";
+import { FirebaseContext } from "context";
 
 export const useUser = (uid: string) => {
   const [user, setUser] = useState<AppUser | null>();
@@ -23,7 +22,6 @@ export const useUser = (uid: string) => {
           };
           setUser(userData);
         }
-        // setLoading(false);
       } catch (err) {
         setError(err);
       }

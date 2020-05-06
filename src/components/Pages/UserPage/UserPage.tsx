@@ -1,10 +1,11 @@
-import React, { FC } from "react";
+import React, { FC, useContext } from "react";
 import { Grid } from "semantic-ui-react";
 import {
   Switch,
   Route,
   useRouteMatch,
   RouteComponentProps,
+  Redirect,
 } from "react-router-dom";
 import { Videos } from "components/Pages/Videos";
 import { Video } from "components/Pages/UserPage/Video/Video";
@@ -12,7 +13,8 @@ import { SideMenu } from "components/Pages/UserPage/SideMenu";
 import { useUser } from "utils/useUser";
 import { Follows } from "components/Pages/Follows";
 import { Followers } from "components/Pages/Followers";
-import { Loading } from "components/Atoms/Loading";
+import { Loading } from "components/Common/Loading";
+import { AuthContext } from "context";
 import { NoMatch } from "../NoMatch";
 
 type Params = RouteComponentProps & {
@@ -21,14 +23,16 @@ type Params = RouteComponentProps & {
 
 export const UserPage: FC = () => {
   const match = useRouteMatch<Params>();
+  const { currentUser } = useContext(AuthContext);
   const { uid } = match.params;
   const { user, loading } = useUser(uid);
-  console.log(user);
-  console.log(match);
-  console.log("anothers page");
 
   if (loading || !user) {
     return <Loading />;
+  }
+
+  if (currentUser && currentUser.uid === uid) {
+    return <Redirect to="/mypage/videos" />;
   }
 
   return (

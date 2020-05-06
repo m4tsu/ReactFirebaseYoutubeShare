@@ -2,7 +2,8 @@ import React, { FC, useContext } from "react";
 import { Menu, Image, Dimmer, Loader, Grid } from "semantic-ui-react";
 import { AuthContext, SideMenuContext } from "context";
 import styled from "styled-components";
-import { Link, useRouteMatch, Redirect } from "react-router-dom";
+import { Link, Redirect } from "react-router-dom";
+import { CenteredMenu } from "components/Common/CenteredMenu";
 
 const Icon = styled(Image)`
   margin: 0px auto;
@@ -13,17 +14,12 @@ const Icon = styled(Image)`
 
 const DisplayName = styled(Grid.Column)`
   padding-top: 0px !important;
-`;
-
-const StyledMenu = styled(Menu)`
-  margin: 0 auto !important;
+  font-weight: 500 !important;
 `;
 
 export const SideMenu: FC = () => {
   const { currentUser, loading } = useContext(AuthContext);
   const { menuLocation } = useContext(SideMenuContext);
-  const match = useRouteMatch();
-  console.log(match);
 
   if (loading) {
     return (
@@ -38,7 +34,7 @@ export const SideMenu: FC = () => {
   }
 
   return (
-    <Menu vertical>
+    <CenteredMenu vertical>
       <Menu.Item>
         <Grid verticalAlign="middle">
           <Grid.Column width={6}>
@@ -57,6 +53,6 @@ export const SideMenu: FC = () => {
       <Menu.Item active={menuLocation === "followers"}>
         <Link to="/mypage/followers">フォロワー</Link>
       </Menu.Item>
-    </Menu>
+    </CenteredMenu>
   );
 };

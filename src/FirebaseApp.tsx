@@ -1,7 +1,5 @@
 import React, { FC, useState, useEffect, useRef } from "react";
-import firebase, { User } from "firebase/app";
-import "firebase/firestore";
-import "firebase/auth";
+import { firebase, db, auth } from "FirebaseConfig";
 import { FirebaseContext, AuthContext } from "context";
 import { AppUser } from "types/AppUser";
 import { writeUser } from "utils/writeUser";
@@ -15,8 +13,8 @@ export const FirebaseApp: FC = ({ children }) => {
   ] = useState<firebase.auth.UserCredential | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
   const counterRef = useRef(0);
-  const auth = firebase.auth();
-  const db = firebase.firestore();
+  // const auth = firebase.auth();
+  // const db = firebase.firestore();
 
   useEffect(() => {
     if (credential) counterRef.current += 1;
@@ -36,7 +34,6 @@ export const FirebaseApp: FC = ({ children }) => {
           setLoading(false);
         }
       } else {
-        console.log("no firebaseUser");
         setCurrentUser(null);
         setLoading(false);
       }

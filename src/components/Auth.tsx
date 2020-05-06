@@ -9,7 +9,6 @@ type AuthProps = {
 
 export const Auth: FC<AuthProps> = ({ children }): any => {
   const { currentUser, loading } = useContext(AuthContext);
-  console.log(currentUser);
   if (loading) {
     return (
       <Dimmer active>

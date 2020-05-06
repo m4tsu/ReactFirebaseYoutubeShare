@@ -6,12 +6,9 @@ type Arg = {
 
 export const deleteVideo = async ({ db, uid, id }: Arg) => {
   const videoRef = db.collection("users").doc(uid).collection("videos").doc(id);
-  videoRef
-    .delete()
-    .then(() => {
-      console.log("success delete");
-    })
-    .catch((err) => {
-      console.log(err);
-    });
+  try {
+    await videoRef.delete();
+  } catch (err) {
+    console.log(err);
+  }
 };
