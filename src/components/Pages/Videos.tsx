@@ -37,8 +37,13 @@ const FlexSegment = styled(Segment)`
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+  transition-duration: 0.3s;
+
   p {
     margin: 1em 0;
+  }
+  :hover {
+    box-shadow: 0 2px 8px #bbb;
   }
 `;
 
@@ -101,7 +106,7 @@ export const Videos: FC<VideosProps> = ({ uid }) => {
                     // size="small"
                   />
                   <Comment>{video.comment}</Comment>
-                  <Button fluid icon="arrow right" />
+                  {/* <Button fluid icon="arrow right" /> */}
                 </FlexSegment>
               </Link>
             </Grid.Column>
