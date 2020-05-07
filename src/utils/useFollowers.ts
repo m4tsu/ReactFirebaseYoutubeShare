@@ -30,6 +30,7 @@ export const useFollowers = (uid: string) => {
               uid: userDoc.id,
               displayName: userData.displayName,
               photoURL: userData.photoURL,
+              screenName: userData.screenName,
             };
           })
         );

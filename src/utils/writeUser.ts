@@ -18,6 +18,8 @@ export const writeUser = async ({ db, firebaseUser, credential }: Arg) => {
   const photoURL = (credential.additionalUserInfo?.profile as any)
     .profile_image_url_https;
   const displayName = (credential.additionalUserInfo?.profile as any).name;
+  const screenName = (credential.additionalUserInfo?.profile as any)
+    .screen_name;
   let appUser: AppUser | null = null;
   const batch = db.batch();
 
@@ -31,7 +33,10 @@ export const writeUser = async ({ db, firebaseUser, credential }: Arg) => {
     if (user.photoURL !== photoURL) {
       diff.photoURL = photoURL;
     }
-    if (diff.displayName || diff.photoURL) {
+    if (user.screenName !== screenName) {
+      diff.screenName = screenName;
+    }
+    if (diff.displayName || diff.photoURL || diff.screenName) {
       batch.update(userDoc.ref, {
         ...diff,
         updatedAt: firebase.firestore.FieldValue.serverTimestamp(),
@@ -42,6 +47,7 @@ export const writeUser = async ({ db, firebaseUser, credential }: Arg) => {
     const user: AppUser = {
       displayName,
       photoURL,
+      screenName,
       uid: firebaseUser.uid,
     };
     batch.set(userDoc.ref, {

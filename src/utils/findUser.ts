@@ -11,8 +11,8 @@ export const findUser = async ({ db, uid }: Arg) => {
   const doc = await UserRef.get();
 
   if (doc.exists) {
-    const { displayName, photoURL } = doc.data() as AppUser;
-    appUser = { uid, displayName, photoURL };
+    const { displayName, photoURL, screenName } = doc.data() as AppUser;
+    appUser = { uid, displayName, photoURL, screenName };
   }
 
   return appUser;

@@ -4,6 +4,7 @@ export type AppUser = {
   uid: string;
   displayName: string | null;
   photoURL: string | null;
+  screenName: string | null;
 };
 
 export type fsAppUser = AppUser & {

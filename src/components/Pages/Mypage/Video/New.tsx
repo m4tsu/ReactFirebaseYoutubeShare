@@ -12,9 +12,9 @@ import { VideoIdType, validateUrl } from "utils/validateUrl";
 import { VideoView } from "components/Pages/VideoView";
 import { useAddVideo } from "utils/useVideos";
 import { VideoType } from "types/Video";
-import { useHistory } from "react-router-dom";
 import styled from "styled-components";
 import { ShareModal } from "components/Common/ShareModal";
+import { Description } from "components/Pages/Mypage/Video/Description";
 
 const StyledTextArea = styled(TextArea)`
   margin-bottom: 1em !important;
@@ -131,6 +131,7 @@ export const New: FC<NewProps> = ({ uid }) => {
         setOpen={setOpenShareModal}
         shareTitle={comment}
       />
+      <Description />
     </>
   );
 };
