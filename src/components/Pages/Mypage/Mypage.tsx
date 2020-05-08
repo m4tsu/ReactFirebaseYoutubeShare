@@ -14,7 +14,8 @@ import { NoMatch } from "../NoMatch";
 export const Mypage: FC = () => {
   const match = useRouteMatch();
   const { currentUser, loading } = useContext(AuthContext);
-
+  console.log(loading);
+  console.log(currentUser);
   if (loading) {
     return <Loading />;
   }
@@ -26,7 +27,7 @@ export const Mypage: FC = () => {
   return (
     <Grid>
       <Grid.Column computer={4} mobile={16}>
-        <SideMenu />
+        <SideMenu currentUser={currentUser} />
       </Grid.Column>
       <Grid.Column computer={12} mobile={16}>
         <Switch>
@@ -34,7 +35,7 @@ export const Mypage: FC = () => {
             <Videos uid={currentUser.uid} />
           </Route>
           <Route exact path={`${match.path}/videos/new`}>
-            <New uid={currentUser.uid} />
+            <New currentUser={currentUser} />
           </Route>
           <Route exact path={`${match.path}/following`}>
             <Follows uid={currentUser.uid} />

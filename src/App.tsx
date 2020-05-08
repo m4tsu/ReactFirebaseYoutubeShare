@@ -1,5 +1,5 @@
 import React, { useContext, useState } from "react";
-import { Top } from "components/Top";
+import { Home } from "components/Pages/Home/Home";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import { AppBar } from "components/layouts/AppBar";
 import { Mypage } from "components/Pages/Mypage/Mypage";
@@ -20,6 +20,7 @@ const App = () => {
   const [menuLocation, setMenuLocation] = useState<
     "videos" | "following" | "followers" | "other"
   >("other");
+
   if (loading) {
     return (
       <Dimmer active inverted>
@@ -39,8 +40,9 @@ const App = () => {
             {/* TODO 今はmypageだけログイン必要だからそっちでリダイレクト仕込む */}
             <Route path="/mypage" component={Mypage} />
             {/* </Auth> */}
+            <Route exact path="/home" component={Home} />
             <Route path="/:uid" component={UserPage} />
-            <Route exact path="/" component={Top} />
+
             <Route component={NoMatch} />
           </Switch>
         </Main>
