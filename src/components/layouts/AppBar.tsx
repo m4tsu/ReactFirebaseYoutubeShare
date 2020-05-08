@@ -41,7 +41,7 @@ export const AppBar: FC = () => {
     <Menu fixed="top" inverted color="teal">
       <HeaderContainer>
         <NoPaddedMenuItem header>
-          <MenuItemLink to="/">つべったー</MenuItemLink>
+          <MenuItemLink to="/home">つべったー</MenuItemLink>
         </NoPaddedMenuItem>
         <FlexBox>
           <NoPaddedMenuItem header>
@@ -53,9 +53,6 @@ export const AppBar: FC = () => {
               trigger={<Image avatar src={currentUser.photoURL} />}
             >
               <Dropdown.Menu>
-                {/* <Dropdown.Item>
-                <MenuLink to="/mypage/video">マイページ</MenuLink>
-              </Dropdown.Item> */}
                 <DropdownLink to="/mypage/videos">マイページ</DropdownLink>
                 <Dropdown.Divider />
                 <DropdownLink to="/mypage/following">フォロー中</DropdownLink>

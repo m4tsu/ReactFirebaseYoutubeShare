@@ -10,7 +10,7 @@ export type NewVideo = {
 };
 
 export type Video = {
-  id: string;
+  id: string; // FireStore doc Id
   videoId: string;
   type: VideoType;
   comment: string;

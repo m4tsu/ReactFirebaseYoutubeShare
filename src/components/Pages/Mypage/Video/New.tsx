@@ -1,4 +1,4 @@
-import React, { useState, useEffect, FC, FormEvent } from "react";
+import React, { useState, useEffect, FC, FormEvent, useContext } from "react";
 import {
   Button,
   Form,
@@ -10,28 +10,30 @@ import {
 } from "semantic-ui-react";
 import { VideoIdType, validateUrl } from "utils/validateUrl";
 import { VideoView } from "components/Pages/VideoView";
-import { useAddVideo } from "utils/useVideos";
+import { addVideo } from "utils/addVideo";
 import { VideoType } from "types/Video";
 import styled from "styled-components";
 import { ShareModal } from "components/Common/ShareModal";
 import { Description } from "components/Pages/Mypage/Video/Description";
+import { AppUser } from "types/AppUser";
+import { FirebaseContext } from "context";
 
 const StyledTextArea = styled(TextArea)`
   margin-bottom: 1em !important;
 `;
 
 type NewProps = {
-  uid: string;
+  currentUser: AppUser;
 };
 
-export const New: FC<NewProps> = ({ uid }) => {
+export const New: FC<NewProps> = ({ currentUser }) => {
   const [videoUrl, setVideoUrl] = useState<string>("");
   const [videoType, setVideoType] = useState<VideoType>("video");
   const [urlValid, setUrlValid] = useState<boolean>(false);
   const [videoId, setVideoId] = useState<VideoIdType>(null);
   const [comment, setComment] = useState<string>("");
   const [openShareModal, setOpenShareModal] = useState(false);
-  const { addVideo } = useAddVideo(uid);
+  const { db } = useContext(FirebaseContext);
 
   useEffect(() => {
     const { valid, id } = validateUrl({ url: videoUrl, type: videoType });
@@ -60,7 +62,7 @@ export const New: FC<NewProps> = ({ uid }) => {
 
   const handleClick = () => {
     if (!videoId) return;
-    addVideo({ videoId, type: videoType, comment });
+    addVideo({ currentUser, db, videoId, type: videoType, comment });
     setOpenShareModal(true);
   };
 
@@ -125,7 +127,7 @@ export const New: FC<NewProps> = ({ uid }) => {
         </Segment>
       </Form>
       <ShareModal
-        sharePath={`/${uid}/videos/${videoId}`}
+        sharePath={`/${currentUser.uid}/videos/${videoId}`}
         redirectUrl="/mypage/videos"
         open={openShareModal}
         setOpen={setOpenShareModal}

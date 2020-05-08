@@ -1,6 +1,5 @@
-import { useCallback, useContext, useState, useEffect } from "react";
-import { Video, NewVideo } from "types/Video";
-import { firebase } from "FirebaseConfig";
+import { useContext, useState, useEffect } from "react";
+import { Video } from "types/Video";
 import { FirebaseContext } from "context";
 
 export const useVideos = (uid: string) => {
@@ -35,34 +34,4 @@ export const useVideos = (uid: string) => {
   }, [db, uid]);
 
   return { videos, loading, error };
-};
-
-export const useAddVideo = (uid: string) => {
-  const [loading, setLoading] = useState<boolean>(false);
-  const [error, setError] = useState<Error | null>(null);
-  const { db } = useContext(FirebaseContext);
-
-  const addVideo = useCallback(
-    async (newVideo: NewVideo) => {
-      const videoRef = db
-        .collection("users")
-        .doc(uid)
-        .collection("videos")
-        .doc(newVideo.videoId);
-      setLoading(true);
-      try {
-        await videoRef.set({
-          ...newVideo,
-          createdAt: firebase.firestore.FieldValue.serverTimestamp(),
-          updatedAt: firebase.firestore.FieldValue.serverTimestamp(),
-        });
-      } catch (err) {
-        setError(err);
-      }
-      setLoading(false);
-    },
-    [db, uid]
-  );
-
-  return { addVideo, loading, error };
 };

@@ -4,6 +4,7 @@ import { AuthContext, SideMenuContext } from "context";
 import styled from "styled-components";
 import { Link, Redirect } from "react-router-dom";
 import { CenteredMenu } from "components/Common/CenteredMenu";
+import { AppUser } from "types/AppUser";
 
 const Icon = styled(Image)`
   margin: 0px auto;
@@ -17,21 +18,25 @@ const DisplayName = styled(Grid.Column)`
   font-weight: 500 !important;
 `;
 
-export const SideMenu: FC = () => {
-  const { currentUser, loading } = useContext(AuthContext);
+type SideMenuProps = {
+  currentUser: AppUser;
+};
+
+export const SideMenu: FC<SideMenuProps> = ({ currentUser }) => {
+  // const { currentUser, loading } = useContext(AuthContext);
   const { menuLocation } = useContext(SideMenuContext);
 
-  if (loading) {
-    return (
-      <Dimmer active>
-        <Loader />
-      </Dimmer>
-    );
-  }
+  // if (loading) {
+  //   return (
+  //     <Dimmer active>
+  //       <Loader />
+  //     </Dimmer>
+  //   );
+  // }
 
-  if (!currentUser) {
-    return <Redirect to="/login" />;
-  }
+  // if (!currentUser) {
+  //   return <Redirect to="/login" />;
+  // }
 
   return (
     <CenteredMenu vertical>
