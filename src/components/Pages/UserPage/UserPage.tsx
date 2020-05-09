@@ -11,7 +11,7 @@ import { Videos } from "components/Pages/Videos";
 import { Video } from "components/Pages/UserPage/Video/Video";
 import { SideMenu } from "components/Pages/UserPage/SideMenu";
 import { useUser } from "utils/useUser";
-import { Follows } from "components/Pages/Follows";
+import { Following } from "components/Pages/Following";
 import { Followers } from "components/Pages/Followers";
 import { Loading } from "components/Common/Loading";
 import { AuthContext } from "context";
@@ -49,7 +49,7 @@ export const UserPage: FC = () => {
             <Followers uid={user.uid} />
           </Route>
           <Route exact path={`${match.path}/following`}>
-            <Follows uid={user.uid} />
+            <Following uid={user.uid} />
           </Route>
           <Route exact path={`${match.path}/videos/:id`} component={Video} />
           <Route component={NoMatch} />

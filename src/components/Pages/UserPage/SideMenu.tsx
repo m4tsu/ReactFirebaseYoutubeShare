@@ -53,12 +53,14 @@ export const SideMenu: FC<SideMenuProps> = ({ user }) => {
             <Icon src={user.photoURL} circular />
           </Grid.Column>
           <Grid.Column width={10}>
-            <FollowBtn
-              currentUser={currentUser}
-              user={user}
-              setIsFollowing={setIsFollowing}
-              isFollowing={isFollowing}
-            />
+            {currentUser && (
+              <FollowBtn
+                currentUser={currentUser}
+                user={user}
+                setIsFollowing={setIsFollowing}
+                isFollowing={isFollowing}
+              />
+            )}
           </Grid.Column>
           <DisplayName width={16}>{user.displayName}</DisplayName>
         </Grid>

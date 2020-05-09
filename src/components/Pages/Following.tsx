@@ -8,7 +8,7 @@ type FollowingProps = {
   uid: string;
 };
 
-export const Follows: FC<FollowingProps> = ({ uid }) => {
+export const Following: FC<FollowingProps> = ({ uid }) => {
   const { follows, loading } = useFollows(uid);
   const { setMenuLocation } = useContext(SideMenuContext);
 

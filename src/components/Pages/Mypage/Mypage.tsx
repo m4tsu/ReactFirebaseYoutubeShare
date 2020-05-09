@@ -6,7 +6,7 @@ import { Video } from "components/Pages/Mypage/Video/Video";
 import { New } from "components/Pages/Mypage/Video/New";
 import { SideMenu } from "components/Pages/Mypage/SideMenu";
 import { AuthContext } from "context";
-import { Follows } from "components/Pages/Follows";
+import { Following } from "components/Pages/Following";
 import { Followers } from "components/Pages/Followers";
 import { Loading } from "components/Common/Loading";
 import { NoMatch } from "../NoMatch";
@@ -38,7 +38,7 @@ export const Mypage: FC = () => {
             <New currentUser={currentUser} />
           </Route>
           <Route exact path={`${match.path}/following`}>
-            <Follows uid={currentUser.uid} />
+            <Following uid={currentUser.uid} />
           </Route>
           <Route exact path={`${match.path}/followers`}>
             <Followers uid={currentUser.uid} />

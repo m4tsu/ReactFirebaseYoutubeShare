@@ -9,8 +9,9 @@ export const useFollowers = (uid: string) => {
   const { db } = useContext(FirebaseContext);
   useEffect(() => {
     const followersQuery = db
-      .collectionGroup("follows")
-      .where("followedId", "==", uid)
+      .collection("users")
+      .doc(uid)
+      .collection("followers")
       .orderBy("createdAt", "desc")
       .limit(8);
 
@@ -20,10 +21,7 @@ export const useFollowers = (uid: string) => {
         const followersSnap = await followersQuery.get();
         const followersData = await Promise.all(
           followersSnap.docs.map(async (doc) => {
-            const userDoc = await db
-              .collection("users")
-              .doc(doc.data().uid)
-              .get();
+            const userDoc = await db.collection("users").doc(doc.id).get();
             const userData = userDoc.data() as AppUser;
 
             return {
@@ -36,7 +34,6 @@ export const useFollowers = (uid: string) => {
         );
         setFollowers(followersData);
         setLoading(false);
-        setError(null);
       } catch (err) {
         setError(err);
       }

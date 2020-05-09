@@ -10,13 +10,13 @@ export const checkFollow = async ({ currentUser, uid, db }: Arg) => {
   if (!currentUser) {
     return false;
   }
-  const followQuery = db
+  const followRef = db
     .collection("users")
     .doc(currentUser.uid)
-    .collection("follows")
+    .collection("following")
     .doc(uid);
 
-  const followDoc = await followQuery.get();
+  const followDoc = await followRef.get();
   if (followDoc.exists) {
     return true;
   }

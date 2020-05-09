@@ -1,10 +1,12 @@
-import React, { FC } from "react";
+import React, { FC, useContext } from "react";
 import { AppUser } from "types/AppUser";
-import { useFollow } from "utils/useFollow";
 import { Button } from "semantic-ui-react";
+import { follow } from "utils/follow";
+import { unFollow } from "utils/unFollow";
+import { FirebaseContext } from "context";
 
 type Props = {
-  currentUser: AppUser | null;
+  currentUser: AppUser;
   user: AppUser;
   isFollowing: boolean;
   setIsFollowing: React.Dispatch<React.SetStateAction<boolean>>;
@@ -16,33 +18,29 @@ export const FollowBtn: FC<Props> = ({
   isFollowing,
   setIsFollowing,
 }) => {
-  const { follow, unfollow, loading } = useFollow();
-
-  if (!currentUser) {
-    return <></>;
-  }
+  const { db } = useContext(FirebaseContext);
 
   const handleClickFollow = () => {
-    follow({ followedId: user.uid, currentUserId: currentUser.uid });
+    follow({ followUserId: user.uid, currentUser, db });
     setIsFollowing(true);
   };
 
   const handleClickUnfollow = () => {
-    unfollow({ followedId: user.uid, currentUserId: currentUser.uid });
+    unFollow({ unFollowUserId: user.uid, currentUser, db });
     setIsFollowing(false);
   };
 
   if (currentUser.uid !== user.uid) {
     if (isFollowing) {
       return (
-        <Button color="teal" onClick={handleClickUnfollow} disabled={loading}>
+        <Button color="teal" onClick={handleClickUnfollow}>
           フォロー中
         </Button>
       );
     }
 
     return (
-      <Button color="teal" onClick={handleClickFollow} disabled={loading} basic>
+      <Button color="teal" onClick={handleClickFollow} basic>
         フォロー
       </Button>
     );

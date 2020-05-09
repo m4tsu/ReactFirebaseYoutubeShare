@@ -8,11 +8,10 @@ export const useFollows = (uid: string) => {
   const [error, setError] = useState<Error | null>(null);
   const { db } = useContext(FirebaseContext);
   useEffect(() => {
-    if (!db) throw new Error("Firestore is not initialized");
     const followsQuery = db
       .collection("users")
       .doc(uid)
-      .collection("follows")
+      .collection("following")
       .orderBy("createdAt", "desc")
       .limit(8);
 
