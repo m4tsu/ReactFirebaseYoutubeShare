@@ -16,7 +16,7 @@ type Video = {
   comment: string;
   user?: {
     displayName: string;
-    photoUrl: string;
+    photoURL: string;
   };
   createdAt: admin.firestore.Timestamp;
   updatedAt: admin.firestore.Timestamp;
@@ -26,17 +26,8 @@ type User = {
   uid: string;
   displayName: string;
   screenName: string;
-  photoUrl: string;
+  photoURL: string;
 };
-
-// interface Post {
-//   readonly title: string;
-//   readonly body: string;
-// }
-
-// interface RootPost extends Post {
-//   authorRef?: FirebaseFirestore.DocumentReference;
-// }
 
 async function copyToTimelineWithUsersVideoSnapshot(
   snapshot: FirebaseFirestore.DocumentSnapshot,
@@ -51,17 +42,24 @@ async function copyToTimelineWithUsersVideoSnapshot(
     .doc(userId)
     .get();
   console.log(userDoc.data());
-  const { displayName, photoUrl } = userDoc.data() as User;
+  const { displayName, photoURL } = userDoc.data() as User;
   video.user = {
     displayName,
-    photoUrl,
+    photoURL,
   };
-  await firestore
+
+  const followersSnap = await firestore
     .collection("users")
     .doc(userId)
-    .collection("timeline")
-    .doc(videoDocId)
-    .set(video, { merge: true });
+    .collection("followers")
+    .get();
+  console.log(followersSnap);
+  followersSnap.docs.forEach(async (doc) => {
+    const followerCol = firestore.collection("users");
+    const followerDoc = followerCol.doc(doc.id);
+    const timelineRef = followerDoc.collection("timeline");
+    timelineRef.doc(videoDocId).set(video, { merge: true });
+  });
 }
 
 export const onUsersVideoCreate = functions
