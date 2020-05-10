@@ -22,7 +22,7 @@ const Signin: FC = () => {
     callbacks: {
       signInSuccessWithAuthResult: (authResult, redirectUrl) => {
         setCredential(authResult as firebase.auth.UserCredential);
-        const dest = redirectUrl || "/";
+        const dest = redirectUrl || "/home";
         history.replace(dest);
 
         return false;

@@ -61,11 +61,45 @@ async function copyToTimelineWithUsersVideoSnapshot(
   });
 }
 
+async function deleteToTimelineWithUsersVideoSnapshot(
+  snapshot: FirebaseFirestore.DocumentSnapshot,
+  context: functions.EventContext
+) {
+  const videoDocId = snapshot.id;
+  const { userId } = context.params;
+
+  const followersSnap = await firestore
+    .collection("users")
+    .doc(userId)
+    .collection("followers")
+    .get();
+  followersSnap.docs.forEach(async (doc) => {
+    const followerCol = firestore.collection("users");
+    const followerDoc = followerCol.doc(doc.id);
+    const timelineRef = followerDoc.collection("timeline");
+    timelineRef.doc(videoDocId).delete();
+  });
+}
+
 export const onUsersVideoCreate = functions
   .region("asia-northeast1")
   .firestore.document("/users/{userId}/videos/{videoDocId}")
   .onCreate(async (snapshot, context) => {
     await copyToTimelineWithUsersVideoSnapshot(snapshot, context);
+  });
+
+export const onUsersVideoUpdate = functions
+  .region("asia-northeast1")
+  .firestore.document("/users/{userId}/videos/{videoDocId}")
+  .onUpdate(async (change, context) => {
+    await copyToTimelineWithUsersVideoSnapshot(change.after, context);
+  });
+
+export const onUsersVideoDelete = functions
+  .region("asia-northeast1")
+  .firestore.document("/users/{userId}/videos/{videoDocId}")
+  .onDelete(async (snapshot, context) => {
+    await deleteToTimelineWithUsersVideoSnapshot(snapshot, context);
   });
 // export const onUsersPostUpdate = functions.firestore
 //   .document("/users/{userId}/posts/{postId}")

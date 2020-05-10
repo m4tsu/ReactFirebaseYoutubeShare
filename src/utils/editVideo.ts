@@ -1,3 +1,5 @@
+import { firebase } from "FirebaseConfig";
+
 type Arg = {
   uid: string;
   id: string;
@@ -11,6 +13,7 @@ export const editVideo = async ({ db, uid, id, comment }: Arg) => {
     await videoRef.set(
       {
         comment,
+        updatedAt: firebase.firestore.FieldValue.serverTimestamp(),
       },
       { merge: true }
     );

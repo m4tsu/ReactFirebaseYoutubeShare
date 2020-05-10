@@ -45,6 +45,10 @@ export const TimeLine: FC<TimeLineProps> = ({ currentUser }) => {
     return <Loading />;
   }
 
+  if (timeline.length === 0) {
+    return <p>フォロー中のユーザーの更新がありません</p>;
+  }
+
   return (
     <div onScroll={handleScroll} style={{ height: "85vh", overflow: "auto" }}>
       {timeline.map((timelineVideo) => {

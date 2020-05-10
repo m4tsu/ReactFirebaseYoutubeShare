@@ -9,8 +9,6 @@ import { AppUser } from "types/AppUser";
 const Icon = styled(Image)`
   margin: 0px auto;
   margin-left: 0px;
-  /* width: 55px;
-  height: 55px; */
 `;
 
 const DisplayName = styled(Grid.Column)`
@@ -23,7 +21,6 @@ type SideMenuProps = {
 };
 
 export const SideMenu: FC<SideMenuProps> = ({ currentUser }) => {
-  // const { currentUser, loading } = useContext(AuthContext);
   const { menuLocation } = useContext(SideMenuContext);
 
   return (
