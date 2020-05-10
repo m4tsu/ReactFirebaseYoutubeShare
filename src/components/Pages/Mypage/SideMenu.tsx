@@ -1,8 +1,8 @@
 import React, { FC, useContext } from "react";
-import { Menu, Image, Dimmer, Loader, Grid } from "semantic-ui-react";
-import { AuthContext, SideMenuContext } from "context";
+import { Menu, Image, Grid } from "semantic-ui-react";
+import { SideMenuContext } from "context";
 import styled from "styled-components";
-import { Link, Redirect } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { CenteredMenu } from "components/Common/CenteredMenu";
 import { AppUser } from "types/AppUser";
 
@@ -26,18 +26,6 @@ export const SideMenu: FC<SideMenuProps> = ({ currentUser }) => {
   // const { currentUser, loading } = useContext(AuthContext);
   const { menuLocation } = useContext(SideMenuContext);
 
-  // if (loading) {
-  //   return (
-  //     <Dimmer active>
-  //       <Loader />
-  //     </Dimmer>
-  //   );
-  // }
-
-  // if (!currentUser) {
-  //   return <Redirect to="/login" />;
-  // }
-
   return (
     <CenteredMenu vertical>
       <Menu.Item>
@@ -48,6 +36,9 @@ export const SideMenu: FC<SideMenuProps> = ({ currentUser }) => {
 
           <DisplayName width={16}>{currentUser.displayName}</DisplayName>
         </Grid>
+      </Menu.Item>
+      <Menu.Item active={menuLocation === "home"}>
+        <Link to="/home">タイムライン</Link>
       </Menu.Item>
       <Menu.Item active={menuLocation === "videos"}>
         <Link to="/mypage/videos">登録した動画</Link>

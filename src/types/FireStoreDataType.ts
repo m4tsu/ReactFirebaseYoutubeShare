@@ -35,6 +35,7 @@ type Timeline = {
     createdAt: firebase.firestore.Timestamp;
     updatedAt: firebase.firestore.Timestamp;
     user: {
+      uid: string;
       displayName: string;
       photoURL: string;
     };
@@ -55,4 +56,4 @@ type Follower = {
   };
 };
 
-type Users = User[];
+type FirebaseUsers = FirebaseUser[];

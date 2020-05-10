@@ -1,5 +1,5 @@
-import React, { useState, useEffect, FC, useContext } from "react";
-import { AuthContext } from "context";
+import React, { useEffect, FC, useContext } from "react";
+import { AuthContext, SideMenuContext } from "context";
 import { Loading } from "components/Common/Loading";
 import { Redirect } from "react-router";
 import { Grid } from "semantic-ui-react";
@@ -8,9 +8,16 @@ import { TimeLine } from "components/Pages/Home/TimeLine";
 
 export const Home: FC = () => {
   const { currentUser, loading } = useContext(AuthContext);
+  const { setMenuLocation } = useContext(SideMenuContext);
 
-  console.log(loading);
-  console.log(currentUser);
+  useEffect(() => {
+    setMenuLocation("home");
+
+    return () => {
+      setMenuLocation("other");
+    };
+  }, [setMenuLocation]);
+
   if (loading) {
     return <Loading />;
   }
@@ -21,7 +28,7 @@ export const Home: FC = () => {
   }
 
   return (
-    <Grid>
+    <Grid centered>
       <Grid.Column computer={4} mobile={16}>
         <SideMenu currentUser={currentUser} />
       </Grid.Column>

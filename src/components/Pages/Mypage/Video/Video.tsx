@@ -5,6 +5,7 @@ import { useVideo } from "utils/useVideo";
 import { VideoView } from "components/Pages/VideoView";
 import { Loading } from "components/Common/Loading";
 import styled from "styled-components";
+import moment from "moment";
 import { Button, Divider } from "semantic-ui-react";
 import { FirebaseContext } from "context";
 import { DeleteModal } from "components/Pages/Mypage/Video/DeleteModal";
@@ -16,7 +17,10 @@ type Params = RouteComponentProps & {
 };
 
 const ActionBtnContainer = styled.div`
-  text-align: right;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  /* text-align: right; */
 `;
 
 export const Video: FC<{ uid: string }> = ({ uid }) => {
@@ -52,24 +56,27 @@ export const Video: FC<{ uid: string }> = ({ uid }) => {
     <>
       <VideoView videoId={video.videoId} videoType={video.type} />
       <ActionBtnContainer>
-        <TwitterShareButton
-          url={`https:/${process.env.REACT_APP_AUTH_DOMAIN}${match.url}`}
-          title={`お気に入り動画を登録しました\n ${shotenTitle}`}
-        >
-          <Button color="twitter" icon="twitter" circular as="div" />
-        </TwitterShareButton>
-        <Button
-          color="teal"
-          circular
-          icon="pencil"
-          onClick={handleClickEditBtn}
-        />
-        <Button
-          color="red"
-          circular
-          icon="trash"
-          onClick={handleClickDeleteBtn}
-        />
+        <span>{moment(video.updatedAt.toDate()).format("YYYY年MM月DD日")}</span>
+        <div>
+          <TwitterShareButton
+            url={`https:/${process.env.REACT_APP_AUTH_DOMAIN}${match.url}`}
+            title={`お気に入り動画を登録しました\n ${shotenTitle}`}
+          >
+            <Button color="twitter" icon="twitter" circular as="div" />
+          </TwitterShareButton>
+          <Button
+            color="teal"
+            circular
+            icon="pencil"
+            onClick={handleClickEditBtn}
+          />
+          <Button
+            color="red"
+            circular
+            icon="trash"
+            onClick={handleClickDeleteBtn}
+          />
+        </div>
       </ActionBtnContainer>
       <Divider />
       <Comment>{video.comment}</Comment>

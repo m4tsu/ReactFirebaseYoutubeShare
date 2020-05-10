@@ -15,6 +15,7 @@ type Video = {
   type: "video" | "playlist";
   comment: string;
   user?: {
+    uid: string;
     displayName: string;
     photoURL: string;
   };
@@ -36,14 +37,13 @@ async function copyToTimelineWithUsersVideoSnapshot(
   const videoDocId = snapshot.id;
   const { userId } = context.params;
   const video = snapshot.data() as Video;
-  console.log(video);
   const userDoc = await firestore
     .collection("users")
     .doc(userId)
     .get();
-  console.log(userDoc.data());
-  const { displayName, photoURL } = userDoc.data() as User;
+  const { displayName, photoURL, uid } = userDoc.data() as User;
   video.user = {
+    uid,
     displayName,
     photoURL,
   };
@@ -53,7 +53,6 @@ async function copyToTimelineWithUsersVideoSnapshot(
     .doc(userId)
     .collection("followers")
     .get();
-  console.log(followersSnap);
   followersSnap.docs.forEach(async (doc) => {
     const followerCol = firestore.collection("users");
     const followerDoc = followerCol.doc(doc.id);

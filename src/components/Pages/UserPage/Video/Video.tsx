@@ -1,5 +1,6 @@
 import React, { FC } from "react";
 import { useRouteMatch, RouteComponentProps } from "react-router";
+import moment from "moment";
 import { useVideo } from "utils/useVideo";
 import { VideoView } from "components/Pages/VideoView";
 import { Loading } from "components/Common/Loading";
@@ -27,6 +28,7 @@ export const Video: FC = () => {
   return (
     <>
       <VideoView videoId={video.videoId} videoType={video.type} />
+      <span>{moment(video.updatedAt.toDate()).format("YYYY年MM月DD日")}</span>
       <Divider />
       <Comment>{video.comment}</Comment>
     </>

@@ -12,6 +12,10 @@ const FlexSegment = styled(Segment)`
   display: flex !important;
   flex-direction: column;
   text-align: center;
+  transition-duration: 0.3s;
+  :hover {
+    box-shadow: 0 2px 8px #bbb;
+  }
 `;
 
 const CenteredImage = styled(Image)`

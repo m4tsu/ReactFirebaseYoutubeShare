@@ -1,18 +1,13 @@
 import React, { FC, useContext, useEffect, useState, useMemo } from "react";
-import {
-  Grid,
-  Button,
-  Segment,
-  Pagination,
-  PaginationProps,
-} from "semantic-ui-react";
+import { Grid, Segment, Pagination, PaginationProps } from "semantic-ui-react";
 import queryString from "query-string";
+import moment from "moment";
 import { useVideos } from "utils/useVideos";
 import { Link, useRouteMatch, useLocation, useHistory } from "react-router-dom";
 import { Loading } from "components/Common/Loading";
 import { SideMenuContext } from "context";
-// import { Comment } from "components/Pages/Mypage/Video/Video";
 import styled from "styled-components";
+import { VideoCardComment } from "components/Common/Comment";
 import { VideoView } from "./VideoView";
 
 type VideosProps = {
@@ -105,7 +100,14 @@ export const Videos: FC<VideosProps> = ({ uid }) => {
                     videoType={video.type}
                     // size="small"
                   />
-                  <Comment>{video.comment}</Comment>
+                  <VideoCardComment>
+                    <p>{video.comment}</p>
+                    <span>
+                      {moment(video.updatedAt.toDate()).format(
+                        "YYYY年MM月DD日"
+                      )}
+                    </span>
+                  </VideoCardComment>
                   {/* <Button fluid icon="arrow right" /> */}
                 </FlexSegment>
               </Link>

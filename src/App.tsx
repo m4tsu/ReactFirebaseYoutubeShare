@@ -5,7 +5,7 @@ import { AppBar } from "components/layouts/AppBar";
 import { Mypage } from "components/Pages/Mypage/Mypage";
 import { Container, Dimmer, Loader } from "semantic-ui-react";
 import styled from "styled-components";
-import { AuthContext, SideMenuContext } from "context";
+import { AuthContext, SideMenuContext, SideMenuLocation } from "context";
 import Signin from "components/Pages/SignIn/SignIn";
 import { UserPage } from "components/Pages/UserPage/UserPage";
 import { NoMatch } from "components/Pages/NoMatch";
@@ -17,9 +17,7 @@ const Main = styled(Container)`
 
 const App = () => {
   const { currentUser, loading } = useContext(AuthContext);
-  const [menuLocation, setMenuLocation] = useState<
-    "videos" | "following" | "followers" | "other"
-  >("other");
+  const [menuLocation, setMenuLocation] = useState<SideMenuLocation>("other");
 
   if (loading) {
     return (

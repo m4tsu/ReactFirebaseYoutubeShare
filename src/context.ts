@@ -24,11 +24,16 @@ export const AuthContext = createContext<authContextValue>({
   loading: true,
 });
 
+export type SideMenuLocation =
+  | "home"
+  | "videos"
+  | "following"
+  | "followers"
+  | "other";
+
 type SideMenuContextValue = {
-  menuLocation: "videos" | "following" | "followers" | "other";
-  setMenuLocation: React.Dispatch<
-    React.SetStateAction<"videos" | "following" | "followers" | "other">
-  >;
+  menuLocation: SideMenuLocation;
+  setMenuLocation: React.Dispatch<React.SetStateAction<SideMenuLocation>>;
 };
 
 export const SideMenuContext = createContext<SideMenuContextValue>({
