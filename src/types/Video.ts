@@ -1,6 +1,6 @@
 import { firebase } from "FirebaseConfig";
 
-export type VideoType = "video" | "playlist";
+export type VideoType = "video" | "playlist" | "nicovideo";
 
 export type NewVideo = {
   videoId: string;
@@ -25,7 +25,7 @@ export type fsVideo = Video & {
 
 export type TimelineVideo = {
   videoId: string; // Youtube videoのID
-  type: "video" | "playlist";
+  type: VideoType;
   comment: string;
   // もとのVideoのタイムスタンプ
   createdAt?: firebase.firestore.Timestamp;

@@ -1,11 +1,12 @@
-import React, { FC } from "react";
+import React, { FC, useEffect, useContext } from "react";
 import { AppUser } from "types/AppUser";
-import { Segment, Grid, Image } from "semantic-ui-react";
+import { Segment, Grid, Image, Message } from "semantic-ui-react";
 import styled from "styled-components";
 import moment from "moment";
 import { Loading } from "components/Common/Loading";
 import { Link } from "react-router-dom";
 import { VideoCardComment } from "components/Common/Comment";
+import { SideMenuContext } from "context";
 import { useFetchTimeLine } from "./useFetchTimeLine";
 import { VideoView } from "../VideoView";
 
@@ -24,12 +25,26 @@ const CenteredSegment = styled(Segment)`
   }
 `;
 
+const TimelineWrapper = styled.div`
+  height: 80vh;
+  overflow: auto;
+`;
+
 type TimeLineProps = {
   currentUser: AppUser;
 };
 
 export const TimeLine: FC<TimeLineProps> = ({ currentUser }) => {
   const { timeline, loading, fetchMore } = useFetchTimeLine(currentUser.uid);
+  const { setMenuLocation } = useContext(SideMenuContext);
+
+  useEffect(() => {
+    setMenuLocation("home");
+
+    return () => {
+      setMenuLocation("other");
+    };
+  }, [setMenuLocation]);
 
   const handleScroll = async (e: React.UIEvent<HTMLDivElement, UIEvent>) => {
     const element = e.target;
@@ -46,11 +61,11 @@ export const TimeLine: FC<TimeLineProps> = ({ currentUser }) => {
   }
 
   if (timeline.length === 0) {
-    return <p>フォロー中のユーザーの更新がありません</p>;
+    return <Message>フォロー中のユーザーの更新がありません</Message>;
   }
 
   return (
-    <div onScroll={handleScroll} style={{ height: "85vh", overflow: "auto" }}>
+    <TimelineWrapper onScroll={handleScroll}>
       {timeline.map((timelineVideo) => {
         return (
           <CenteredSegment key={timelineVideo.id}>
@@ -68,7 +83,7 @@ export const TimeLine: FC<TimeLineProps> = ({ currentUser }) => {
                   <VideoCardComment>
                     <p>{timelineVideo.comment}</p>
                     <span>
-                      {moment(timelineVideo.updatedAt.toDate()).format(
+                      {moment(timelineVideo.createdAt.toDate()).format(
                         "YYYY年MM月DD日"
                       )}
                     </span>
@@ -79,6 +94,6 @@ export const TimeLine: FC<TimeLineProps> = ({ currentUser }) => {
           </CenteredSegment>
         );
       })}
-    </div>
+    </TimelineWrapper>
   );
 };

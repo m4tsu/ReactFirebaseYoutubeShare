@@ -6,6 +6,10 @@ import StyledFirebaseAuth from "react-firebaseui/StyledFirebaseAuth";
 import { Grid, Header, Message, Segment } from "semantic-ui-react";
 import { FirebaseContext, AuthContext } from "context";
 
+const MessageHeader = styled(Message.Header)`
+  text-align: left !important;
+`;
+
 const GridWrapper = styled.main``;
 const Signin: FC = () => {
   const { auth } = useContext(FirebaseContext);
@@ -37,19 +41,31 @@ const Signin: FC = () => {
   return (
     <GridWrapper>
       <Grid textAlign="center" verticalAlign="middle">
-        {" "}
         <Grid.Column>
           <Header as="h2" textAlign="center">
-            {" "}
-            ログイン/新規登録
+            ログイン
           </Header>
           <Segment>
-            <StyledFirebaseAuth uiConfig={uiConfig} firebaseAuth={auth} />{" "}
+            <StyledFirebaseAuth uiConfig={uiConfig} firebaseAuth={auth} />
           </Segment>
-          <Message>
+
+          <Message info>
+            <MessageHeader>
+              ログインすると次のことができるようになります
+            </MessageHeader>
+            <Message.List>
+              <Message.Item>
+                お気に入りの動画・再生リストを登録してツイッターで共有できます
+              </Message.Item>
+              <Message.Item>
+                他のユーザーをフォローして、動画登録のタイムラインを作成できます
+              </Message.Item>
+            </Message.List>
+          </Message>
+          {/* <Message>
             {" "}
-            <p>動画を登録するためにはログインが必要です。</p>{" "}
-          </Message>{" "}
+            <p>動画を登録するためにはログインが必要です。</p>{" "} */}
+          {/* </Message.List>{" "} */}
         </Grid.Column>
       </Grid>{" "}
     </GridWrapper>

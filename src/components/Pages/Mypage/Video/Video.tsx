@@ -29,7 +29,7 @@ export const Video: FC<{ uid: string }> = ({ uid }) => {
   const [openDelete, setOpenDelete] = useState(false);
   const [openEdit, setOpenEdit] = useState(false);
   const { id } = match.params;
-  const { video, loading } = useVideo({ uid, id });
+  const { video, setVideo, loading } = useVideo({ uid, id });
 
   const handleClickDeleteBtn = () => {
     setOpenDelete(true);
@@ -56,7 +56,7 @@ export const Video: FC<{ uid: string }> = ({ uid }) => {
     <>
       <VideoView videoId={video.videoId} videoType={video.type} />
       <ActionBtnContainer>
-        <span>{moment(video.updatedAt.toDate()).format("YYYY年MM月DD日")}</span>
+        <span>{moment(video.createdAt.toDate()).format("YYYY年MM月DD日")}</span>
         <div>
           <TwitterShareButton
             url={`https:/${process.env.REACT_APP_AUTH_DOMAIN}${match.url}`}
@@ -89,7 +89,7 @@ export const Video: FC<{ uid: string }> = ({ uid }) => {
       />
       <EditModal
         uid={uid}
-        id={id}
+        video={video}
         db={db}
         open={openEdit}
         setOpen={setOpenEdit}

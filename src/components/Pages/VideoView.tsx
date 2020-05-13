@@ -24,21 +24,28 @@ const ResponsiveVideoWrapper = styled.div`
 `;
 
 export const VideoView: FC<Props> = ({ videoId, videoType, size }) => {
+  let embedSrc = "";
+  if (videoType === "video") {
+    embedSrc = `https://www.youtube.com/embed/${videoId}`;
+  }
+  if (videoType === "playlist") {
+    embedSrc = `https://www.youtube.com/embed/videoseries?list=${videoId}`;
+  }
+  if (videoType === "nicovideo") {
+    embedSrc = `https://embed.nicovideo.jp/watch/${videoId}?oldScript=1&referer=&from=0&allowProgrammaticFullScreen=1`;
+  }
+
   if (!videoId) {
     return <></>;
   }
   if (size) {
     return (
       <iframe
-        src={
-          videoType === "playlist"
-            ? `https://www.youtube.com/embed/videoseries?list=${videoId}`
-            : `https://www.youtube.com/embed/${videoId}`
-        }
+        src={embedSrc}
         frameBorder="0"
         allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
         allowFullScreen
-        title="Embedded content from youtube."
+        title="Embedded content."
         width="480"
         height="270"
       />
@@ -48,15 +55,11 @@ export const VideoView: FC<Props> = ({ videoId, videoType, size }) => {
   return (
     <ResponsiveVideoWrapper>
       <iframe
-        src={
-          videoType === "playlist"
-            ? `https://www.youtube.com/embed/videoseries?list=${videoId}`
-            : `https://www.youtube.com/embed/${videoId}`
-        }
+        src={embedSrc}
         frameBorder="0"
         allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
         allowFullScreen
-        title="Embedded content from youtube."
+        title="Embedded content"
       />
     </ResponsiveVideoWrapper>
   );

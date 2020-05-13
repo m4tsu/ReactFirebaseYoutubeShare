@@ -1,14 +1,19 @@
 import { firebase } from "FirebaseConfig";
+import { Video } from "types/Video";
 
 type Arg = {
   uid: string;
-  id: string;
+  video: Video;
   db: firebase.firestore.Firestore;
   comment: string;
 };
 
-export const editVideo = async ({ db, uid, id, comment }: Arg) => {
-  const videoRef = db.collection("users").doc(uid).collection("videos").doc(id);
+export const editVideo = async ({ db, uid, video, comment }: Arg) => {
+  const videoRef = db
+    .collection("users")
+    .doc(uid)
+    .collection("videos")
+    .doc(video.id);
   try {
     await videoRef.set(
       {
@@ -19,5 +24,7 @@ export const editVideo = async ({ db, uid, id, comment }: Arg) => {
     );
   } catch (err) {
     console.log(err);
+
+    return null;
   }
 };

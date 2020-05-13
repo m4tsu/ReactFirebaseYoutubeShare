@@ -17,7 +17,7 @@ export type FirebaseUser = {
 type Video = {
   id: {
     videoId: string; // Youtube videoのID
-    type: "video" | "playlist";
+    type: "video" | "playlist" | "nicovideo";
     comment: string;
     user: firebase.firestore.DocumentReference;
     createdAt: firebase.firestore.Timestamp;
@@ -29,7 +29,7 @@ type Timeline = {
   // timelineに追加するVideoの docID と同一
   id: {
     videoId: string; // Youtube videoのID
-    type: "video" | "playlist";
+    type: "video" | "playlist" | "nicovideo";
     comment: string;
     // もとのVideoのタイムスタンプ
     createdAt: firebase.firestore.Timestamp;

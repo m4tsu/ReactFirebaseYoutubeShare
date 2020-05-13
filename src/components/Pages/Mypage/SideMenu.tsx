@@ -5,6 +5,7 @@ import styled from "styled-components";
 import { Link } from "react-router-dom";
 import { CenteredMenu } from "components/Common/CenteredMenu";
 import { AppUser } from "types/AppUser";
+import { MenuItemLink } from "components/Common/MenuItemLink";
 
 const Icon = styled(Image)`
   margin: 0px auto;
@@ -14,6 +15,10 @@ const Icon = styled(Image)`
 const DisplayName = styled(Grid.Column)`
   padding-top: 0px !important;
   font-weight: 500 !important;
+`;
+
+const NoPaddedMenuItem = styled(Menu.Item)`
+  padding: 0 !important;
 `;
 
 type SideMenuProps = {
@@ -34,18 +39,18 @@ export const SideMenu: FC<SideMenuProps> = ({ currentUser }) => {
           <DisplayName width={16}>{currentUser.displayName}</DisplayName>
         </Grid>
       </Menu.Item>
-      <Menu.Item active={menuLocation === "home"}>
-        <Link to="/home">タイムライン</Link>
-      </Menu.Item>
-      <Menu.Item active={menuLocation === "videos"}>
-        <Link to="/mypage/videos">登録した動画</Link>
-      </Menu.Item>
-      <Menu.Item active={menuLocation === "following"}>
-        <Link to="/mypage/following">フォロー中</Link>
-      </Menu.Item>
-      <Menu.Item active={menuLocation === "followers"}>
-        <Link to="/mypage/followers">フォロワー</Link>
-      </Menu.Item>
+      <NoPaddedMenuItem active={menuLocation === "home"}>
+        <MenuItemLink to="/home">タイムライン</MenuItemLink>
+      </NoPaddedMenuItem>
+      <NoPaddedMenuItem active={menuLocation === "videos"}>
+        <MenuItemLink to="/mypage/videos">お気に入り動画</MenuItemLink>
+      </NoPaddedMenuItem>
+      <NoPaddedMenuItem active={menuLocation === "following"}>
+        <MenuItemLink to="/mypage/following">フォロー中</MenuItemLink>
+      </NoPaddedMenuItem>
+      <NoPaddedMenuItem active={menuLocation === "followers"}>
+        <MenuItemLink to="/mypage/followers">フォロワー</MenuItemLink>
+      </NoPaddedMenuItem>
     </CenteredMenu>
   );
 };

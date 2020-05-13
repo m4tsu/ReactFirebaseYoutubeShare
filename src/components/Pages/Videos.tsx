@@ -1,5 +1,11 @@
 import React, { FC, useContext, useEffect, useState, useMemo } from "react";
-import { Grid, Segment, Pagination, PaginationProps } from "semantic-ui-react";
+import {
+  Grid,
+  Segment,
+  Pagination,
+  PaginationProps,
+  Message,
+} from "semantic-ui-react";
 import queryString from "query-string";
 import moment from "moment";
 import { useVideos } from "utils/useVideos";
@@ -13,12 +19,6 @@ import { VideoView } from "./VideoView";
 type VideosProps = {
   uid: string;
 };
-
-const Comment = styled.p`
-  white-space: nowrap;
-  text-overflow: ellipsis;
-  overflow: hidden;
-`;
 
 const PaginationWrapper = styled.div`
   width: 100%;
@@ -84,6 +84,9 @@ export const Videos: FC<VideosProps> = ({ uid }) => {
   return (
     <>
       <Grid>
+        {pageVideos.length === 0 && (
+          <Message warning>動画が登録されていません</Message>
+        )}
         {pageVideos.map((video) => {
           return (
             <Grid.Column
@@ -108,7 +111,6 @@ export const Videos: FC<VideosProps> = ({ uid }) => {
                       )}
                     </span>
                   </VideoCardComment>
-                  {/* <Button fluid icon="arrow right" /> */}
                 </FlexSegment>
               </Link>
             </Grid.Column>

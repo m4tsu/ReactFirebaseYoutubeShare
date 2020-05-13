@@ -2,6 +2,7 @@ import React, { FC, useContext, useEffect } from "react";
 import { useFollows } from "utils/useFollows";
 import { Loading } from "components/Common/Loading";
 import { SideMenuContext } from "context";
+import { Message } from "semantic-ui-react";
 import { UsersList } from "./UsersList";
 
 type FollowingProps = {
@@ -25,7 +26,7 @@ export const Following: FC<FollowingProps> = ({ uid }) => {
   }
 
   if (follows.length === 0) {
-    return <p>フォロー中のユーザーがいません</p>;
+    return <Message>フォロー中のユーザーがいません</Message>;
   }
 
   return <UsersList users={follows} />;

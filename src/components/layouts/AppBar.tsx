@@ -4,6 +4,7 @@ import { Menu, Container, Image, Dropdown } from "semantic-ui-react";
 import styled from "styled-components";
 import { useAuth } from "utils/useAuth";
 import { Link } from "react-router-dom";
+import { MenuItemLink } from "components/Common/MenuItemLink";
 
 const DropdownLink = styled(Link)`
   display: block;
@@ -23,10 +24,7 @@ const HeaderContainer = styled(Container)`
 
 const NoPaddedMenuItem = styled(Menu.Item)`
   padding: 0 !important;
-`;
-
-const MenuItemLink = styled(Link)`
-  padding: 1em;
+  border-left: 1px solid rgba(34, 36, 38, 0.1);
 `;
 
 const FlexBox = styled.div`
@@ -41,7 +39,7 @@ export const AppBar: FC = () => {
     <Menu fixed="top" inverted color="teal">
       <HeaderContainer>
         <NoPaddedMenuItem header>
-          <MenuItemLink to="/home">つべったー</MenuItemLink>
+          <MenuItemLink to="/">つべったー</MenuItemLink>
         </NoPaddedMenuItem>
         <FlexBox>
           <NoPaddedMenuItem header>
@@ -57,6 +55,8 @@ export const AppBar: FC = () => {
                 <Dropdown.Divider />
                 <DropdownLink to="/mypage/following">フォロー中</DropdownLink>
                 <DropdownLink to="/mypage/followers">フォロワー</DropdownLink>
+                <Dropdown.Divider />
+                <DropdownLink to="/about">FAQ</DropdownLink>
                 <Dropdown.Divider />
                 <Dropdown.Item onClick={signout}>ログアウト</Dropdown.Item>
               </Dropdown.Menu>

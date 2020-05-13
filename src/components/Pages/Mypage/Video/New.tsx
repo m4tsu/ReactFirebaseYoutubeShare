@@ -22,8 +22,19 @@ const StyledTextArea = styled(TextArea)`
   margin-bottom: 1em !important;
 `;
 
+const FormWrapper = styled.div`
+  width: 80%;
+  margin: 0 auto;
+`;
+
 type NewProps = {
   currentUser: AppUser;
+};
+
+const placeholder = {
+  video: "https://www.youtube.com/watch?v=ABCD123 or https://youtu.be/ABCD123",
+  playlist: "https://www.youtube.com/playlist?list=ABCD123",
+  nicovideo: "https://nico.ms/sm1234567",
 };
 
 export const New: FC<NewProps> = ({ currentUser }) => {
@@ -67,7 +78,7 @@ export const New: FC<NewProps> = ({ currentUser }) => {
   };
 
   return (
-    <>
+    <FormWrapper>
       <Form size="large">
         <VideoView videoId={videoId} videoType={videoType} />
         <Segment stacked>
@@ -89,17 +100,22 @@ export const New: FC<NewProps> = ({ currentUser }) => {
               onChange={handleChangeType}
             />
           </Form.Field>
+          <Form.Field>
+            <Radio
+              label="ニコニコ動画"
+              name="radioGroup"
+              value="nicovideo"
+              checked={videoType === "nicovideo"}
+              onChange={handleChangeType}
+            />
+          </Form.Field>
           <Form.Input
             fluid
             name="videoUrl"
             label="動画URL"
-            icon="youtube"
+            icon="play"
             iconPosition="left"
-            placeholder={
-              videoType === "video"
-                ? "https://www.youtube.com/watch?v=ABCD123 or https://youtu.be/ABCD123"
-                : "https://www.youtube.com/playlist?list=ABCD123"
-            }
+            placeholder={placeholder[videoType]}
             onChange={handleChangeUrl}
           />
           <Form.Field>
@@ -134,6 +150,6 @@ export const New: FC<NewProps> = ({ currentUser }) => {
         shareTitle={comment}
       />
       <Description />
-    </>
+    </FormWrapper>
   );
 };

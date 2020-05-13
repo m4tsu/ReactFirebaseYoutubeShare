@@ -15,11 +15,8 @@ export const FirebaseApp: FC = ({ children }) => {
   const counterRef = useRef(0);
   // const auth = firebase.auth();
   // const db = firebase.firestore();
-  console.log(currentUser);
   useEffect(() => {
     if (credential) counterRef.current += 1;
-    console.log("credential");
-    console.log(credential);
 
     return auth.onAuthStateChanged(async (firebaseUser) => {
       if (firebaseUser) {

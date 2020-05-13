@@ -17,6 +17,7 @@ const videoPatterns = [
   /^https:\/\/www.youtube.com\/watch\?v=(.+)$/,
 ];
 const playlistPattern = /^https:\/\/www.youtube.com\/playlist\?list=(.+)$/;
+const nicovideoPattern = /^https:\/\/nico.ms\/(sm.+)$/;
 
 export const validateUrl = ({ type, url }: Props): Result => {
   let id = null;
@@ -30,6 +31,13 @@ export const validateUrl = ({ type, url }: Props): Result => {
   }
   if (type === "playlist") {
     const result = url.match(playlistPattern);
+    if (result) {
+      id = result[1];
+      valid = true;
+    }
+  }
+  if (type === "nicovideo") {
+    const result = url.match(nicovideoPattern);
     if (result) {
       id = result[1];
       valid = true;

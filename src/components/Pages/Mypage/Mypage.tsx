@@ -10,6 +10,7 @@ import { Following } from "components/Pages/Following";
 import { Followers } from "components/Pages/Followers";
 import { Loading } from "components/Common/Loading";
 import { NoMatch } from "../NoMatch";
+import { TimeLine } from "../Home/TimeLine";
 
 export const Mypage: FC = () => {
   const match = useRouteMatch();
@@ -31,6 +32,9 @@ export const Mypage: FC = () => {
       </Grid.Column>
       <Grid.Column computer={12} mobile={16}>
         <Switch>
+          <Route exact path="/home">
+            <TimeLine currentUser={currentUser} />
+          </Route>
           <Route exact path={`${match.path}/videos`}>
             <Videos uid={currentUser.uid} />
           </Route>

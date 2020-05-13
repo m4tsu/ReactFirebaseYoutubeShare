@@ -66,7 +66,7 @@ export const SideMenu: FC<SideMenuProps> = ({ user }) => {
         </Grid>
       </Menu.Item>
       <Menu.Item active={menuLocation === "videos"}>
-        <Link to={`/${user.uid}/videos`}>登録した動画</Link>
+        <Link to={`/${user.uid}/videos`}>お気に入り動画</Link>
       </Menu.Item>
       <Menu.Item active={menuLocation === "following"}>
         <Link to={`/${user.uid}/following`}>フォロー中</Link>

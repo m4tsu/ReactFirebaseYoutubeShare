@@ -7,10 +7,11 @@ import {
   Form,
 } from "semantic-ui-react";
 import { editVideo } from "utils/editVideo";
+import { Video } from "types/Video";
 
 type Props = {
   uid: string;
-  id: string;
+  video: Video;
   db: firebase.firestore.Firestore;
   open: boolean;
   setOpen: React.Dispatch<React.SetStateAction<boolean>>;
@@ -19,7 +20,7 @@ type Props = {
 
 export const EditModal: FC<Props> = ({
   uid,
-  id,
+  video,
   db,
   open,
   setOpen,
@@ -36,8 +37,8 @@ export const EditModal: FC<Props> = ({
   };
 
   const handleClickYes = async () => {
-    await editVideo({ uid, id, db, comment });
-    window.location.reload();
+    await editVideo({ uid, video, db, comment });
+    setOpen(false);
   };
 
   const handleChangeComment = (
