@@ -1,20 +1,35 @@
 import { useContext, useState, useEffect } from "react";
 import { Video } from "types/Video";
 import { FirebaseContext } from "context";
+import { AppUser } from "types/AppUser";
 
-export const useVideos = (uid: string) => {
+type Arg = {
+  user: AppUser;
+  filterTag: string;
+};
+
+export const useVideos = ({ user, filterTag }: Arg) => {
   const [videos, setVideos] = useState<Video[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<Error | null>(null);
   const { db } = useContext(FirebaseContext);
 
   useEffect(() => {
-    const query = db
-      .collection("users")
-      .doc(uid)
-      .collection("videos")
-      .orderBy("createdAt", "desc");
-
+    let query: firebase.firestore.Query<firebase.firestore.DocumentData>;
+    if (filterTag) {
+      query = db
+        .collection("users")
+        .doc(user.uid)
+        .collection("videos")
+        .where("tags", "array-contains", filterTag)
+        .orderBy("updatedAt", "desc");
+    } else {
+      query = db
+        .collection("users")
+        .doc(user.uid)
+        .collection("videos")
+        .orderBy("updatedAt", "desc");
+    }
     const load = async () => {
       setLoading(true);
       try {
@@ -25,13 +40,15 @@ export const useVideos = (uid: string) => {
         }));
         setVideos(videosData);
         setError(null);
+        console.log("fetch videos");
       } catch (err) {
         setError(err);
+        console.log(err);
       }
       setLoading(false);
     };
     load();
-  }, [db, uid]);
+  }, [db, user, filterTag]);
 
   return { videos, loading, error };
 };

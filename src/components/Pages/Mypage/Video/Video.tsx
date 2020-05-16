@@ -11,6 +11,9 @@ import { FirebaseContext } from "context";
 import { DeleteModal } from "components/Pages/Mypage/Video/DeleteModal";
 import { EditModal } from "components/Pages/Mypage/Video/EditModal";
 import { Comment } from "components/Common/Comment";
+import { VideoDate } from "components/Common/VideoDate";
+import { TagButtons } from "components/Pages/UserPage/Video/TagButtons";
+import { AppUser } from "types/AppUser";
 
 type Params = RouteComponentProps & {
   id: string;
@@ -20,16 +23,15 @@ const ActionBtnContainer = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: flex-end;
-  /* text-align: right; */
 `;
 
-export const Video: FC<{ uid: string }> = ({ uid }) => {
+export const Video: FC<{ currentUser: AppUser }> = ({ currentUser }) => {
   const match = useRouteMatch<Params>();
   const { db } = useContext(FirebaseContext);
   const [openDelete, setOpenDelete] = useState(false);
   const [openEdit, setOpenEdit] = useState(false);
   const { id } = match.params;
-  const { video, setVideo, loading } = useVideo({ uid, id });
+  const { video, loading } = useVideo({ uid: currentUser.uid, id });
 
   const handleClickDeleteBtn = () => {
     setOpenDelete(true);
@@ -56,7 +58,19 @@ export const Video: FC<{ uid: string }> = ({ uid }) => {
     <>
       <VideoView videoId={video.videoId} videoType={video.type} />
       <ActionBtnContainer>
-        <span>{moment(video.createdAt.toDate()).format("YYYY年MM月DD日")}</span>
+        <div>
+          <VideoDate>
+            {moment(video.createdAt.toDate()).format("YYYY年MM月DD日")}
+          </VideoDate>
+          {video.tags && (
+            <TagButtons
+              tags={video.tags}
+              uid={currentUser.uid}
+              currentUser={currentUser}
+            />
+          )}
+        </div>
+
         <div>
           <TwitterShareButton
             url={`https:/${process.env.REACT_APP_AUTH_DOMAIN}${match.url}`}
@@ -81,14 +95,14 @@ export const Video: FC<{ uid: string }> = ({ uid }) => {
       <Divider />
       <Comment>{video.comment}</Comment>
       <DeleteModal
-        uid={uid}
+        uid={currentUser.uid}
         id={id}
         db={db}
         open={openDelete}
         setOpen={setOpenDelete}
       />
       <EditModal
-        uid={uid}
+        uid={currentUser.uid}
         video={video}
         db={db}
         open={openEdit}

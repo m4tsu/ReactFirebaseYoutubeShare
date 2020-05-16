@@ -5,19 +5,25 @@ import {
   Pagination,
   PaginationProps,
   Message,
+  Button,
+  Form,
+  Dropdown,
+  ButtonProps,
+  DropdownProps,
 } from "semantic-ui-react";
 import queryString from "query-string";
 import moment from "moment";
 import { useVideos } from "utils/useVideos";
 import { Link, useRouteMatch, useLocation, useHistory } from "react-router-dom";
 import { Loading } from "components/Common/Loading";
-import { SideMenuContext } from "context";
+import { SideMenuContext, TagsContext } from "context";
 import styled from "styled-components";
 import { VideoCardComment } from "components/Common/Comment";
+import { AppUser } from "types/AppUser";
 import { VideoView } from "./VideoView";
 
 type VideosProps = {
-  uid: string;
+  user: AppUser;
 };
 
 const PaginationWrapper = styled.div`
@@ -33,23 +39,40 @@ const FlexSegment = styled(Segment)`
   flex-direction: column;
   justify-content: space-between;
   transition-duration: 0.3s;
-
+  text-align: left;
   p {
-    margin: 1em 0;
+    margin: 0.4em 0;
   }
   :hover {
     box-shadow: 0 2px 8px #bbb;
   }
 `;
 
-// TODO: なんかレンダリング多い
-export const Videos: FC<VideosProps> = ({ uid }) => {
-  const { videos, loading } = useVideos(uid);
+const StyledDropdown = styled(Dropdown)`
+  margin-bottom: 1.5em;
+`;
+
+const VideoCardBody = styled.div`
+  display: flex;
+  height: 100%;
+  justify-content: space-between;
+  flex-direction: column;
+`;
+
+const TagButton = styled(Button)`
+  margin-bottom: 0.2em !important;
+`;
+
+export const Videos: FC<VideosProps> = ({ user }) => {
+  const [filterTag, setFilterTag] = useState<string>("");
+  const { videos, loading } = useVideos({ user, filterTag });
   const { setMenuLocation } = useContext(SideMenuContext);
   const [activePage, setActivePage] = useState<number>(1);
+  const { tags } = useContext(TagsContext);
   const match = useRouteMatch();
   const location = useLocation();
   const history = useHistory();
+  console.log(match.url);
 
   useEffect(() => {
     setMenuLocation("videos");
@@ -62,7 +85,11 @@ export const Videos: FC<VideosProps> = ({ uid }) => {
   useEffect(() => {
     const page = queryString.parse(location.search).page as string | undefined;
     setActivePage(page ? Number(page) : 1);
-  }, [location]);
+    const tagLabel = decodeURI(location.hash.substr(1));
+    if (tagLabel) {
+      setFilterTag(tags.some((tag) => tag.label === tagLabel) ? tagLabel : "");
+    }
+  }, [location, tags]);
 
   const pageVideos = useMemo(() => {
     const topVideoIndex = (activePage - 1) * 4;
@@ -77,12 +104,36 @@ export const Videos: FC<VideosProps> = ({ uid }) => {
     history.push(`${match.url}?page=${data.activePage}`);
   };
 
+  const handleFilterChange = (
+    e: React.SyntheticEvent<HTMLElement, Event>,
+    { value }: DropdownProps
+  ) => {
+    setFilterTag((value as string) || "");
+    history.push(match.url);
+  };
+
+  const handleTagClick = (
+    e: React.MouseEvent<HTMLButtonElement, MouseEvent>,
+    data: ButtonProps
+  ) => {
+    history.push(`${match.url}#${data.children as string}`);
+    e.preventDefault();
+  };
+
   if (loading) {
     return <Loading />;
   }
 
   return (
     <>
+      <StyledDropdown
+        clearable
+        options={tags.map((tag) => ({ value: tag.label, text: tag.label }))}
+        selection
+        placeholder="タグ"
+        value={filterTag}
+        onChange={handleFilterChange}
+      />
       <Grid>
         {pageVideos.length === 0 && (
           <Message warning>動画が登録されていません</Message>
@@ -103,14 +154,31 @@ export const Videos: FC<VideosProps> = ({ uid }) => {
                     videoType={video.type}
                     // size="small"
                   />
-                  <VideoCardComment>
-                    <p>{video.comment}</p>
-                    <span>
-                      {moment(video.updatedAt.toDate()).format(
-                        "YYYY年MM月DD日"
-                      )}
-                    </span>
-                  </VideoCardComment>
+                  <VideoCardBody>
+                    <div>
+                      {video.tags &&
+                        video.tags.map((tag) => {
+                          return (
+                            <TagButton
+                              key={`${video.id}${tag}`}
+                              primary
+                              size="mini"
+                              onClick={handleTagClick}
+                            >
+                              {tag}
+                            </TagButton>
+                          );
+                        })}
+                    </div>
+                    <VideoCardComment>
+                      <p>{video.comment}</p>
+                      <span>
+                        {moment(video.updatedAt.toDate()).format(
+                          "YYYY年MM月DD日"
+                        )}
+                      </span>
+                    </VideoCardComment>
+                  </VideoCardBody>
                 </FlexSegment>
               </Link>
             </Grid.Column>

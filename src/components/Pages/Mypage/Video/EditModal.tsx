@@ -8,6 +8,7 @@ import {
 } from "semantic-ui-react";
 import { editVideo } from "utils/editVideo";
 import { Video } from "types/Video";
+import { TagsForm } from "components/Pages/Mypage/Video/TagsForm";
 
 type Props = {
   uid: string;
@@ -27,7 +28,7 @@ export const EditModal: FC<Props> = ({
   initialComment,
 }) => {
   const [comment, setComment] = useState<string>("");
-
+  const [videoTags, setVideoTags] = useState<string[]>([]);
   useEffect(() => {
     setComment(initialComment);
   }, [initialComment]);
@@ -37,7 +38,7 @@ export const EditModal: FC<Props> = ({
   };
 
   const handleClickYes = async () => {
-    await editVideo({ uid, video, db, comment });
+    await editVideo({ uid, video, db, comment, tags: videoTags });
     setOpen(false);
   };
 
@@ -53,12 +54,17 @@ export const EditModal: FC<Props> = ({
       <Modal.Header>コメントの編集</Modal.Header>
       <Modal.Content>
         <Form>
-          <TextArea
-            name="comment"
-            onChange={handleChangeComment}
-            label="コメント"
-            value={comment}
-          />
+          <Form.Field>
+            <TagsForm setVideoTags={setVideoTags} initialTags={video.tags} />
+          </Form.Field>
+          <Form.Field>
+            <TextArea
+              name="comment"
+              onChange={handleChangeComment}
+              label="コメント"
+              value={comment}
+            />
+          </Form.Field>
         </Form>
       </Modal.Content>
       <Modal.Actions>

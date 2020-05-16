@@ -54,5 +54,5 @@ export const useVideo = ({ uid, id }: UseVideoArg) => {
     });
   }, [db, uid, id]);
 
-  return { video, setVideo, loading, error };
+  return { video, loading, error };
 };

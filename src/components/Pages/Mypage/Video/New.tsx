@@ -1,3 +1,4 @@
+/* eslint-disable jsx-a11y/label-has-associated-control */
 import React, { useState, useEffect, FC, FormEvent, useContext } from "react";
 import {
   Button,
@@ -17,6 +18,7 @@ import { ShareModal } from "components/Common/ShareModal";
 import { Description } from "components/Pages/Mypage/Video/Description";
 import { AppUser } from "types/AppUser";
 import { FirebaseContext } from "context";
+import { TagsForm } from "components/Pages/Mypage/Video/TagsForm";
 
 const StyledTextArea = styled(TextArea)`
   margin-bottom: 1em !important;
@@ -31,6 +33,11 @@ type NewProps = {
   currentUser: AppUser;
 };
 
+// type tagOption = {
+//   label: string;
+//   value: string;
+// };
+
 const placeholder = {
   video: "https://www.youtube.com/watch?v=ABCD123 or https://youtu.be/ABCD123",
   playlist: "https://www.youtube.com/playlist?list=ABCD123",
@@ -44,6 +51,7 @@ export const New: FC<NewProps> = ({ currentUser }) => {
   const [videoId, setVideoId] = useState<VideoIdType>(null);
   const [comment, setComment] = useState<string>("");
   const [openShareModal, setOpenShareModal] = useState(false);
+  const [videoTags, setVideoTags] = useState<string[]>([]);
   const { db } = useContext(FirebaseContext);
 
   useEffect(() => {
@@ -73,7 +81,14 @@ export const New: FC<NewProps> = ({ currentUser }) => {
 
   const handleClick = () => {
     if (!videoId) return;
-    addVideo({ currentUser, db, videoId, type: videoType, comment });
+    addVideo({
+      currentUser,
+      db,
+      videoId,
+      type: videoType,
+      comment,
+      tags: videoTags,
+    });
     setOpenShareModal(true);
   };
 
@@ -118,6 +133,11 @@ export const New: FC<NewProps> = ({ currentUser }) => {
             placeholder={placeholder[videoType]}
             onChange={handleChangeUrl}
           />
+          <Form.Field>
+            <label htmlFor="tags">タグ</label>
+            <TagsForm setVideoTags={setVideoTags} />
+          </Form.Field>
+
           <Form.Field>
             <label htmlFor="comment">
               紹介コメント

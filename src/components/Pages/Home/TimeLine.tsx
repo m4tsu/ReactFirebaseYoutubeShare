@@ -26,7 +26,7 @@ const CenteredSegment = styled(Segment)`
 `;
 
 const TimelineWrapper = styled.div`
-  height: 80vh;
+  height: 84vh;
   overflow: auto;
 `;
 

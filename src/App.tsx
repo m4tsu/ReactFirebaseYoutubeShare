@@ -44,9 +44,21 @@ const App = () => {
             <Route exact path="/about" component={About} />
             {/* <Auth> */}
             {/* TODO 今はmypageだけログイン必要だからそっちでリダイレクト仕込む */}
-            <Route path="/mypage" component={Mypage} />
+            <Route path="/mypage">
+              {currentUser ? (
+                <Mypage currentUser={currentUser} />
+              ) : (
+                <Redirect to="/login" />
+              )}
+            </Route>
             {/* </Auth> */}
-            <Route exact path="/home" component={Mypage} />
+            <Route exact path="/home">
+              {currentUser ? (
+                <Mypage currentUser={currentUser} />
+              ) : (
+                <Redirect to="/login" />
+              )}
+            </Route>
             <Route path="/:uid" component={UserPage} />
             <Route exact path="/" component={Top} />
             <Route component={NoMatch} />

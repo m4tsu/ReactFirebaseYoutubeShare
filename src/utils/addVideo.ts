@@ -13,22 +13,47 @@ export const addVideo = async ({
   videoId,
   type,
   comment,
+  tags,
 }: Arg) => {
-  const videosRef = db
+  const batch = db.batch();
+  const videoRef = db
     .collection("users")
     .doc(currentUser.uid)
-    .collection("videos");
-
+    .collection("videos")
+    .doc();
+  const tagsCol = db
+    .collection("users")
+    .doc(currentUser.uid)
+    .collection("tags");
   try {
-    const videoRef = await videosRef.add({
+    batch.set(videoRef, {
       user: db.collection("users").doc(currentUser.uid),
       videoId,
       type,
       comment,
+      tags: tags.filter((x, i, self) => self.indexOf(x) === i), // 重複消す
       createdAt: firebase.firestore.FieldValue.serverTimestamp(),
       updatedAt: firebase.firestore.FieldValue.serverTimestamp(),
     });
-    console.log(videoRef);
+    // if (tags) {
+    tags.forEach((tag: string) => {
+      const tagDoc = tagsCol.doc(tag);
+      batch.set(tagDoc, {
+        label: tag,
+      });
+    });
+    // }
+    await batch.commit();
+
+    // const videoRef = await videosRef.add({
+    //   user: db.collection("users").doc(currentUser.uid),
+    //   videoId,
+    //   type,
+    //   comment,
+    //   createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+    //   updatedAt: firebase.firestore.FieldValue.serverTimestamp(),
+    // });
+    console.log("Video created");
   } catch (err) {
     console.log(err);
   }

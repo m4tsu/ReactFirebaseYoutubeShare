@@ -1,5 +1,6 @@
 import { createContext } from "react";
 import { AppUser } from "types/AppUser";
+import { Tag } from "types/Tag";
 
 export type FirebaseContextValue = {
   auth: firebase.auth.Auth;
@@ -24,6 +25,7 @@ export const AuthContext = createContext<authContextValue>({
   loading: true,
 });
 
+// --- SideMenuLocation Context --
 export type SideMenuLocation =
   | "home"
   | "videos"
@@ -40,3 +42,18 @@ export const SideMenuContext = createContext<SideMenuContextValue>({
   menuLocation: "other",
   setMenuLocation: () => undefined,
 });
+
+// --- SideMenuLocation Context --
+
+// --- Tags Context ---
+export type TagsContextValue = {
+  tags: Tag[];
+  tagsLoading: boolean;
+};
+
+export const TagsContext = createContext<TagsContextValue>({
+  tags: [],
+  tagsLoading: true,
+});
+
+// --- Tags Context ---

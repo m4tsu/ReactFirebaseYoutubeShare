@@ -14,7 +14,8 @@ import { useUser } from "utils/useUser";
 import { Following } from "components/Pages/Following";
 import { Followers } from "components/Pages/Followers";
 import { Loading } from "components/Common/Loading";
-import { AuthContext } from "context";
+import { AuthContext, TagsContext } from "context";
+import { useFetchTags } from "utils/useFetchTags";
 import { NoMatch } from "../NoMatch";
 
 type Params = RouteComponentProps & {
@@ -26,6 +27,7 @@ export const UserPage: FC = () => {
   const { currentUser } = useContext(AuthContext);
   const { uid } = match.params;
   const { user, loading } = useUser(uid);
+  const { tags, tagsLoading } = useFetchTags({ user });
 
   if (loading || !user) {
     return <Loading />;
@@ -36,25 +38,27 @@ export const UserPage: FC = () => {
   }
 
   return (
-    <Grid>
-      <Grid.Column computer={5} mobile={16}>
-        <SideMenu user={user} />
-      </Grid.Column>
-      <Grid.Column computer={11} mobile={16}>
-        <Switch>
-          <Route exact path={`${match.path}/videos`} component={Videos}>
-            <Videos uid={user.uid} />
-          </Route>
-          <Route exact path={`${match.path}/followers`}>
-            <Followers uid={user.uid} />
-          </Route>
-          <Route exact path={`${match.path}/following`}>
-            <Following uid={user.uid} />
-          </Route>
-          <Route exact path={`${match.path}/videos/:id`} component={Video} />
-          <Route component={NoMatch} />
-        </Switch>
-      </Grid.Column>
-    </Grid>
+    <TagsContext.Provider value={{ tags, tagsLoading }}>
+      <Grid>
+        <Grid.Column computer={5} mobile={16}>
+          <SideMenu user={user} />
+        </Grid.Column>
+        <Grid.Column computer={11} mobile={16}>
+          <Switch>
+            <Route exact path={`${match.path}/videos`} component={Videos}>
+              <Videos user={user} />
+            </Route>
+            <Route exact path={`${match.path}/followers`}>
+              <Followers uid={user.uid} />
+            </Route>
+            <Route exact path={`${match.path}/following`}>
+              <Following uid={user.uid} />
+            </Route>
+            <Route exact path={`${match.path}/videos/:id`} component={Video} />
+            <Route component={NoMatch} />
+          </Switch>
+        </Grid.Column>
+      </Grid>
+    </TagsContext.Provider>
   );
 };
