@@ -6,6 +6,7 @@ import { Link } from "react-router-dom";
 import { AppUser } from "types/AppUser";
 import { checkFollow } from "utils/checkFollow";
 import { CenteredMenu } from "components/Common/CenteredMenu";
+import { findOtherUser } from "utils/findOtherUser";
 import { FollowBtn } from "./FollowBtn";
 
 const Icon = styled(Image)`
@@ -27,6 +28,7 @@ export const SideMenu: FC<SideMenuProps> = ({ user }) => {
   const { menuLocation } = useContext(SideMenuContext);
   const { db } = useContext(FirebaseContext);
   const { currentUser } = useContext(AuthContext);
+
   useEffect(() => {
     let unmounted = false;
     (async () => {

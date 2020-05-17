@@ -29,6 +29,7 @@ export const AuthContext = createContext<authContextValue>({
 export type SideMenuLocation =
   | "home"
   | "videos"
+  | "new"
   | "following"
   | "followers"
   | "other";

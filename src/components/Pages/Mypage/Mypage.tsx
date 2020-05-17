@@ -1,18 +1,25 @@
-import React, { FC, useContext } from "react";
-import { Grid } from "semantic-ui-react";
-import { Switch, Route, useRouteMatch, Redirect } from "react-router-dom";
+import React, { FC } from "react";
+import { Grid, Divider } from "semantic-ui-react";
+import { Switch, Route, useRouteMatch } from "react-router-dom";
 import { Videos } from "components/Pages/Videos";
 import { Video } from "components/Pages/Mypage/Video/Video";
 import { New } from "components/Pages/Mypage/Video/New";
 import { SideMenu } from "components/Pages/Mypage/SideMenu";
-import { AuthContext, TagsContext } from "context";
+import { TagsContext } from "context";
 import { Following } from "components/Pages/Following";
 import { Followers } from "components/Pages/Followers";
-import { Loading } from "components/Common/Loading";
 import { useFetchTags } from "utils/useFetchTags";
 import { AppUser } from "types/AppUser";
+import styled from "styled-components";
 import { NoMatch } from "../NoMatch";
 import { TimeLine } from "../Home/TimeLine";
+
+const DividerSP = styled(Divider)`
+  width: 100%;
+  @media (min-width: 992px) {
+    display: none !important;
+  }
+`;
 
 type MypageProps = {
   currentUser: AppUser;
@@ -20,9 +27,6 @@ type MypageProps = {
 
 export const Mypage: FC<MypageProps> = ({ currentUser }) => {
   const match = useRouteMatch();
-  // const { currentUser, loading } = useContext(AuthContext);
-  console.log(currentUser);
-
   const { tags, tagsLoading } = useFetchTags({ user: currentUser });
 
   return (
@@ -31,6 +35,7 @@ export const Mypage: FC<MypageProps> = ({ currentUser }) => {
         <Grid.Column computer={4} mobile={16}>
           <SideMenu currentUser={currentUser} />
         </Grid.Column>
+        <DividerSP />
         <Grid.Column computer={12} mobile={16}>
           <Switch>
             <Route exact path="/home">

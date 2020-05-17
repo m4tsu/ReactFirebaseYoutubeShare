@@ -17,7 +17,7 @@ import styled from "styled-components";
 import { ShareModal } from "components/Common/ShareModal";
 import { Description } from "components/Pages/Mypage/Video/Description";
 import { AppUser } from "types/AppUser";
-import { FirebaseContext } from "context";
+import { FirebaseContext, SideMenuContext } from "context";
 import { TagsForm } from "components/Pages/Mypage/Video/TagsForm";
 
 const StyledTextArea = styled(TextArea)`
@@ -33,11 +33,6 @@ type NewProps = {
   currentUser: AppUser;
 };
 
-// type tagOption = {
-//   label: string;
-//   value: string;
-// };
-
 const placeholder = {
   video: "https://www.youtube.com/watch?v=ABCD123 or https://youtu.be/ABCD123",
   playlist: "https://www.youtube.com/playlist?list=ABCD123",
@@ -52,7 +47,16 @@ export const New: FC<NewProps> = ({ currentUser }) => {
   const [comment, setComment] = useState<string>("");
   const [openShareModal, setOpenShareModal] = useState(false);
   const [videoTags, setVideoTags] = useState<string[]>([]);
+  const { setMenuLocation } = useContext(SideMenuContext);
   const { db } = useContext(FirebaseContext);
+
+  useEffect(() => {
+    setMenuLocation("new");
+
+    return () => {
+      setMenuLocation("other");
+    };
+  }, [setMenuLocation]);
 
   useEffect(() => {
     const { valid, id } = validateUrl({ url: videoUrl, type: videoType });

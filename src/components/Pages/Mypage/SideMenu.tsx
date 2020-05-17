@@ -2,7 +2,6 @@ import React, { FC, useContext } from "react";
 import { Menu, Image, Grid } from "semantic-ui-react";
 import { SideMenuContext } from "context";
 import styled from "styled-components";
-import { Link } from "react-router-dom";
 import { CenteredMenu } from "components/Common/CenteredMenu";
 import { AppUser } from "types/AppUser";
 import { MenuItemLink } from "components/Common/MenuItemLink";
@@ -43,7 +42,10 @@ export const SideMenu: FC<SideMenuProps> = ({ currentUser }) => {
         <MenuItemLink to="/home">タイムライン</MenuItemLink>
       </NoPaddedMenuItem>
       <NoPaddedMenuItem active={menuLocation === "videos"}>
-        <MenuItemLink to="/mypage/videos">お気に入り動画</MenuItemLink>
+        <MenuItemLink to="/mypage/videos">登録動画一覧</MenuItemLink>
+      </NoPaddedMenuItem>
+      <NoPaddedMenuItem active={menuLocation === "new"}>
+        <MenuItemLink to="/mypage/videos/new">動画を登録する</MenuItemLink>
       </NoPaddedMenuItem>
       <NoPaddedMenuItem active={menuLocation === "following"}>
         <MenuItemLink to="/mypage/following">フォロー中</MenuItemLink>

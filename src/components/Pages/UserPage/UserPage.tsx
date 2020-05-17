@@ -1,5 +1,5 @@
 import React, { FC, useContext } from "react";
-import { Grid } from "semantic-ui-react";
+import { Grid, Divider } from "semantic-ui-react";
 import {
   Switch,
   Route,
@@ -16,7 +16,15 @@ import { Followers } from "components/Pages/Followers";
 import { Loading } from "components/Common/Loading";
 import { AuthContext, TagsContext } from "context";
 import { useFetchTags } from "utils/useFetchTags";
+import styled from "styled-components";
 import { NoMatch } from "../NoMatch";
+
+const DividerSP = styled(Divider)`
+  width: 100%;
+  @media (min-width: 992px) {
+    display: none !important;
+  }
+`;
 
 type Params = RouteComponentProps & {
   uid: string;
@@ -43,6 +51,7 @@ export const UserPage: FC = () => {
         <Grid.Column computer={5} mobile={16}>
           <SideMenu user={user} />
         </Grid.Column>
+        <DividerSP />
         <Grid.Column computer={11} mobile={16}>
           <Switch>
             <Route exact path={`${match.path}/videos`} component={Videos}>

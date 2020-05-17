@@ -1,5 +1,4 @@
 import React, { useContext, useState } from "react";
-import { Home } from "components/Pages/Home/Home";
 import {
   BrowserRouter as Router,
   Switch,
@@ -16,6 +15,7 @@ import { UserPage } from "components/Pages/UserPage/UserPage";
 import { NoMatch } from "components/Pages/NoMatch";
 import { About } from "components/Pages/About/About";
 import { Top } from "components/Pages/Top/Top";
+import { FindUsers } from "components/Pages/Users/FindUsers";
 
 const Main = styled(Container)`
   margin-bottom: 40px;
@@ -36,35 +36,37 @@ const App = () => {
 
   return (
     <Router>
-      <AppBar />
-      <SideMenuContext.Provider value={{ menuLocation, setMenuLocation }}>
-        <Main id="main">
-          <Switch>
-            <Route exact path="/login" component={Signin} />
-            <Route exact path="/about" component={About} />
-            {/* <Auth> */}
-            {/* TODO 今はmypageだけログイン必要だからそっちでリダイレクト仕込む */}
-            <Route path="/mypage">
-              {currentUser ? (
-                <Mypage currentUser={currentUser} />
-              ) : (
-                <Redirect to="/login" />
-              )}
-            </Route>
-            {/* </Auth> */}
-            <Route exact path="/home">
-              {currentUser ? (
-                <Mypage currentUser={currentUser} />
-              ) : (
-                <Redirect to="/login" />
-              )}
-            </Route>
-            <Route path="/:uid" component={UserPage} />
-            <Route exact path="/" component={Top} />
-            <Route component={NoMatch} />
-          </Switch>
-        </Main>
-      </SideMenuContext.Provider>
+      <AppBar>
+        <SideMenuContext.Provider value={{ menuLocation, setMenuLocation }}>
+          <Main id="main">
+            <Switch>
+              <Route exact path="/login" component={Signin} />
+              <Route exact path="/about" component={About} />
+              <Route exact path="/users" component={FindUsers} />
+              {/* <Auth> */}
+              {/* TODO 今はmypageだけログイン必要だからそっちでリダイレクト仕込む */}
+              <Route path="/mypage">
+                {currentUser ? (
+                  <Mypage currentUser={currentUser} />
+                ) : (
+                  <Redirect to="/login" />
+                )}
+              </Route>
+              {/* </Auth> */}
+              <Route exact path="/home">
+                {currentUser ? (
+                  <Mypage currentUser={currentUser} />
+                ) : (
+                  <Redirect to="/login" />
+                )}
+              </Route>
+              <Route path="/:uid" component={UserPage} />
+              <Route exact path="/" component={Top} />
+              <Route component={NoMatch} />
+            </Switch>
+          </Main>
+        </SideMenuContext.Provider>
+      </AppBar>
     </Router>
   );
 };

@@ -24,7 +24,7 @@ const CenteredImage = styled(Image)`
 
 export const UsersList: FC<UsersListProps> = ({ users }) => {
   return (
-    <Grid>
+    <Grid centered>
       {users.map((user) => (
         <Grid.Column key={user.uid} mobile={16} tablet={6} computer={6}>
           <Link to={`/${user.uid}/videos`}>
