@@ -6,7 +6,6 @@ import {
   PaginationProps,
   Message,
   Button,
-  Form,
   Dropdown,
   ButtonProps,
   DropdownProps,
@@ -63,6 +62,8 @@ const TagButton = styled(Button)`
   margin-bottom: 0.2em !important;
 `;
 
+const videoPerPage = 4;
+
 export const Videos: FC<VideosProps> = ({ user }) => {
   const [filterTag, setFilterTag] = useState<string>("");
   const { videos, loading } = useVideos({ user, filterTag });
@@ -72,7 +73,6 @@ export const Videos: FC<VideosProps> = ({ user }) => {
   const match = useRouteMatch();
   const location = useLocation();
   const history = useHistory();
-  console.log(match.url);
 
   useEffect(() => {
     setMenuLocation("videos");
@@ -92,9 +92,9 @@ export const Videos: FC<VideosProps> = ({ user }) => {
   }, [location, tags]);
 
   const pageVideos = useMemo(() => {
-    const topVideoIndex = (activePage - 1) * 4;
+    const topVideoIndex = (activePage - 1) * videoPerPage;
 
-    return videos.slice(topVideoIndex, topVideoIndex + 4);
+    return videos.slice(topVideoIndex, topVideoIndex + videoPerPage);
   }, [activePage, videos]);
 
   const handlePageChange = (
@@ -187,7 +187,7 @@ export const Videos: FC<VideosProps> = ({ user }) => {
       </Grid>
       <PaginationWrapper>
         <Pagination
-          totalPages={Math.ceil(videos.length / 4)}
+          totalPages={Math.ceil(videos.length / videoPerPage)}
           activePage={activePage}
           onPageChange={handlePageChange}
         />

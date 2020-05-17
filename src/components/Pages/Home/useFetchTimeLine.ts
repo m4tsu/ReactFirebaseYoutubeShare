@@ -1,6 +1,5 @@
 import { useState, useCallback, useEffect, useContext } from "react";
 import { FirebaseContext } from "context";
-import { useFollows } from "utils/useFollows";
 
 type TimelineVideo = {
   id: string; // Video doc ID
@@ -24,8 +23,8 @@ export const useFetchTimeLine = (uid: string) => {
     setLastTimelineDoc,
   ] = useState<null | firebase.firestore.QueryDocumentSnapshot>(null);
   const [loading, setLoading] = useState(false);
+  const [allFetched, setAllFetched] = useState(false);
   const { db } = useContext(FirebaseContext);
-  console.log(timeline);
 
   useEffect(() => {
     const TimelineCol = db.collection("users").doc(uid).collection("timeline");
@@ -46,7 +45,6 @@ export const useFetchTimeLine = (uid: string) => {
         );
         setLastTimelineDoc(timelineSnap.docs[timelineSnap.docs.length - 1]);
         setTimeline(timelineData);
-        console.log(timelineData);
       } catch (err) {
         console.log(err);
       }
@@ -57,9 +55,7 @@ export const useFetchTimeLine = (uid: string) => {
 
   const fetchMore = useCallback(async () => {
     const TimelineCol = db.collection("users").doc(uid).collection("timeline");
-    console.log("fetch More");
     try {
-      console.log(lastTimelineDoc);
       if (!lastTimelineDoc) {
         return null;
       }
@@ -75,11 +71,11 @@ export const useFetchTimeLine = (uid: string) => {
           };
         })
       );
-      console.log(timelineData);
-      if (timelineSnap.docs.length !== 0) {
+      if (timelineSnap.docs.length === 4) {
         setLastTimelineDoc(timelineSnap.docs[timelineSnap.docs.length - 1]);
       } else {
         setLastTimelineDoc(null);
+        setAllFetched(true);
       }
 
       setTimeline((prevTimeline) => prevTimeline.concat(timelineData));
@@ -92,5 +88,5 @@ export const useFetchTimeLine = (uid: string) => {
     }
   }, [db, lastTimelineDoc, uid]);
 
-  return { timeline, loading, fetchMore };
+  return { timeline, loading, fetchMore, allFetched };
 };

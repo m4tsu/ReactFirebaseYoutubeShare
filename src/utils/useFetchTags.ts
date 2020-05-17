@@ -13,13 +13,11 @@ export const useFetchTags = ({ user }: Arg) => {
   const { db } = useContext(FirebaseContext);
 
   useEffect(() => {
-    console.log(user);
     if (!user) {
       return;
     }
     const query = db.collection("users").doc(user.uid).collection("tags");
     const unsubscribe = query.onSnapshot((snapshot) => {
-      console.log(snapshot.docs);
       const tagsData = snapshot.docs.map((doc) => {
         const data = doc.data() as Tag;
 

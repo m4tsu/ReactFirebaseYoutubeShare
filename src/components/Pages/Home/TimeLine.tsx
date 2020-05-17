@@ -28,6 +28,7 @@ const CenteredSegment = styled(Segment)`
 const TimelineWrapper = styled.div`
   height: 84vh;
   overflow: auto;
+  will-change: transform;
 `;
 
 type TimeLineProps = {
@@ -35,7 +36,9 @@ type TimeLineProps = {
 };
 
 export const TimeLine: FC<TimeLineProps> = ({ currentUser }) => {
-  const { timeline, loading, fetchMore } = useFetchTimeLine(currentUser.uid);
+  const { timeline, loading, fetchMore, allFetched } = useFetchTimeLine(
+    currentUser.uid
+  );
   const { setMenuLocation } = useContext(SideMenuContext);
 
   useEffect(() => {
@@ -50,8 +53,7 @@ export const TimeLine: FC<TimeLineProps> = ({ currentUser }) => {
     const element = e.target;
     const threshold = 10;
     const { scrollHeight, scrollTop, clientHeight } = element as any;
-
-    if (scrollHeight - scrollTop - threshold < clientHeight) {
+    if (!allFetched && scrollHeight - scrollTop - threshold < clientHeight) {
       await fetchMore();
     }
   };

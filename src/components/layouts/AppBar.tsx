@@ -116,9 +116,12 @@ export const AppBar: FC = ({ children }) => {
                 動画を登録する
               </MenuItemLink>
             </NoPaddedMenuItemPC>
-            <NoPaddedMenuItemSP header onClick={handleClickSPMenu}>
-              <Icon name="bars" size="large" />
-            </NoPaddedMenuItemSP>
+            {currentUser && (
+              <NoPaddedMenuItemSP header onClick={handleClickSPMenu}>
+                <Icon name="bars" size="large" />
+              </NoPaddedMenuItemSP>
+            )}
+
             {currentUser ? (
               <DropdownPC
                 item
@@ -143,7 +146,50 @@ export const AppBar: FC = ({ children }) => {
           </FlexBox>
         </HeaderContainer>
       </Menu>
-      <SidebarPushable>
+      {currentUser ? (
+        <SidebarPushable>
+          <Sidebar
+            as={Menu}
+            animation="overlay"
+            icon="labeled"
+            onHide={() => setVisible(false)}
+            vertical
+            direction="right"
+            visible={visible}
+            // secondary
+            width="thin"
+          >
+            <NoPaddedMenuItemSide>
+              <MenuItemLink to="/mypage/videos">マイページ</MenuItemLink>
+            </NoPaddedMenuItemSide>
+            <NoPaddedMenuItemSide>
+              <MenuItemLink to="/mypage/videos/new">
+                動画を登録する
+              </MenuItemLink>
+            </NoPaddedMenuItemSide>
+            <SidebarDivider />
+            <NoPaddedMenuItemSide>
+              <MenuItemLink to="/mypage/following">フォロー中</MenuItemLink>
+            </NoPaddedMenuItemSide>
+            <NoPaddedMenuItemSide>
+              <MenuItemLink to="/mypage/followers">フォロワー</MenuItemLink>
+            </NoPaddedMenuItemSide>
+            <NoPaddedMenuItemSide>
+              <MenuItemLink to="/users">ユーザーを探す</MenuItemLink>
+            </NoPaddedMenuItemSide>
+            <SidebarDivider />
+            <NoPaddedMenuItemSide>
+              <MenuItemLink to="/about">FAQ</MenuItemLink>
+            </NoPaddedMenuItemSide>
+            <SidebarDivider />
+            <Menu.Item onClick={signout}>ログアウト</Menu.Item>
+          </Sidebar>
+          <Sidebar.Pusher>{children}</Sidebar.Pusher>
+        </SidebarPushable>
+      ) : (
+        children
+      )}
+      {/* <SidebarPushable>
         <Sidebar
           as={Menu}
           animation="overlay"
@@ -179,7 +225,7 @@ export const AppBar: FC = ({ children }) => {
           <Menu.Item onClick={signout}>ログアウト</Menu.Item>
         </Sidebar>
         <Sidebar.Pusher>{children}</Sidebar.Pusher>
-      </SidebarPushable>
+      </SidebarPushable> */}
     </>
   );
 };
