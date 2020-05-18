@@ -23,6 +23,7 @@ export const useFetchTimeLine = (uid: string) => {
     setLastTimelineDoc,
   ] = useState<null | firebase.firestore.QueryDocumentSnapshot>(null);
   const [loading, setLoading] = useState(false);
+  const [loadingMore, setLoadingMore] = useState(false);
   const [allFetched, setAllFetched] = useState(false);
   const { db } = useContext(FirebaseContext);
 
@@ -55,6 +56,7 @@ export const useFetchTimeLine = (uid: string) => {
 
   const fetchMore = useCallback(async () => {
     const TimelineCol = db.collection("users").doc(uid).collection("timeline");
+    setLoadingMore(true);
     try {
       if (!lastTimelineDoc) {
         return null;
@@ -79,14 +81,16 @@ export const useFetchTimeLine = (uid: string) => {
       }
 
       setTimeline((prevTimeline) => prevTimeline.concat(timelineData));
+      setLoadingMore(false);
 
       return timelineData;
     } catch (err) {
       console.log(err);
+      setLoadingMore(false);
 
       return null;
     }
   }, [db, lastTimelineDoc, uid]);
 
-  return { timeline, loading, fetchMore, allFetched };
+  return { timeline, loading, fetchMore, allFetched, loadingMore };
 };

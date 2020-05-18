@@ -1,6 +1,6 @@
-import React, { FC, useEffect, useContext } from "react";
+import React, { FC, useEffect, useContext, useState } from "react";
 import { AppUser } from "types/AppUser";
-import { Segment, Grid, Image, Message } from "semantic-ui-react";
+import { Segment, Grid, Image, Message, Loader } from "semantic-ui-react";
 import styled from "styled-components";
 import moment from "moment";
 import { Loading } from "components/Common/Loading";
@@ -29,17 +29,32 @@ const TimelineWrapper = styled.div`
   height: 84vh;
   overflow: auto;
   will-change: transform;
+  overscroll-behavior: none;
+`;
+
+const LoadingContainer = styled.div`
+  display: flex;
+  align-items: center;
+  height: 100px;
+  width: 100%;
 `;
 
 type TimeLineProps = {
   currentUser: AppUser;
 };
 
+const maxVideosNumber = 30;
+
 export const TimeLine: FC<TimeLineProps> = ({ currentUser }) => {
-  const { timeline, loading, fetchMore, allFetched } = useFetchTimeLine(
-    currentUser.uid
-  );
+  const {
+    timeline,
+    loading,
+    fetchMore,
+    allFetched,
+    loadingMore,
+  } = useFetchTimeLine(currentUser.uid);
   const { setMenuLocation } = useContext(SideMenuContext);
+  const [fetchLimited, setFetchLimited] = useState(false);
 
   useEffect(() => {
     setMenuLocation("home");
@@ -49,7 +64,14 @@ export const TimeLine: FC<TimeLineProps> = ({ currentUser }) => {
     };
   }, [setMenuLocation]);
 
+  useEffect(() => {
+    if (timeline.length >= maxVideosNumber) {
+      setFetchLimited(true);
+    }
+  }, [timeline]);
+
   const handleScroll = async (e: React.UIEvent<HTMLDivElement, UIEvent>) => {
+    if (loadingMore || fetchLimited) return;
     const element = e.target;
     const threshold = 10;
     const { scrollHeight, scrollTop, clientHeight } = element as any;
@@ -96,6 +118,9 @@ export const TimeLine: FC<TimeLineProps> = ({ currentUser }) => {
           </CenteredSegment>
         );
       })}
+      <LoadingContainer>
+        {loadingMore && <Loader active inline="centered" />}
+      </LoadingContainer>
     </TimelineWrapper>
   );
 };
