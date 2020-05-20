@@ -129,9 +129,16 @@ export const AppBar: FC = ({ children }) => {
               >
                 <Dropdown.Menu>
                   <DropdownLink to="/mypage/videos">マイページ</DropdownLink>
+                  <DropdownLink to="/mypage/videos/new">
+                    動画を登録する
+                  </DropdownLink>
+                  <DropdownLink to="/mypage/tags">タグ管理</DropdownLink>
                   <Dropdown.Divider />
                   <DropdownLink to="/mypage/following">フォロー中</DropdownLink>
                   <DropdownLink to="/mypage/followers">フォロワー</DropdownLink>
+                  <DropdownLink to="/mypage/followers">
+                    ユーザーを探す
+                  </DropdownLink>
                   <Dropdown.Divider />
                   <DropdownLink to="/about">FAQ</DropdownLink>
                   <Dropdown.Divider />

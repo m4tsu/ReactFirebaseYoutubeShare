@@ -25,6 +25,7 @@ type SideMenuProps = {
 
 export const SideMenu: FC<SideMenuProps> = ({ user }) => {
   const [isFollowing, setIsFollowing] = useState<boolean>(false);
+  const [loadFollow, setLoadFollow] = useState(false);
   const { menuLocation } = useContext(SideMenuContext);
   const { db } = useContext(FirebaseContext);
   const { currentUser } = useContext(AuthContext);
@@ -32,6 +33,7 @@ export const SideMenu: FC<SideMenuProps> = ({ user }) => {
   useEffect(() => {
     let unmounted = false;
     (async () => {
+      setLoadFollow(true);
       const result = await checkFollow({
         currentUser,
         uid: user.uid,
@@ -39,6 +41,7 @@ export const SideMenu: FC<SideMenuProps> = ({ user }) => {
       });
       if (!unmounted) {
         setIsFollowing(result);
+        setLoadFollow(false);
       }
     })();
 
@@ -61,6 +64,7 @@ export const SideMenu: FC<SideMenuProps> = ({ user }) => {
                 user={user}
                 setIsFollowing={setIsFollowing}
                 isFollowing={isFollowing}
+                loading={loadFollow}
               />
             )}
           </Grid.Column>

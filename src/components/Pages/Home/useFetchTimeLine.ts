@@ -14,6 +14,7 @@ type TimelineVideo = {
     displayName: string;
     photoURL: string;
   };
+  tags: string[];
 };
 
 export const useFetchTimeLine = (uid: string) => {

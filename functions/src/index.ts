@@ -19,6 +19,7 @@ type Video = {
     displayName: string;
     photoURL: string;
   };
+  tags: string[]; // Tag.label の配列
   createdAt: admin.firestore.Timestamp;
   updatedAt: admin.firestore.Timestamp;
 };
@@ -28,6 +29,10 @@ type User = {
   displayName: string;
   screenName: string;
   photoURL: string;
+};
+
+type Tag = {
+  label: string;
 };
 
 async function copyToTimelineWithUsersVideoSnapshot(
@@ -58,6 +63,28 @@ async function copyToTimelineWithUsersVideoSnapshot(
     const followerDoc = followerCol.doc(doc.id);
     const timelineRef = followerDoc.collection("timeline");
     timelineRef.doc(videoDocId).set(video, { merge: true });
+  });
+}
+
+// タグ削除時にVideoに反映する
+async function deleteToUserVideosWithUsersTagSnapshot(
+  snapshot: FirebaseFirestore.DocumentSnapshot,
+  context: functions.EventContext
+) {
+  const { userId } = context.params;
+  const tag = snapshot.data() as Tag;
+
+  const videosColRef = firestore
+    .collection("users")
+    .doc(userId)
+    .collection("videos");
+
+  const taggedVideosSnap = await videosColRef
+    .where("tags", "array-contains", tag.label)
+    .get();
+
+  taggedVideosSnap.docs.forEach(async (doc) => {
+    doc.ref.update({ tags: admin.firestore.FieldValue.arrayRemove(tag.label) });
   });
 }
 
@@ -101,6 +128,14 @@ export const onUsersVideoDelete = functions
   .onDelete(async (snapshot, context) => {
     await deleteToTimelineWithUsersVideoSnapshot(snapshot, context);
   });
+
+export const onUsersTagDelete = functions
+  .region("asia-northeast1")
+  .firestore.document("/users/{userId}/tags/{tagId}")
+  .onDelete(async (snapshot, context) => {
+    await deleteToUserVideosWithUsersTagSnapshot(snapshot, context);
+  });
+
 // export const onUsersPostUpdate = functions.firestore
 //   .document("/users/{userId}/posts/{postId}")
 //   .onUpdate(async (change, context) => {

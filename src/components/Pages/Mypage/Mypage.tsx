@@ -11,6 +11,7 @@ import { Followers } from "components/Pages/Followers";
 import { useFetchTags } from "utils/useFetchTags";
 import { AppUser } from "types/AppUser";
 import styled from "styled-components";
+import { Tags } from "components/Pages/Mypage/Tag/Tags";
 import { NoMatch } from "../NoMatch";
 import { TimeLine } from "../Home/TimeLine";
 
@@ -55,6 +56,9 @@ export const Mypage: FC<MypageProps> = ({ currentUser }) => {
             </Route>
             <Route exact path={`${match.path}/videos/:id`}>
               <Video currentUser={currentUser} />
+            </Route>
+            <Route exact path={`${match.path}/tags`}>
+              <Tags currentUser={currentUser} />
             </Route>
             <Route component={NoMatch} />
           </Switch>

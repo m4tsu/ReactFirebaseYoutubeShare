@@ -130,7 +130,7 @@ export const Videos: FC<VideosProps> = ({ user }) => {
         clearable
         options={tags.map((tag) => ({ value: tag.label, text: tag.label }))}
         selection
-        placeholder="タグ"
+        placeholder="タグで絞り込む"
         value={filterTag}
         onChange={handleFilterChange}
       />

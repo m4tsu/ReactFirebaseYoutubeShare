@@ -34,15 +34,7 @@ export const editVideo = async ({ db, uid, video, comment, tags }: Arg) => {
         label: tag,
       });
     });
-    // await videoRef.set(
-    //   {
-    //     comment,
-    //     updatedAt: firebase.firestore.FieldValue.serverTimestamp(),
-    //   },
-    //   { merge: true }
-    // );
     batch.commit();
-    console.log("success updated");
   } catch (err) {
     console.log(err);
 

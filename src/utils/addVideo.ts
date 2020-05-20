@@ -35,24 +35,13 @@ export const addVideo = async ({
       createdAt: firebase.firestore.FieldValue.serverTimestamp(),
       updatedAt: firebase.firestore.FieldValue.serverTimestamp(),
     });
-    // if (tags) {
     tags.forEach((tag: string) => {
       const tagDoc = tagsCol.doc(tag);
       batch.set(tagDoc, {
         label: tag,
       });
     });
-    // }
     await batch.commit();
-
-    // const videoRef = await videosRef.add({
-    //   user: db.collection("users").doc(currentUser.uid),
-    //   videoId,
-    //   type,
-    //   comment,
-    //   createdAt: firebase.firestore.FieldValue.serverTimestamp(),
-    //   updatedAt: firebase.firestore.FieldValue.serverTimestamp(),
-    // });
     console.log("Video created");
   } catch (err) {
     console.log(err);

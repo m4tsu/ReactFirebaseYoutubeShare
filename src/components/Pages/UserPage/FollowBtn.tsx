@@ -10,6 +10,7 @@ type Props = {
   user: AppUser;
   isFollowing: boolean;
   setIsFollowing: React.Dispatch<React.SetStateAction<boolean>>;
+  loading: boolean;
 };
 
 export const FollowBtn: FC<Props> = ({
@@ -17,6 +18,7 @@ export const FollowBtn: FC<Props> = ({
   user,
   isFollowing,
   setIsFollowing,
+  loading,
 }) => {
   const { db } = useContext(FirebaseContext);
 
@@ -33,14 +35,14 @@ export const FollowBtn: FC<Props> = ({
   if (currentUser.uid !== user.uid) {
     if (isFollowing) {
       return (
-        <Button color="teal" onClick={handleClickUnfollow}>
+        <Button color="teal" onClick={handleClickUnfollow} loading={loading}>
           フォロー中
         </Button>
       );
     }
 
     return (
-      <Button color="teal" onClick={handleClickFollow} basic>
+      <Button color="teal" onClick={handleClickFollow} basic loading={loading}>
         フォロー
       </Button>
     );
