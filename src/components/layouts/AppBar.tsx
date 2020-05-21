@@ -37,7 +37,7 @@ const HeaderContainer = styled(Container)`
 const NoPaddedMenuItem = styled(Menu.Item)`
   padding: 0 !important;
   /* border-left: 1px solid rgba(34, 36, 38, 0.1); */
-  border: none !important;
+  /* border: none !important; */
 `;
 
 const NoPaddedMenuItemPC = styled(NoPaddedMenuItem)`

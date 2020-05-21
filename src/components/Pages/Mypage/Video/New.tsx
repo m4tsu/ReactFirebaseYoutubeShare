@@ -8,6 +8,7 @@ import {
   CheckboxProps,
   TextArea,
   TextAreaProps,
+  Icon,
 } from "semantic-ui-react";
 import { VideoIdType, validateUrl } from "utils/validateUrl";
 import { VideoView } from "components/Pages/VideoView";
@@ -19,6 +20,7 @@ import { Description } from "components/Pages/Mypage/Video/Description";
 import { AppUser } from "types/AppUser";
 import { FirebaseContext, SideMenuContext } from "context";
 import { TagsForm } from "components/Pages/Mypage/Video/TagsForm";
+import { HelpModal } from "./HelpModal";
 
 const StyledTextArea = styled(TextArea)`
   margin-bottom: 1em !important;
@@ -29,6 +31,10 @@ const FormWrapper = styled.div`
   margin: 0 auto;
 `;
 
+const HelpIcon = styled(Icon)`
+  cursor: pointer;
+`;
+
 type NewProps = {
   currentUser: AppUser;
 };
@@ -36,7 +42,8 @@ type NewProps = {
 const placeholder = {
   video: "https://www.youtube.com/watch?v=ABCD123 or https://youtu.be/ABCD123",
   playlist: "https://www.youtube.com/playlist?list=ABCD123",
-  nicovideo: "https://nico.ms/sm1234567",
+  nicovideo:
+    "https://www.nicovideo.jp/watch/sm1234567 or https://nico.ms/sm1234567",
 };
 
 export const New: FC<NewProps> = ({ currentUser }) => {
@@ -47,6 +54,7 @@ export const New: FC<NewProps> = ({ currentUser }) => {
   const [comment, setComment] = useState<string>("");
   const [openShareModal, setOpenShareModal] = useState(false);
   const [videoTags, setVideoTags] = useState<string[]>([]);
+  const [openHelpModal, setOpenHelpModal] = useState(false);
   const { setMenuLocation } = useContext(SideMenuContext);
   const { db } = useContext(FirebaseContext);
 
@@ -96,6 +104,10 @@ export const New: FC<NewProps> = ({ currentUser }) => {
     setOpenShareModal(true);
   };
 
+  const handleClickHelp = () => {
+    setOpenHelpModal(true);
+  };
+
   return (
     <FormWrapper>
       <Form size="large">
@@ -103,7 +115,7 @@ export const New: FC<NewProps> = ({ currentUser }) => {
         <Segment stacked>
           <Form.Field>
             <Radio
-              label="動画"
+              label="Youtube動画"
               name="radioGroup"
               value="video"
               checked={videoType === "video"}
@@ -112,7 +124,7 @@ export const New: FC<NewProps> = ({ currentUser }) => {
           </Form.Field>
           <Form.Field>
             <Radio
-              label="再生リスト"
+              label="Youtube再生リスト"
               name="radioGroup"
               value="playlist"
               checked={videoType === "playlist"}
@@ -131,7 +143,14 @@ export const New: FC<NewProps> = ({ currentUser }) => {
           <Form.Input
             fluid
             name="videoUrl"
-            label="動画URL"
+            label={{
+              children: (
+                <>
+                  動画URL{" "}
+                  <HelpIcon name="help circle" onClick={handleClickHelp} />
+                </>
+              ),
+            }}
             icon="play"
             iconPosition="left"
             placeholder={placeholder[videoType]}
@@ -166,6 +185,7 @@ export const New: FC<NewProps> = ({ currentUser }) => {
           </Button>
         </Segment>
       </Form>
+      <Description />
       <ShareModal
         sharePath={`/${currentUser.uid}/videos/${videoId}`}
         redirectUrl="/mypage/videos"
@@ -173,7 +193,7 @@ export const New: FC<NewProps> = ({ currentUser }) => {
         setOpen={setOpenShareModal}
         shareTitle={comment}
       />
-      <Description />
+      <HelpModal open={openHelpModal} setOpen={setOpenHelpModal} />
     </FormWrapper>
   );
 };
