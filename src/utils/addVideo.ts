@@ -31,7 +31,7 @@ export const addVideo = async ({
       videoId,
       type,
       comment,
-      tags: tags.filter((x, i, self) => self.indexOf(x) === i), // 重複消す
+      tags: Array.from(new Set(tags)), // 重複消す
       createdAt: firebase.firestore.FieldValue.serverTimestamp(),
       updatedAt: firebase.firestore.FieldValue.serverTimestamp(),
     });
@@ -42,7 +42,6 @@ export const addVideo = async ({
       });
     });
     await batch.commit();
-    console.log("Video created");
   } catch (err) {
     console.log(err);
   }

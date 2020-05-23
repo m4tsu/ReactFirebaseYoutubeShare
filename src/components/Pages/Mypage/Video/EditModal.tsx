@@ -50,8 +50,8 @@ export const EditModal: FC<Props> = ({
   };
 
   return (
-    <Modal size="tiny" open={open} onClose={closeModal}>
-      <Modal.Header>コメントの編集</Modal.Header>
+    <Modal size="small" open={open} onClose={closeModal}>
+      <Modal.Header>編集</Modal.Header>
       <Modal.Content>
         <Form>
           <Form.Field>
@@ -68,10 +68,8 @@ export const EditModal: FC<Props> = ({
         </Form>
       </Modal.Content>
       <Modal.Actions>
-        <Button negative onClick={closeModal}>
-          キャンセル
-        </Button>
-        <Button color="teal" content="決定" onClick={handleClickYes} />
+        <Button content="キャンセル" onClick={closeModal} />
+        <Button color="teal" content="更新する" onClick={handleClickYes} />
       </Modal.Actions>
     </Modal>
   );

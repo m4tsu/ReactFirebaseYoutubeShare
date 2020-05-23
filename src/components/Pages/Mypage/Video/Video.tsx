@@ -33,6 +33,8 @@ export const Video: FC<{ currentUser: AppUser }> = ({ currentUser }) => {
   const { id } = match.params;
   const { video, loading } = useVideo({ uid: currentUser.uid, id });
 
+  console.log(match);
+
   const handleClickDeleteBtn = () => {
     setOpenDelete(true);
   };
@@ -73,7 +75,7 @@ export const Video: FC<{ currentUser: AppUser }> = ({ currentUser }) => {
 
         <div>
           <TwitterShareButton
-            url={`https:/${process.env.REACT_APP_AUTH_DOMAIN}${match.url}`}
+            url={`https:/${process.env.REACT_APP_AUTH_DOMAIN}/${currentUser.uid}/videos/${id}`}
             title={`お気に入り動画を登録しました\n ${shotenTitle}`}
           >
             <Button color="twitter" icon="twitter" circular as="div" />

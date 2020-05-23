@@ -22,7 +22,7 @@ export const editVideo = async ({ db, uid, video, comment, tags }: Arg) => {
       videoRef,
       {
         comment,
-        tags: tags.filter((x, i, self) => self.indexOf(x) === i), // 重複消す
+        tags: Array.from(new Set(tags)), // 重複消す
         updatedAt: firebase.firestore.FieldValue.serverTimestamp(),
       },
       { merge: true }

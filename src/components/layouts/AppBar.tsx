@@ -26,18 +26,18 @@ const DropdownLink = styled(Link)`
   }
 `;
 
+const DropdownItemCenter = styled(Dropdown.Item)`
+  text-align: center !important;
+`;
+
 const HeaderContainer = styled(Container)`
   justify-content: space-between;
   @media (max-width: 767px) {
-    /* justify-content: flex-start; */
-    /* max-width: 75% !important; */
   }
 `;
 
 const NoPaddedMenuItem = styled(Menu.Item)`
   padding: 0 !important;
-  /* border-left: 1px solid rgba(34, 36, 38, 0.1); */
-  /* border: none !important; */
 `;
 
 const NoPaddedMenuItemPC = styled(NoPaddedMenuItem)`
@@ -63,7 +63,6 @@ const SidebarPushable = styled(Sidebar.Pushable)`
 `;
 
 const NoPaddedMenuItemSide = styled(NoPaddedMenuItem)`
-  /* color: rgba(0, 0, 0, 0.87) !important; */
   ::before {
     content: none !important;
   }
@@ -102,7 +101,7 @@ export const AppBar: FC = ({ children }) => {
 
   return (
     <>
-      <Menu fixed="top" inverted color="teal">
+      <Menu fixed="top" inverted color="teal" id="AppBar">
         <HeaderContainer>
           <NoPaddedMenuItem header>
             <MenuItemLink to="/">つべったー</MenuItemLink>
@@ -127,7 +126,7 @@ export const AppBar: FC = ({ children }) => {
                 item
                 trigger={<Image avatar src={currentUser.photoURL} />}
               >
-                <Dropdown.Menu>
+                <Dropdown.Menu id="AppSideMenu">
                   <DropdownLink to="/mypage/videos">マイページ</DropdownLink>
                   <DropdownLink to="/mypage/videos/new">
                     動画を登録する
@@ -136,18 +135,20 @@ export const AppBar: FC = ({ children }) => {
                   <Dropdown.Divider />
                   <DropdownLink to="/mypage/following">フォロー中</DropdownLink>
                   <DropdownLink to="/mypage/followers">フォロワー</DropdownLink>
-                  <DropdownLink to="/mypage/followers">
-                    ユーザーを探す
-                  </DropdownLink>
+                  <DropdownLink to="/users">ユーザーを探す</DropdownLink>
                   <Dropdown.Divider />
                   <DropdownLink to="/about">FAQ</DropdownLink>
                   <Dropdown.Divider />
-                  <Dropdown.Item onClick={signout}>ログアウト</Dropdown.Item>
+                  <DropdownItemCenter onClick={signout}>
+                    ログアウト
+                  </DropdownItemCenter>
                 </Dropdown.Menu>
               </DropdownPC>
             ) : (
               <Menu.Item>
-                <Link to="/login">ログイン</Link>
+                <Link to="/login" style={{ fontWeight: 700 }}>
+                  ログイン
+                </Link>
               </Menu.Item>
             )}
           </FlexBox>
@@ -196,43 +197,6 @@ export const AppBar: FC = ({ children }) => {
       ) : (
         children
       )}
-      {/* <SidebarPushable>
-        <Sidebar
-          as={Menu}
-          animation="overlay"
-          icon="labeled"
-          onHide={() => setVisible(false)}
-          vertical
-          direction="right"
-          visible={visible}
-          // secondary
-          width="thin"
-        >
-          <NoPaddedMenuItemSide>
-            <MenuItemLink to="/mypage/videos">マイページ</MenuItemLink>
-          </NoPaddedMenuItemSide>
-          <NoPaddedMenuItemSide>
-            <MenuItemLink to="/mypage/videos/new">動画を登録する</MenuItemLink>
-          </NoPaddedMenuItemSide>
-          <SidebarDivider />
-          <NoPaddedMenuItemSide>
-            <MenuItemLink to="/mypage/following">フォロー中</MenuItemLink>
-          </NoPaddedMenuItemSide>
-          <NoPaddedMenuItemSide>
-            <MenuItemLink to="/mypage/followers">フォロワー</MenuItemLink>
-          </NoPaddedMenuItemSide>
-          <NoPaddedMenuItemSide>
-            <MenuItemLink to="/users">ユーザーを探す</MenuItemLink>
-          </NoPaddedMenuItemSide>
-          <SidebarDivider />
-          <NoPaddedMenuItemSide>
-            <MenuItemLink to="/about">FAQ</MenuItemLink>
-          </NoPaddedMenuItemSide>
-          <SidebarDivider />
-          <Menu.Item onClick={signout}>ログアウト</Menu.Item>
-        </Sidebar>
-        <Sidebar.Pusher>{children}</Sidebar.Pusher>
-      </SidebarPushable> */}
     </>
   );
 };

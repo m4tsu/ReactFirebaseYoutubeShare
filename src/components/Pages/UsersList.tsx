@@ -29,7 +29,7 @@ export const UsersList: FC<UsersListProps> = ({ users }) => {
         <Grid.Column key={user.uid} mobile={16} tablet={5} computer={5}>
           <Link to={`/${user.uid}/videos`}>
             <FlexSegment>
-              <CenteredImage src={user.photoURL} />
+              <CenteredImage src={user.photoURL} circular />
               <p>{user.displayName}</p>
             </FlexSegment>
           </Link>

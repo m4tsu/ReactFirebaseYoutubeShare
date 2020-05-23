@@ -30,15 +30,13 @@ export const DeleteModal: FC<DeleteModalProps> = ({
 
   return (
     <Modal size="mini" open={open} onClose={closeModal}>
-      <Modal.Header>登録の解除</Modal.Header>
+      <Modal.Header>登録の削除</Modal.Header>
       <Modal.Content>
-        <p>この動画の登録を解除してよろしいですか？</p>
+        <p>この動画を削除してよろしいですか？</p>
       </Modal.Content>
       <Modal.Actions>
-        <Button color="teal" onClick={closeModal}>
-          No
-        </Button>
-        <Button negative content="Yes" onClick={handleClickYes} />
+        <Button content="キャンセル" onClick={closeModal} />
+        <Button negative content="削除する" onClick={handleClickYes} />
       </Modal.Actions>
     </Modal>
   );

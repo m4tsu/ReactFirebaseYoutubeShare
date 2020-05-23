@@ -3,7 +3,7 @@ import { useHistory, Redirect } from "react-router-dom";
 import { firebase } from "FirebaseConfig";
 import styled from "@emotion/styled";
 import StyledFirebaseAuth from "react-firebaseui/StyledFirebaseAuth";
-import { Grid, Header, Message, Segment } from "semantic-ui-react";
+import { Grid, Header, Message, Segment, Divider } from "semantic-ui-react";
 import { FirebaseContext, AuthContext } from "context";
 
 const MessageHeader = styled(Message.Header)`
@@ -58,14 +58,21 @@ const Signin: FC = () => {
                 お気に入りの動画・再生リストを登録してツイッターで共有できます
               </Message.Item>
               <Message.Item>
-                他のユーザーをフォローして、動画登録のタイムラインを作成できます
+                ユーザーをフォローすると、タイムラインでそのユーザーの更新を知ることができるようになります
+              </Message.Item>
+            </Message.List>
+            <Divider />
+
+            <MessageHeader>Twitterログインについて</MessageHeader>
+            <Message.List>
+              <Message.Item>
+                ユーザー名・アイコンを取得しユーザー情報として利用します。
+              </Message.Item>
+              <Message.Item>
+                上記以外の情報の取得や、勝手にツイートなどのアクションを行うことはありません。
               </Message.Item>
             </Message.List>
           </Message>
-          {/* <Message>
-            {" "}
-            <p>動画を登録するためにはログインが必要です。</p>{" "} */}
-          {/* </Message.List>{" "} */}
         </Grid.Column>
       </Grid>{" "}
     </GridWrapper>

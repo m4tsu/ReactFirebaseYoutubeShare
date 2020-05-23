@@ -163,7 +163,7 @@ export const New: FC<NewProps> = ({ currentUser }) => {
 
           <Form.Field>
             <label htmlFor="comment">
-              紹介コメント
+              コメント
               <StyledTextArea
                 id="comment"
                 name="comment"
