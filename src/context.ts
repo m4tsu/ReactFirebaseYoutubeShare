@@ -30,6 +30,7 @@ export type SideMenuLocation =
   | "home"
   | "videos"
   | "new"
+  | "favorites"
   | "following"
   | "followers"
   | "other";

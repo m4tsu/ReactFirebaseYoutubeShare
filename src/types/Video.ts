@@ -17,6 +17,12 @@ export type Video = {
   type: VideoType;
   comment: string;
   userId?: string;
+  user: {
+    uid: string;
+    photoURL: string;
+    displayName: string;
+    // id: string;
+  };
   tags: string[];
   createdAt: firebase.firestore.Timestamp;
   updatedAt: firebase.firestore.Timestamp;

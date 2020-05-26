@@ -12,8 +12,9 @@ import { useFetchTags } from "utils/useFetchTags";
 import { AppUser } from "types/AppUser";
 import styled from "styled-components";
 import { Tags } from "components/Pages/Mypage/Tag/Tags";
-import { NoMatch } from "../NoMatch";
-import { TimeLine } from "../Home/TimeLine";
+import { Favorites } from "components/Pages/Favorite/Favorites";
+import { NoMatch } from "components/Pages/NoMatch";
+import { TimeLine } from "components/Pages/Home/TimeLine";
 
 const DividerSP = styled(Divider)`
   width: 100%;
@@ -47,6 +48,9 @@ export const Mypage: FC<MypageProps> = ({ currentUser }) => {
             </Route>
             <Route exact path={`${match.path}/videos/new`}>
               <New currentUser={currentUser} />
+            </Route>
+            <Route exact path={`${match.path}/favorites`}>
+              <Favorites user={currentUser} />
             </Route>
             <Route exact path={`${match.path}/following`}>
               <Following uid={currentUser.uid} />

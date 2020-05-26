@@ -47,6 +47,9 @@ export const SideMenu: FC<SideMenuProps> = ({ currentUser }) => {
       <NoPaddedMenuItem active={menuLocation === "new"}>
         <MenuItemLink to="/mypage/videos/new">動画を登録する</MenuItemLink>
       </NoPaddedMenuItem>
+      <NoPaddedMenuItem active={menuLocation === "favorites"}>
+        <MenuItemLink to="/mypage/favorites">お気に入り</MenuItemLink>
+      </NoPaddedMenuItem>
       <NoPaddedMenuItem active={menuLocation === "following"}>
         <MenuItemLink to="/mypage/following">フォロー中</MenuItemLink>
       </NoPaddedMenuItem>

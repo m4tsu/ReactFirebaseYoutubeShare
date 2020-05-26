@@ -5,6 +5,7 @@ export type AppUser = {
   displayName: string | null;
   photoURL: string | null;
   screenName: string | null;
+  likeCount?: number;
 };
 
 export type fsAppUser = AppUser & {

@@ -22,6 +22,4 @@ export const unFollow = async ({ currentUser, unFollowUserId, db }: Arg) => {
   batch.delete(followDocRef);
   batch.delete(followedDocRef);
   await batch.commit();
-  console.log("unFollow");
-  // return result;
 };

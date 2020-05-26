@@ -27,7 +27,11 @@ export const addVideo = async ({
     .collection("tags");
   try {
     batch.set(videoRef, {
-      user: db.collection("users").doc(currentUser.uid),
+      user: {
+        uid: currentUser.uid,
+        displayName: currentUser.displayName,
+        photoURL: currentUser.photoURL,
+      },
       videoId,
       type,
       comment,

@@ -11,7 +11,16 @@ export type FirebaseUser = {
     following: Follow[];
     followers: Follower[];
     timeline: Timeline[];
+    likeCount: number;
+    likeVideos: {
+      id: LikeVideosRef;
+    }[];
   };
+};
+
+export type LikeVideosRef = {
+  uid: string; // video の所有ユーザーid
+  videoDocId: string; // Videoはクライアントジョインする
 };
 
 type Video = {
@@ -20,6 +29,14 @@ type Video = {
     type: "video" | "playlist" | "nicovideo";
     comment: string;
     user: firebase.firestore.DocumentReference;
+    likedCount: number;
+    likedUsers: {
+      uid: {
+        uid: string;
+        displayName: string;
+        photoURL: string;
+      };
+    }[];
     createdAt: firebase.firestore.Timestamp;
     updatedAt: firebase.firestore.Timestamp;
   };
