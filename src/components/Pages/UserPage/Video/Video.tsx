@@ -11,7 +11,23 @@ import { AuthContext, FirebaseContext } from "context";
 import { likeVideo } from "utils/likeVideo";
 import { unlikeVideo } from "utils/unlikeVideo";
 import { useLikeVideo } from "utils/useLikeVideo";
+import { FavoriteButton } from "components/Common/FavoriteBtn";
+import styled from "styled-components";
 import { TagButtons } from "./TagButtons";
+
+const VideoInfoWrapper = styled.div`
+  display: flex;
+  align-items: center;
+  time {
+    flex: 0 1 auto;
+  }
+  i {
+    flex-shrink: 0;
+  }
+  div {
+    flex: 1 1 auto;
+  }
+`;
 
 type Params = RouteComponentProps & {
   uid: string;
@@ -39,7 +55,6 @@ export const Video: FC = () => {
   }
 
   const handleClickLike = async () => {
-    console.log(currentUser);
     if (currentUser) {
       await likeVideo({
         db,
@@ -48,7 +63,6 @@ export const Video: FC = () => {
         videoDocId: id,
       });
       setVideoLiked(true);
-      console.log("liked!!!!");
     }
   };
 
@@ -61,24 +75,25 @@ export const Video: FC = () => {
         videoDocId: id,
       });
       setVideoLiked(false);
-      console.log("unlike!!!");
     }
   };
 
   return (
     <>
       <VideoView videoId={video.videoId} videoType={video.type} />
-      <div>
+      <VideoInfoWrapper>
         <VideoDate>
           {moment(video.updatedAt.toDate()).format("YYYY年MM月DD日")}
         </VideoDate>
-        {video.tags && <TagButtons tags={video.tags} uid={uid} />}
-        {videoLiked ? (
-          <Icon name="favorite" color="yellow" onClick={handleClickUnlike} />
-        ) : (
-          <Icon name="favorite" color="grey" onClick={handleClickLike} />
-        )}
-      </div>
+        <div>{video.tags && <TagButtons tags={video.tags} uid={uid} />}</div>
+
+        <FavoriteButton
+          videoLiked={videoLiked}
+          likeLoading={likeLoading}
+          handleClickLike={handleClickLike}
+          handleClickUnlike={handleClickUnlike}
+        />
+      </VideoInfoWrapper>
       <Divider />
       <Comment>{video.comment}</Comment>
     </>

@@ -1,24 +1,9 @@
 import { useState, useCallback, useEffect, useContext } from "react";
 import { FirebaseContext } from "context";
-
-type TimelineVideo = {
-  id: string; // Video doc ID
-  videoId: string; // Youtube videoのID
-  type: "video" | "playlist";
-  comment: string;
-  // もとのVideoのタイムスタンプ
-  createdAt: firebase.firestore.Timestamp;
-  updatedAt: firebase.firestore.Timestamp;
-  user: {
-    uid: string;
-    displayName: string;
-    photoURL: string;
-  };
-  tags: string[];
-};
+import { Video } from "types/Video";
 
 export const useFetchTimeLine = (uid: string) => {
-  const [timeline, setTimeline] = useState<TimelineVideo[]>([]);
+  const [timeline, setTimeline] = useState<Video[]>([]);
   const [
     lastTimelineDoc,
     setLastTimelineDoc,
@@ -39,9 +24,11 @@ export const useFetchTimeLine = (uid: string) => {
           .get();
         const timelineData = await Promise.all(
           timelineSnap.docs.map(async (doc) => {
+            const videoDoc = await db.doc(doc.data().videoRef.path).get();
+
             return {
               id: doc.id,
-              ...(doc.data() as TimelineVideo),
+              ...(videoDoc.data() as Video),
             };
           })
         );
@@ -68,9 +55,11 @@ export const useFetchTimeLine = (uid: string) => {
         .get();
       const timelineData = await Promise.all(
         timelineSnap.docs.map(async (doc) => {
+          const videoDoc = await db.doc(doc.data().videoRef.path).get();
+
           return {
             id: doc.id,
-            ...(doc.data() as TimelineVideo),
+            ...(videoDoc.data() as Video),
           };
         })
       );

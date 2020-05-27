@@ -18,7 +18,7 @@ export const PaginationVideoCard = styled(Segment)`
   }
 `;
 
-export const VideoCardBody = styled.div`
+export const PaginationVideoCardBody = styled.div`
   display: flex;
   flex-direction: column;
   height: 100%;

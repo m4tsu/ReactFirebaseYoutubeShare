@@ -7,6 +7,7 @@ import { AppUser } from "types/AppUser";
 import { checkFollow } from "utils/checkFollow";
 import { CenteredMenu } from "components/Common/CenteredMenu";
 import { findOtherUser } from "utils/findOtherUser";
+import { MenuItemLink } from "components/Common/MenuItemLink";
 import { FollowBtn } from "./FollowBtn";
 
 const Icon = styled(Image)`
@@ -17,6 +18,10 @@ const Icon = styled(Image)`
 const DisplayName = styled(Grid.Column)`
   padding-top: 0px !important;
   font-weight: 500 !important;
+`;
+
+const NoPaddedMenuItem = styled(Menu.Item)`
+  padding: 0 !important;
 `;
 
 type SideMenuProps = {
@@ -71,15 +76,15 @@ export const SideMenu: FC<SideMenuProps> = ({ user }) => {
           <DisplayName width={16}>{user.displayName}</DisplayName>
         </Grid>
       </Menu.Item>
-      <Menu.Item active={menuLocation === "videos"}>
-        <Link to={`/${user.uid}/videos`}>登録動画一覧</Link>
-      </Menu.Item>
-      <Menu.Item active={menuLocation === "following"}>
-        <Link to={`/${user.uid}/following`}>フォロー中</Link>
-      </Menu.Item>
-      <Menu.Item active={menuLocation === "followers"}>
-        <Link to={`/${user.uid}/followers`}>フォロワー</Link>
-      </Menu.Item>
+      <NoPaddedMenuItem active={menuLocation === "videos"}>
+        <MenuItemLink to={`/${user.uid}/videos`}>登録動画一覧</MenuItemLink>
+      </NoPaddedMenuItem>
+      <NoPaddedMenuItem active={menuLocation === "following"}>
+        <MenuItemLink to={`/${user.uid}/following`}>フォロー中</MenuItemLink>
+      </NoPaddedMenuItem>
+      <NoPaddedMenuItem active={menuLocation === "followers"}>
+        <MenuItemLink to={`/${user.uid}/followers`}>フォロワー</MenuItemLink>
+      </NoPaddedMenuItem>
     </CenteredMenu>
   );
 };

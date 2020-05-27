@@ -40,6 +40,7 @@ async function copyToTimelineWithUsersVideoSnapshot(
   const videoDocId = snapshot.id;
   const { userId } = context.params;
   const video = snapshot.data() as Video;
+  const videoRef = snapshot.ref;
 
   const followersSnap = await firestore
     .collection("users")
@@ -52,7 +53,7 @@ async function copyToTimelineWithUsersVideoSnapshot(
       .doc(doc.id)
       .collection("timeline")
       .doc(videoDocId)
-      .set(video, { merge: true });
+      .set({ videoRef, updatedAt: video.updatedAt }, { merge: true });
   });
 }
 

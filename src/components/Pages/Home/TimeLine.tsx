@@ -9,21 +9,22 @@ import { VideoCardComment } from "components/Common/Comment";
 import { SideMenuContext } from "context";
 import { useFetchTimeLine } from "./useFetchTimeLine";
 import { VideoView } from "../VideoView";
+import { TimelineCard } from "./TimelineCard";
 
-const CenteredSegment = styled(Segment)`
-  max-width: 600px;
-  margin: 1em auto !important;
-  transition-duration: 0.3s;
-  img {
-    margin: 1em auto;
-  }
-  p {
-    text-align: center;
-  }
-  :hover {
-    box-shadow: 0 2px 8px #bbb;
-  }
-`;
+// const CenteredSegment = styled(Segment)`
+//   max-width: 600px;
+//   margin: 1em auto !important;
+//   transition-duration: 0.3s;
+//   img {
+//     margin: 1em auto;
+//   }
+//   p {
+//     text-align: center;
+//   }
+//   :hover {
+//     box-shadow: 0 2px 8px #bbb;
+//   }
+// `;
 
 const TimelineWrapper = styled.div`
   height: 84vh;
@@ -92,30 +93,11 @@ export const TimeLine: FC<TimeLineProps> = ({ currentUser }) => {
     <TimelineWrapper onScroll={handleScroll}>
       {timeline.map((timelineVideo) => {
         return (
-          <CenteredSegment key={timelineVideo.id}>
-            <Link to={`/${timelineVideo.user.uid}/videos/${timelineVideo.id}`}>
-              <Grid centered divided>
-                <Grid.Column width={3}>
-                  <Image circular src={timelineVideo.user.photoURL} />
-                  <p>{timelineVideo.user.displayName}</p>
-                </Grid.Column>
-                <Grid.Column width={13}>
-                  <VideoView
-                    videoId={timelineVideo.videoId}
-                    videoType={timelineVideo.type}
-                  />
-                  <VideoCardComment>
-                    <p>{timelineVideo.comment}</p>
-                    <span>
-                      {moment(timelineVideo.createdAt.toDate()).format(
-                        "YYYY年MM月DD日"
-                      )}
-                    </span>
-                  </VideoCardComment>
-                </Grid.Column>
-              </Grid>
-            </Link>
-          </CenteredSegment>
+          <TimelineCard
+            currentUser={currentUser}
+            video={timelineVideo}
+            key={timelineVideo.id}
+          />
         );
       })}
       <LoadingContainer>

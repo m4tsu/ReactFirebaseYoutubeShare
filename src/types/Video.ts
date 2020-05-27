@@ -16,7 +16,6 @@ export type Video = {
   videoId: string;
   type: VideoType;
   comment: string;
-  userId?: string;
   user: {
     uid: string;
     photoURL: string;

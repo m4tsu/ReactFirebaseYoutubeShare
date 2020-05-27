@@ -15,7 +15,7 @@ import { AppUser } from "types/AppUser";
 import { VideoView } from "components/Pages/VideoView";
 import {
   PaginationVideoCard,
-  VideoCardBody,
+  PaginationVideoCardBody,
   TagButton,
   PaginationWrapper,
 } from "components/Common/PaginationVideoCard";
@@ -74,7 +74,7 @@ export const PaginationVideos: FC<PaginationVideosProps> = ({
                     videoType={video.type}
                     // size="small"
                   />
-                  <VideoCardBody>
+                  <PaginationVideoCardBody>
                     <div>
                       {video.tags &&
                         video.tags.map((tag) => {
@@ -100,7 +100,7 @@ export const PaginationVideos: FC<PaginationVideosProps> = ({
                         )}
                       </span>
                     </VideoCardComment>
-                  </VideoCardBody>
+                  </PaginationVideoCardBody>
                 </PaginationVideoCard>
               </Link>
             </Grid.Column>
