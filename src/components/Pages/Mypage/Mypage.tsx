@@ -34,11 +34,11 @@ export const Mypage: FC<MypageProps> = ({ currentUser }) => {
   return (
     <TagsContext.Provider value={{ tags, tagsLoading }}>
       <Grid>
-        <Grid.Column computer={4} mobile={16}>
+        <Grid.Column computer={3} mobile={16}>
           <SideMenu currentUser={currentUser} />
         </Grid.Column>
         <DividerSP />
-        <Grid.Column computer={12} mobile={16}>
+        <Grid.Column computer={13} mobile={16}>
           <Switch>
             <Route exact path="/home">
               <TimeLine currentUser={currentUser} />

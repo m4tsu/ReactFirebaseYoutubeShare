@@ -48,11 +48,11 @@ export const UserPage: FC = () => {
   return (
     <TagsContext.Provider value={{ tags, tagsLoading }}>
       <Grid>
-        <Grid.Column computer={5} mobile={16}>
+        <Grid.Column computer={3} mobile={16}>
           <SideMenu user={user} />
         </Grid.Column>
         <DividerSP />
-        <Grid.Column computer={11} mobile={16}>
+        <Grid.Column computer={13} mobile={16}>
           <Switch>
             <Route exact path={`${match.path}/videos`} component={Videos}>
               <Videos user={user} />

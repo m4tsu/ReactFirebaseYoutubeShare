@@ -1,20 +1,11 @@
 import React, { FC, useContext } from "react";
-import { Menu, Image, Grid } from "semantic-ui-react";
+import { Menu } from "semantic-ui-react";
 import { SideMenuContext } from "context";
 import styled from "styled-components";
 import { CenteredMenu } from "components/Common/CenteredMenu";
 import { AppUser } from "types/AppUser";
 import { MenuItemLink } from "components/Common/MenuItemLink";
-
-const Icon = styled(Image)`
-  margin: 0px auto;
-  margin-left: 0px;
-`;
-
-const DisplayName = styled(Grid.Column)`
-  padding-top: 0px !important;
-  font-weight: 500 !important;
-`;
+import { UserInfo, CenteredImage } from "components/Common/SideMenuUserInfo";
 
 const NoPaddedMenuItem = styled(Menu.Item)`
   padding: 0 !important;
@@ -30,13 +21,11 @@ export const SideMenu: FC<SideMenuProps> = ({ currentUser }) => {
   return (
     <CenteredMenu vertical>
       <Menu.Item>
-        <Grid verticalAlign="middle">
-          <Grid.Column width={6}>
-            <Icon src={currentUser.photoURL} circular />
-          </Grid.Column>
+        <UserInfo>
+          <CenteredImage src={currentUser.photoURL} circular />
 
-          <DisplayName width={16}>{currentUser.displayName}</DisplayName>
-        </Grid>
+          <div>{currentUser.displayName}</div>
+        </UserInfo>
       </Menu.Item>
       <NoPaddedMenuItem active={menuLocation === "home"}>
         <MenuItemLink to="/home">タイムライン</MenuItemLink>
