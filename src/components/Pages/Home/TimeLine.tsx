@@ -1,30 +1,11 @@
 import React, { FC, useEffect, useContext, useState } from "react";
 import { AppUser } from "types/AppUser";
-import { Segment, Grid, Image, Message, Loader } from "semantic-ui-react";
+import { Message, Loader } from "semantic-ui-react";
 import styled from "styled-components";
-import moment from "moment";
 import { Loading } from "components/Common/Loading";
-import { Link } from "react-router-dom";
-import { VideoCardComment } from "components/Common/Comment";
 import { SideMenuContext } from "context";
-import { useFetchTimeLine } from "./useFetchTimeLine";
-import { VideoView } from "../VideoView";
-import { TimelineCard } from "./TimelineCard";
-
-// const CenteredSegment = styled(Segment)`
-//   max-width: 600px;
-//   margin: 1em auto !important;
-//   transition-duration: 0.3s;
-//   img {
-//     margin: 1em auto;
-//   }
-//   p {
-//     text-align: center;
-//   }
-//   :hover {
-//     box-shadow: 0 2px 8px #bbb;
-//   }
-// `;
+import { VideoCardWithUser } from "components/Pages/VideoCardWithUser";
+import { useFetchTimeLine } from "utils/useFetchTimeLine";
 
 const TimelineWrapper = styled.div`
   height: 84vh;
@@ -93,10 +74,10 @@ export const TimeLine: FC<TimeLineProps> = ({ currentUser }) => {
     <TimelineWrapper onScroll={handleScroll}>
       {timeline.map((timelineVideo) => {
         return (
-          <TimelineCard
-            currentUser={currentUser}
+          <VideoCardWithUser
             video={timelineVideo}
             key={timelineVideo.id}
+            scroll
           />
         );
       })}

@@ -1,22 +1,18 @@
 import { useState, useContext, useEffect } from "react";
 import { Tag } from "types/Tag";
 import { FirebaseContext } from "context";
-import { AppUser } from "types/AppUser";
 
 type Arg = {
-  user: AppUser | null | undefined;
+  uid: string;
 };
 
-export const useFetchTags = ({ user }: Arg) => {
+export const useFetchTags = ({ uid }: Arg) => {
   const [tags, setTags] = useState<Tag[]>([]);
   const [tagsLoading, setTagsLoading] = useState(true);
   const { db } = useContext(FirebaseContext);
 
   useEffect(() => {
-    if (!user) {
-      return;
-    }
-    const query = db.collection("users").doc(user.uid).collection("tags");
+    const query = db.collection("users").doc(uid).collection("tags");
     const unsubscribe = query.onSnapshot((snapshot) => {
       const tagsData = snapshot.docs.map((doc) => {
         const data = doc.data() as Tag;
@@ -30,7 +26,7 @@ export const useFetchTags = ({ user }: Arg) => {
     return () => {
       unsubscribe();
     };
-  }, [db, user]);
+  }, [db, uid]);
 
   return { tags, tagsLoading };
 };

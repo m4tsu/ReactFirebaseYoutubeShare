@@ -34,9 +34,6 @@ export const TagsForm: FC<TagFormProps> = ({ setVideoTags, initialTags }) => {
   // const [isValidNewOption, setIsValidNewOption] = useState(true);
   const [newTag, setNewTag] = useState<string>("");
   const { tags, tagsLoading } = useContext(TagsContext);
-  console.log(tags);
-  console.log(selectedTagOptions);
-  console.log(tagOptions);
 
   const isValidNewOption = (inputValue: any, selectValue: any) =>
     inputValue.length > 0 && selectValue.length < 5;

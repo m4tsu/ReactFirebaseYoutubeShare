@@ -27,6 +27,7 @@ export const PaginationVideoCardBody = styled.div`
 
 export const TagButton = styled(Button)`
   margin-bottom: 0.2em !important;
+  margin-right: 0.5em !important;
 `;
 
 export const PaginationWrapper = styled.div`

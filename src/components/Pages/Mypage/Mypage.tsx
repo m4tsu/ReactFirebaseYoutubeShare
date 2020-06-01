@@ -29,7 +29,7 @@ type MypageProps = {
 
 export const Mypage: FC<MypageProps> = ({ currentUser }) => {
   const match = useRouteMatch();
-  const { tags, tagsLoading } = useFetchTags({ user: currentUser });
+  const { tags, tagsLoading } = useFetchTags({ uid: currentUser.uid });
 
   return (
     <TagsContext.Provider value={{ tags, tagsLoading }}>

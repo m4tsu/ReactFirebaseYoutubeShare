@@ -12,15 +12,13 @@ export type FirebaseUser = {
     followers: Follower[];
     timeline: Timeline[];
     likeCount: number;
-    likeVideos: {
-      id: LikeVideosRef;
-    }[];
+    likeVideos: LikeVideosRef[];
   };
 };
 
 export type LikeVideosRef = {
-  uid: string; // video の所有ユーザーid
-  videoDocId: string; // Videoはクライアントジョインする
+  videoRef: firebase.firestore.DocumentReference; // video docRef
+  createdAt: firebase.firestore.Timestamp; // Videoはクライアントジョインする
 };
 
 type Video = {

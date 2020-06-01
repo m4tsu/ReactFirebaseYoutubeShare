@@ -184,13 +184,10 @@ const incrementLikeCount = async (
 ) => {
   const likeVideoDoc = snapshot.data();
   if (!likeVideoDoc) return;
-  const { uid, videoDocId } = likeVideoDoc;
+  const { videoRef } = likeVideoDoc;
   // const { userId, videoDocId } = context.params;
   await firestore
-    .collection("users")
-    .doc(uid)
-    .collection("videos")
-    .doc(videoDocId)
+    .doc(videoRef.path)
     .update({ likeCount: admin.firestore.FieldValue.increment(1) });
 };
 
@@ -200,12 +197,9 @@ const decrementLikeCount = async (
 ) => {
   const likeVideoDoc = snapshot.data();
   if (!likeVideoDoc) return;
-  const { uid, videoDocId } = likeVideoDoc;
+  const { videoRef } = likeVideoDoc;
   await firestore
-    .collection("users")
-    .doc(uid)
-    .collection("videos")
-    .doc(videoDocId)
+    .doc(videoRef.path)
     .update({ likeCount: admin.firestore.FieldValue.increment(-1) });
 };
 

@@ -18,6 +18,7 @@ import { AuthContext, TagsContext } from "context";
 import { useFetchTags } from "utils/useFetchTags";
 import styled from "styled-components";
 import { NoMatch } from "../NoMatch";
+import { LikedUsers } from "../LikedUsers/LikedUsers";
 
 const DividerSP = styled(Divider)`
   width: 100%;
@@ -35,7 +36,7 @@ export const UserPage: FC = () => {
   const { currentUser } = useContext(AuthContext);
   const { uid } = match.params;
   const { user, loading } = useUser(uid);
-  const { tags, tagsLoading } = useFetchTags({ user });
+  const { tags, tagsLoading } = useFetchTags({ uid });
 
   if (loading || !user) {
     return <Loading />;
@@ -64,6 +65,11 @@ export const UserPage: FC = () => {
               <Following uid={user.uid} />
             </Route>
             <Route exact path={`${match.path}/videos/:id`} component={Video} />
+            <Route
+              exact
+              path={`${match.path}/videos/:id/favorites`}
+              component={LikedUsers}
+            />
             <Route component={NoMatch} />
           </Switch>
         </Grid.Column>

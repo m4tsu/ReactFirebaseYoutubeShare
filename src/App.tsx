@@ -16,6 +16,7 @@ import { NoMatch } from "components/Pages/NoMatch";
 import { About } from "components/Pages/About/About";
 import { Top } from "components/Pages/Top/Top";
 import { FindUsers } from "components/Pages/Users/FindUsers";
+import { ScrollToTop } from "components/Pages/ScrollToTop";
 
 const Main = styled(Container)`
   /* font-family: "Yu Gothic Medium", "游ゴシック Medium", YuGothic, "游ゴシック体",
@@ -38,6 +39,7 @@ const App = () => {
 
   return (
     <Router>
+      <ScrollToTop />
       <AppBar>
         <SideMenuContext.Provider value={{ menuLocation, setMenuLocation }}>
           <Main id="main">

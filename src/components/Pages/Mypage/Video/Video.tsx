@@ -33,8 +33,6 @@ export const Video: FC<{ currentUser: AppUser }> = ({ currentUser }) => {
   const { id } = match.params;
   const { video, loading } = useVideo({ uid: currentUser.uid, id });
 
-  console.log(match);
-
   const handleClickDeleteBtn = () => {
     setOpenDelete(true);
   };
