@@ -27,5 +27,4 @@ export const follow = async ({ currentUser, followUserId, db }: Arg) => {
   });
 
   await batch.commit();
-  console.log("follow");
 };

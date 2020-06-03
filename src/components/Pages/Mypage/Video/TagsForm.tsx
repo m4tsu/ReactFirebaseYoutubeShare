@@ -2,7 +2,6 @@ import React, { FC, useState, useContext, useEffect } from "react";
 import Creatable from "react-select/creatable";
 import { components } from "react-select";
 import { TagsContext } from "context";
-import styled from "styled-components";
 
 type TagOption = {
   label: string;

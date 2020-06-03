@@ -7,10 +7,13 @@ import { Loading } from "components/Common/Loading";
 import { SideMenuContext, TagsContext } from "context";
 import styled from "styled-components";
 import { AppUser } from "types/AppUser";
+import { Video } from "types/Video";
 import { PaginationVideos } from "./Mypage/PaginationVideos";
 
 type VideosProps = {
   user: AppUser;
+  videos: Video[];
+  videosLoading: boolean;
 };
 
 const StyledDropdown = styled(Dropdown)`
@@ -19,9 +22,11 @@ const StyledDropdown = styled(Dropdown)`
 
 const videoPerPage = 4;
 
-export const Videos: FC<VideosProps> = ({ user }) => {
-  const [filterTag, setFilterTag] = useState<string>("");
-  const { videos, loading } = useVideos({ user, filterTag });
+export const Videos: FC<VideosProps> = ({ user, videos, videosLoading }) => {
+  // const [filterTag, setFilterTag] = useState<string>("");
+  const [filterTag, setFilterTag] = useState<string | null>(null);
+  // const { videos, loading } = useVideos({ user, filterTag });
+  const [filterdVideos, setFilteredVideos] = useState<Video[]>(videos);
   const { setMenuLocation } = useContext(SideMenuContext);
   const [activePage, setActivePage] = useState<number>(1);
   const { tags } = useContext(TagsContext);
@@ -38,11 +43,24 @@ export const Videos: FC<VideosProps> = ({ user }) => {
   }, [setMenuLocation]);
 
   useEffect(() => {
+    if (filterTag) {
+      setFilteredVideos(
+        videos.filter((video) => {
+          return video.tags.includes(filterTag);
+        })
+      );
+    } else {
+      setFilteredVideos(videos);
+    }
+  }, [filterTag, videos]);
+
+  useEffect(() => {
     const page = queryString.parse(location.search).page as string | undefined;
     setActivePage(page ? Number(page) : 1);
     const tagLabel = decodeURI(location.hash.substr(1));
     if (tagLabel) {
-      setFilterTag(tags.some((tag) => tag.label === tagLabel) ? tagLabel : "");
+      // setFilterTag(tags.some((tag) => tag.label === tagLabel) ? tagLabel : "");
+      setFilterTag(tagLabel);
     }
   }, [location, tags]);
 
@@ -53,8 +71,9 @@ export const Videos: FC<VideosProps> = ({ user }) => {
   const pageVideos = useMemo(() => {
     const topVideoIndex = (activePage - 1) * videoPerPage;
 
-    return videos.slice(topVideoIndex, topVideoIndex + videoPerPage);
-  }, [activePage, videos]);
+    // return videos.slice(topVideoIndex, topVideoIndex + videoPerPage);
+    return filterdVideos.slice(topVideoIndex, topVideoIndex + videoPerPage);
+  }, [activePage, filterdVideos]);
 
   const handlePageChange = (
     e: React.MouseEvent<HTMLAnchorElement, MouseEvent>,
@@ -71,7 +90,7 @@ export const Videos: FC<VideosProps> = ({ user }) => {
     history.push(match.url);
   };
 
-  if (loading) {
+  if (videosLoading) {
     return <Loading />;
   }
 
@@ -90,7 +109,7 @@ export const Videos: FC<VideosProps> = ({ user }) => {
         videos={pageVideos}
         activePage={activePage}
         handlePageChange={handlePageChange}
-        totalPages={Math.ceil(videos.length / videoPerPage)}
+        totalPages={Math.ceil(filterdVideos.length / videoPerPage)}
       />
     </>
   );

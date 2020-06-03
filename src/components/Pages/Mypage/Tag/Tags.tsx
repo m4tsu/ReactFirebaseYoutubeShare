@@ -21,14 +21,12 @@ export const Tags: FC<TagsProps> = ({ currentUser }) => {
   const { tags } = useContext(TagsContext);
   const { db } = useContext(FirebaseContext);
   const [openDelete, setOpenDelete] = useState(false);
-  // const [openEdit, setOpenEdit] = useState(false);
   const [targetTag, setTargetTag] = useState<string>("");
 
   const handleClickDelete = (
     event: React.MouseEvent<HTMLButtonElement, MouseEvent>,
     data: ButtonProps
   ) => {
-    console.log(data.taglabel);
     setTargetTag(data.taglabel);
     setOpenDelete(true);
   };

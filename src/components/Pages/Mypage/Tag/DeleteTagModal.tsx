@@ -24,8 +24,6 @@ export const DeleteTagModal: FC<Props> = ({
 
   const handleClick = async () => {
     await deleteTag({ currentUser, db, tag });
-    // history.push(`/mypage/videos`);
-    console.log("delete");
     setOpen(false);
   };
 

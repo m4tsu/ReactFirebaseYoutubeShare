@@ -68,7 +68,6 @@ export const useLikeVideos = ({ user, activePage, videoPerPage }: Arg) => {
               };
             })
         );
-        console.log(videosData);
         setPageVideos(videosData);
       } catch (err) {
         console.log(err);

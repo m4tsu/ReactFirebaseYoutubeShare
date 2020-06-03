@@ -6,6 +6,7 @@ import {
   useRouteMatch,
   RouteComponentProps,
   Redirect,
+  useLocation,
 } from "react-router-dom";
 import { Videos } from "components/Pages/Videos";
 import { Video } from "components/Pages/UserPage/Video/Video";
@@ -17,6 +18,7 @@ import { Loading } from "components/Common/Loading";
 import { AuthContext, TagsContext } from "context";
 import { useFetchTags } from "utils/useFetchTags";
 import styled from "styled-components";
+import { useFetchVideos } from "utils/useFetchVideos";
 import { NoMatch } from "../NoMatch";
 import { LikedUsers } from "../LikedUsers/LikedUsers";
 
@@ -37,13 +39,18 @@ export const UserPage: FC = () => {
   const { uid } = match.params;
   const { user, loading } = useUser(uid);
   const { tags, tagsLoading } = useFetchTags({ uid });
+  const { videos, videosLoading } = useFetchVideos({ uid });
+  const location = useLocation();
 
   if (loading || !user) {
     return <Loading />;
   }
 
   if (currentUser && currentUser.uid === uid) {
-    return <Redirect to="/mypage/videos" />;
+    const redirectPath =
+      location.pathname.replace(/\/.+\//, "/mypage/") + location.hash;
+
+    return <Redirect to={redirectPath} />;
   }
 
   return (
@@ -56,7 +63,11 @@ export const UserPage: FC = () => {
         <Grid.Column computer={13} mobile={16}>
           <Switch>
             <Route exact path={`${match.path}/videos`} component={Videos}>
-              <Videos user={user} />
+              <Videos
+                user={user}
+                videos={videos}
+                videosLoading={videosLoading}
+              />
             </Route>
             <Route exact path={`${match.path}/followers`}>
               <Followers uid={user.uid} />

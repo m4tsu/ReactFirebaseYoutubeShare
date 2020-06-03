@@ -71,6 +71,8 @@ export const VideoCard: FC<VideoCardProps> = ({ video }) => {
                       primary
                       size="mini"
                       onClick={handleTagClick}
+                      taglabel={tag}
+                      uid={video.user.uid}
                     >
                       {tag}
                     </TagButton>
