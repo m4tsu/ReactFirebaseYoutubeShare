@@ -26,9 +26,6 @@ export const Favorites: FC<FavoritesProps> = ({ user }) => {
     videoPerPage,
   });
 
-  console.log(pageVideos);
-  console.log(loading);
-
   useEffect(() => {
     setMenuLocation("favorites");
 
@@ -39,9 +36,12 @@ export const Favorites: FC<FavoritesProps> = ({ user }) => {
 
   useEffect(() => {
     const page = queryString.parse(location.search).page as string | undefined;
-    console.log(page);
     setActivePage(page ? Number(page) : 1);
   }, [location]);
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [activePage]);
 
   const handlePageChange = (
     e: React.MouseEvent<HTMLAnchorElement, MouseEvent>,
@@ -52,16 +52,16 @@ export const Favorites: FC<FavoritesProps> = ({ user }) => {
 
   return (
     <>
-      <p>お気に入り</p>
       {loading ? (
         <Loading />
       ) : (
         <PaginationVideos
           user={user}
-          activePage={activePage}
           videos={pageVideos}
+          activePage={activePage}
           handlePageChange={handlePageChange}
           totalPages={Math.ceil(totalVideoNumber / videoPerPage)}
+          withUser
         />
       )}
     </>

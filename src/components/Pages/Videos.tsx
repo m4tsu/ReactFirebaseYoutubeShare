@@ -1,72 +1,32 @@
 import React, { FC, useContext, useEffect, useState, useMemo } from "react";
-import {
-  Grid,
-  Segment,
-  Pagination,
-  PaginationProps,
-  Message,
-  Button,
-  Dropdown,
-  ButtonProps,
-  DropdownProps,
-} from "semantic-ui-react";
+import { PaginationProps, Dropdown, DropdownProps } from "semantic-ui-react";
 import queryString from "query-string";
-import moment from "moment";
 import { useVideos } from "utils/useVideos";
-import { Link, useRouteMatch, useLocation, useHistory } from "react-router-dom";
+import { useRouteMatch, useLocation, useHistory } from "react-router-dom";
 import { Loading } from "components/Common/Loading";
 import { SideMenuContext, TagsContext } from "context";
 import styled from "styled-components";
-import { VideoCardComment } from "components/Common/Comment";
 import { AppUser } from "types/AppUser";
-import { VideoView } from "./VideoView";
+import { Video } from "types/Video";
+import { PaginationVideos } from "./Mypage/PaginationVideos";
 
 type VideosProps = {
   user: AppUser;
+  videos: Video[];
+  videosLoading: boolean;
 };
-
-const PaginationWrapper = styled.div`
-  width: 100%;
-  display: flex;
-  justify-content: center;
-  padding: 2em;
-`;
-
-const FlexSegment = styled(Segment)`
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  transition-duration: 0.3s;
-  text-align: left;
-  p {
-    margin: 0.4em 0;
-  }
-  :hover {
-    box-shadow: 0 2px 8px #bbb;
-  }
-`;
 
 const StyledDropdown = styled(Dropdown)`
   margin-bottom: 1.5em;
 `;
 
-const VideoCardBody = styled.div`
-  display: flex;
-  height: 100%;
-  justify-content: space-between;
-  flex-direction: column;
-`;
-
-const TagButton = styled(Button)`
-  margin-bottom: 0.2em !important;
-`;
-
 const videoPerPage = 4;
 
-export const Videos: FC<VideosProps> = ({ user }) => {
-  const [filterTag, setFilterTag] = useState<string>("");
-  const { videos, loading } = useVideos({ user, filterTag });
+export const Videos: FC<VideosProps> = ({ user, videos, videosLoading }) => {
+  // const [filterTag, setFilterTag] = useState<string>("");
+  const [filterTag, setFilterTag] = useState<string | null>(null);
+  // const { videos, loading } = useVideos({ user, filterTag });
+  const [filterdVideos, setFilteredVideos] = useState<Video[]>(videos);
   const { setMenuLocation } = useContext(SideMenuContext);
   const [activePage, setActivePage] = useState<number>(1);
   const { tags } = useContext(TagsContext);
@@ -83,19 +43,37 @@ export const Videos: FC<VideosProps> = ({ user }) => {
   }, [setMenuLocation]);
 
   useEffect(() => {
+    if (filterTag) {
+      setFilteredVideos(
+        videos.filter((video) => {
+          return video.tags.includes(filterTag);
+        })
+      );
+    } else {
+      setFilteredVideos(videos);
+    }
+  }, [filterTag, videos]);
+
+  useEffect(() => {
     const page = queryString.parse(location.search).page as string | undefined;
     setActivePage(page ? Number(page) : 1);
     const tagLabel = decodeURI(location.hash.substr(1));
     if (tagLabel) {
-      setFilterTag(tags.some((tag) => tag.label === tagLabel) ? tagLabel : "");
+      // setFilterTag(tags.some((tag) => tag.label === tagLabel) ? tagLabel : "");
+      setFilterTag(tagLabel);
     }
   }, [location, tags]);
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [activePage]);
 
   const pageVideos = useMemo(() => {
     const topVideoIndex = (activePage - 1) * videoPerPage;
 
-    return videos.slice(topVideoIndex, topVideoIndex + videoPerPage);
-  }, [activePage, videos]);
+    // return videos.slice(topVideoIndex, topVideoIndex + videoPerPage);
+    return filterdVideos.slice(topVideoIndex, topVideoIndex + videoPerPage);
+  }, [activePage, filterdVideos]);
 
   const handlePageChange = (
     e: React.MouseEvent<HTMLAnchorElement, MouseEvent>,
@@ -112,15 +90,7 @@ export const Videos: FC<VideosProps> = ({ user }) => {
     history.push(match.url);
   };
 
-  const handleTagClick = (
-    e: React.MouseEvent<HTMLButtonElement, MouseEvent>,
-    data: ButtonProps
-  ) => {
-    history.push(`${match.url}#${data.children as string}`);
-    e.preventDefault();
-  };
-
-  if (loading) {
+  if (videosLoading) {
     return <Loading />;
   }
 
@@ -134,64 +104,13 @@ export const Videos: FC<VideosProps> = ({ user }) => {
         value={filterTag}
         onChange={handleFilterChange}
       />
-      <Grid>
-        {pageVideos.length === 0 && (
-          <Message warning>動画が登録されていません</Message>
-        )}
-        {pageVideos.map((video) => {
-          return (
-            <Grid.Column
-              key={video.id}
-              textAlign="center"
-              mobile={16}
-              tablet={8}
-              computer={8}
-            >
-              <Link to={`${match.url}/${video.id}`}>
-                <FlexSegment>
-                  <VideoView
-                    videoId={video.videoId}
-                    videoType={video.type}
-                    // size="small"
-                  />
-                  <VideoCardBody>
-                    <div>
-                      {video.tags &&
-                        video.tags.map((tag) => {
-                          return (
-                            <TagButton
-                              key={`${video.id}${tag}`}
-                              primary
-                              size="mini"
-                              onClick={handleTagClick}
-                            >
-                              {tag}
-                            </TagButton>
-                          );
-                        })}
-                    </div>
-                    <VideoCardComment>
-                      <p>{video.comment}</p>
-                      <span>
-                        {moment(video.updatedAt.toDate()).format(
-                          "YYYY年MM月DD日"
-                        )}
-                      </span>
-                    </VideoCardComment>
-                  </VideoCardBody>
-                </FlexSegment>
-              </Link>
-            </Grid.Column>
-          );
-        })}
-      </Grid>
-      <PaginationWrapper>
-        <Pagination
-          totalPages={Math.ceil(videos.length / videoPerPage)}
-          activePage={activePage}
-          onPageChange={handlePageChange}
-        />
-      </PaginationWrapper>
+      <PaginationVideos
+        user={user}
+        videos={pageVideos}
+        activePage={activePage}
+        handlePageChange={handlePageChange}
+        totalPages={Math.ceil(filterdVideos.length / videoPerPage)}
+      />
     </>
   );
 };

@@ -3,7 +3,6 @@ import { useContext, useState, useEffect, useMemo } from "react";
 import { FirebaseContext } from "context";
 import { Video } from "types/Video";
 import { LikeVideosRef } from "types/FireStoreDataType";
-import { likeVideo } from "./likeVideo";
 
 type Arg = {
   user: AppUser;
@@ -59,10 +58,7 @@ export const useLikeVideos = ({ user, activePage, videoPerPage }: Arg) => {
             .slice(startVideoIndex, startVideoIndex + videoPerPage)
             .map(async (likeVideoRef) => {
               const likeVideoDoc = await db
-                .collection("users")
-                .doc(likeVideoRef.uid)
-                .collection("videos")
-                .doc(likeVideoRef.videoDocId)
+                .doc(likeVideoRef.videoRef.path)
                 .get();
 
               return {
@@ -72,7 +68,6 @@ export const useLikeVideos = ({ user, activePage, videoPerPage }: Arg) => {
               };
             })
         );
-        console.log(videosData);
         setPageVideos(videosData);
       } catch (err) {
         console.log(err);

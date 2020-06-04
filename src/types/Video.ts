@@ -16,7 +16,6 @@ export type Video = {
   videoId: string;
   type: VideoType;
   comment: string;
-  userId?: string;
   user: {
     uid: string;
     photoURL: string;
@@ -24,6 +23,7 @@ export type Video = {
     // id: string;
   };
   tags: string[];
+  likeCount: number;
   createdAt: firebase.firestore.Timestamp;
   updatedAt: firebase.firestore.Timestamp;
 };

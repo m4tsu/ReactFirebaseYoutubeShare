@@ -25,9 +25,7 @@ export const TagButtons: FC<TagButtonsParams> = ({
     e: React.MouseEvent<HTMLButtonElement, MouseEvent>,
     data: ButtonProps
   ) => {
-    console.log(currentUser);
     if (currentUser) {
-      console.log("mypage!!!");
       history.push(`/mypage/videos#${data.children as string}`);
     } else {
       history.push(`/${uid}/videos#${data.children as string}`);

@@ -4,7 +4,7 @@ import { AppUser } from "types/AppUser";
 
 type Arg = {
   db: firebase.firestore.Firestore;
-  currentUser: AppUser | null;
+  currentUser: AppUser;
   videoDocId: string;
 };
 
@@ -14,7 +14,6 @@ export const useLikeVideo = ({ db, currentUser, videoDocId }: Arg) => {
 
   useEffect(() => {
     const load = async () => {
-      if (!currentUser) return;
       setLikeLoading(true);
       const likeVideos = db
         .collection("users")

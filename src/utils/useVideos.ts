@@ -28,7 +28,8 @@ export const useVideos = ({ user, filterTag }: Arg) => {
         .collection("users")
         .doc(user.uid)
         .collection("videos")
-        .orderBy("updatedAt", "desc");
+        .orderBy("updatedAt", "desc")
+        .limit(40);
     }
     const load = async () => {
       setLoading(true);
@@ -40,10 +41,8 @@ export const useVideos = ({ user, filterTag }: Arg) => {
         }));
         setVideos(videosData);
         setError(null);
-        console.log("fetch videos");
       } catch (err) {
         setError(err);
-        console.log(err);
       }
       setLoading(false);
     };

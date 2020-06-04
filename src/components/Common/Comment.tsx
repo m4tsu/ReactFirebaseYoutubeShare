@@ -15,9 +15,9 @@ export const VideoCardComment = styled.div`
     white-space: nowrap;
   }
 
-  span {
+  /* span {
     font-size: 0.9rem;
     margin-top: 5rem;
     text-align: left !important;
-  }
+  } */
 `;

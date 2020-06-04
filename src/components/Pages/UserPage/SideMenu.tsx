@@ -6,17 +6,12 @@ import { Link } from "react-router-dom";
 import { AppUser } from "types/AppUser";
 import { checkFollow } from "utils/checkFollow";
 import { CenteredMenu } from "components/Common/CenteredMenu";
-import { findOtherUser } from "utils/findOtherUser";
+import { MenuItemLink } from "components/Common/MenuItemLink";
+import { UserInfo, CenteredImage } from "components/Common/SideMenuUserInfo";
 import { FollowBtn } from "./FollowBtn";
 
-const Icon = styled(Image)`
-  margin: 0px auto;
-  margin-left: 0px;
-`;
-
-const DisplayName = styled(Grid.Column)`
-  padding-top: 0px !important;
-  font-weight: 500 !important;
+const NoPaddedMenuItem = styled(Menu.Item)`
+  padding: 0 !important;
 `;
 
 type SideMenuProps = {
@@ -53,11 +48,10 @@ export const SideMenu: FC<SideMenuProps> = ({ user }) => {
   return (
     <CenteredMenu vertical size="large">
       <Menu.Item>
-        <Grid centered verticalAlign="middle">
-          <Grid.Column width={6}>
-            <Icon src={user.photoURL} circular />
-          </Grid.Column>
-          <Grid.Column width={10}>
+        <UserInfo>
+          <CenteredImage src={user.photoURL} circular />
+          <div>{user.displayName}</div>
+          <div>
             {currentUser && (
               <FollowBtn
                 currentUser={currentUser}
@@ -67,19 +61,18 @@ export const SideMenu: FC<SideMenuProps> = ({ user }) => {
                 loading={loadFollow}
               />
             )}
-          </Grid.Column>
-          <DisplayName width={16}>{user.displayName}</DisplayName>
-        </Grid>
+          </div>
+        </UserInfo>
       </Menu.Item>
-      <Menu.Item active={menuLocation === "videos"}>
-        <Link to={`/${user.uid}/videos`}>登録動画一覧</Link>
-      </Menu.Item>
-      <Menu.Item active={menuLocation === "following"}>
-        <Link to={`/${user.uid}/following`}>フォロー中</Link>
-      </Menu.Item>
-      <Menu.Item active={menuLocation === "followers"}>
-        <Link to={`/${user.uid}/followers`}>フォロワー</Link>
-      </Menu.Item>
+      <NoPaddedMenuItem active={menuLocation === "videos"}>
+        <MenuItemLink to={`/${user.uid}/videos`}>登録動画一覧</MenuItemLink>
+      </NoPaddedMenuItem>
+      <NoPaddedMenuItem active={menuLocation === "following"}>
+        <MenuItemLink to={`/${user.uid}/following`}>フォロー中</MenuItemLink>
+      </NoPaddedMenuItem>
+      <NoPaddedMenuItem active={menuLocation === "followers"}>
+        <MenuItemLink to={`/${user.uid}/followers`}>フォロワー</MenuItemLink>
+      </NoPaddedMenuItem>
     </CenteredMenu>
   );
 };

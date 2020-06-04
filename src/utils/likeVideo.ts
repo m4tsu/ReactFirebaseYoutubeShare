@@ -14,16 +14,16 @@ export const likeVideo = async ({
   likedVideoUserId,
   videoDocId,
 }: Arg) => {
-  const likeVideoDoc = db
-    .collection("users")
-    .doc(currentUser.uid)
-    .collection("likeVideos")
-    .doc(videoDocId);
-  const likedUserDoc = db
+  const currentUserDocRef = db.collection("users").doc(currentUser.uid);
+  const likedVideoDocRef = db
     .collection("users")
     .doc(likedVideoUserId)
     .collection("videos")
-    .doc(videoDocId)
+    .doc(videoDocId);
+  const likeVideoDoc = currentUserDocRef
+    .collection("likeVideos")
+    .doc(videoDocId);
+  const likedUserDoc = likedVideoDocRef
     .collection("likedUsers")
     .doc(currentUser.uid);
 
@@ -31,15 +31,12 @@ export const likeVideo = async ({
     const batch = db.batch();
 
     batch.set(likeVideoDoc, {
-      videoDocId,
-      uid: likedVideoUserId,
+      videoRef: likedVideoDocRef,
       createdAt: firebase.firestore.FieldValue.serverTimestamp(),
     });
-
     batch.set(likedUserDoc, {
-      uid: currentUser.uid,
-      displayName: currentUser.displayName,
-      photoURL: currentUser.photoURL,
+      userRef: currentUserDocRef,
+      createdAt: firebase.firestore.FieldValue.serverTimestamp(),
     });
 
     batch.commit();

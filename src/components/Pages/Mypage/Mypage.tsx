@@ -15,6 +15,7 @@ import { Tags } from "components/Pages/Mypage/Tag/Tags";
 import { Favorites } from "components/Pages/Favorite/Favorites";
 import { NoMatch } from "components/Pages/NoMatch";
 import { TimeLine } from "components/Pages/Home/TimeLine";
+import { useFetchVideos } from "utils/useFetchVideos";
 
 const DividerSP = styled(Divider)`
   width: 100%;
@@ -29,22 +30,27 @@ type MypageProps = {
 
 export const Mypage: FC<MypageProps> = ({ currentUser }) => {
   const match = useRouteMatch();
-  const { tags, tagsLoading } = useFetchTags({ user: currentUser });
+  const { tags, tagsLoading } = useFetchTags({ uid: currentUser.uid });
+  const { videos, videosLoading } = useFetchVideos({ uid: currentUser.uid });
 
   return (
     <TagsContext.Provider value={{ tags, tagsLoading }}>
       <Grid>
-        <Grid.Column computer={4} mobile={16}>
+        <Grid.Column computer={3} mobile={16}>
           <SideMenu currentUser={currentUser} />
         </Grid.Column>
         <DividerSP />
-        <Grid.Column computer={12} mobile={16}>
+        <Grid.Column computer={13} mobile={16}>
           <Switch>
             <Route exact path="/home">
               <TimeLine currentUser={currentUser} />
             </Route>
             <Route exact path={`${match.path}/videos`}>
-              <Videos user={currentUser} />
+              <Videos
+                user={currentUser}
+                videos={videos}
+                videosLoading={videosLoading}
+              />
             </Route>
             <Route exact path={`${match.path}/videos/new`}>
               <New currentUser={currentUser} />

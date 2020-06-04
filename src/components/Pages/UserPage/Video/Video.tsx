@@ -4,14 +4,27 @@ import moment from "moment";
 import { useVideo } from "utils/useVideo";
 import { VideoView } from "components/Pages/VideoView";
 import { Loading } from "components/Common/Loading";
-import { Divider, Icon } from "semantic-ui-react";
+import { Divider } from "semantic-ui-react";
 import { Comment } from "components/Common/Comment";
 import { VideoDate } from "components/Common/VideoDate";
-import { AuthContext, FirebaseContext } from "context";
-import { likeVideo } from "utils/likeVideo";
-import { unlikeVideo } from "utils/unlikeVideo";
-import { useLikeVideo } from "utils/useLikeVideo";
+import { AuthContext } from "context";
+import { FavoriteButton } from "components/Common/FavoriteBtn";
+import styled from "styled-components";
 import { TagButtons } from "./TagButtons";
+
+const VideoInfoWrapper = styled.div`
+  display: flex;
+  align-items: center;
+  time {
+    flex: 0 1 auto;
+  }
+  i {
+    flex-shrink: 0;
+  }
+  div {
+    flex: 1 1 auto;
+  }
+`;
 
 type Params = RouteComponentProps & {
   uid: string;
@@ -23,12 +36,6 @@ export const Video: FC = () => {
   const { uid, id } = match.params;
   const { video, loading } = useVideo({ uid, id });
   const { currentUser } = useContext(AuthContext);
-  const { db } = useContext(FirebaseContext);
-  const { videoLiked, likeLoading, setVideoLiked } = useLikeVideo({
-    db,
-    currentUser,
-    videoDocId: id,
-  });
 
   if (loading) {
     return <Loading />;
@@ -38,47 +45,18 @@ export const Video: FC = () => {
     return <p>見つかりません</p>;
   }
 
-  const handleClickLike = async () => {
-    console.log(currentUser);
-    if (currentUser) {
-      await likeVideo({
-        db,
-        currentUser,
-        likedVideoUserId: uid,
-        videoDocId: id,
-      });
-      setVideoLiked(true);
-      console.log("liked!!!!");
-    }
-  };
-
-  const handleClickUnlike = async () => {
-    if (currentUser) {
-      await unlikeVideo({
-        db,
-        currentUser,
-        likedVideoUserId: uid,
-        videoDocId: id,
-      });
-      setVideoLiked(false);
-      console.log("unlike!!!");
-    }
-  };
-
   return (
     <>
       <VideoView videoId={video.videoId} videoType={video.type} />
-      <div>
+      <VideoInfoWrapper>
         <VideoDate>
-          {moment(video.updatedAt.toDate()).format("YYYY年MM月DD日")}
+          {moment(video.updatedAt.toDate()).format("YYYY/MM/DD")}
         </VideoDate>
-        {video.tags && <TagButtons tags={video.tags} uid={uid} />}
-        {videoLiked ? (
-          <Icon name="favorite" color="yellow" onClick={handleClickUnlike} />
-        ) : (
-          <Icon name="favorite" color="grey" onClick={handleClickLike} />
+        <div>{video.tags && <TagButtons tags={video.tags} uid={uid} />}</div>
+        {currentUser && (
+          <FavoriteButton currentUser={currentUser} video={video} />
         )}
-      </div>
+      </VideoInfoWrapper>
       <Divider />
       <Comment>{video.comment}</Comment>
     </>

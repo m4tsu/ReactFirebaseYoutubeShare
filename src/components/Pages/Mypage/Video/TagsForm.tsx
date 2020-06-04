@@ -2,7 +2,6 @@ import React, { FC, useState, useContext, useEffect } from "react";
 import Creatable from "react-select/creatable";
 import { components } from "react-select";
 import { TagsContext } from "context";
-import styled from "styled-components";
 
 type TagOption = {
   label: string;
@@ -34,9 +33,6 @@ export const TagsForm: FC<TagFormProps> = ({ setVideoTags, initialTags }) => {
   // const [isValidNewOption, setIsValidNewOption] = useState(true);
   const [newTag, setNewTag] = useState<string>("");
   const { tags, tagsLoading } = useContext(TagsContext);
-  console.log(tags);
-  console.log(selectedTagOptions);
-  console.log(tagOptions);
 
   const isValidNewOption = (inputValue: any, selectValue: any) =>
     inputValue.length > 0 && selectValue.length < 5;
