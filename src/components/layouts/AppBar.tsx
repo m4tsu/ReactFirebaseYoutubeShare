@@ -14,22 +14,6 @@ import { useAuth } from "utils/useAuth";
 import { Link } from "react-router-dom";
 import { MenuItemLink } from "components/Common/MenuItemLink";
 
-const DropdownLink = styled(Link)`
-  display: block;
-  padding: 1em;
-  text-align: center;
-  color: rgba(0, 0, 0, 0.87) !important;
-
-  :hover {
-    background: rgba(0, 0, 0, 0.05) !important;
-    color: rgba(0, 0, 0, 0.95) !important;
-  }
-`;
-
-const DropdownItemCenter = styled(Dropdown.Item)`
-  text-align: center !important;
-`;
-
 const HeaderContainer = styled(Container)`
   justify-content: space-between;
   @media (max-width: 767px) {
@@ -60,19 +44,10 @@ const NoPaddedMenuItemSP = styled(NoPaddedMenuItem)`
 
 const SidebarPushable = styled(Sidebar.Pushable)`
   height: 100vh;
-`;
-
-const NoPaddedMenuItemSide = styled(NoPaddedMenuItem)`
-  ::before {
-    content: none !important;
-  }
-  :hover {
-    background: rgba(0, 0, 0, 0.05) !important;
-    color: rgba(0, 0, 0, 0.95) !important;
-  }
-
-  a {
-    color: inherit;
+  .ui.vertical.sidebar.menu > .item {
+    ::before {
+      content: none !important;
+    }
   }
 `;
 
@@ -103,9 +78,9 @@ export const AppBar: FC = ({ children }) => {
     <>
       <Menu fixed="top" inverted color="teal" id="AppBar">
         <HeaderContainer>
-          <NoPaddedMenuItem header>
-            <MenuItemLink to="/">つべったー</MenuItemLink>
-          </NoPaddedMenuItem>
+          <Menu.Item header as={Link} to="/">
+            つべったー
+          </Menu.Item>
           <FlexBox>
             <NoPaddedMenuItemPC header>
               <MenuItemLink to="/users">ユーザーを探す</MenuItemLink>
@@ -127,28 +102,37 @@ export const AppBar: FC = ({ children }) => {
                 trigger={<Image avatar src={currentUser.photoURL} />}
               >
                 <Dropdown.Menu id="AppSideMenu">
-                  <DropdownLink to="/mypage/videos">マイページ</DropdownLink>
-                  <DropdownLink to="/mypage/videos/new">
+                  {/* <DropdownLink to="/mypage/videos">マイページ</DropdownLink> */}
+                  <Dropdown.Item as={Link} to="/mypage/videos">
+                    マイページ
+                  </Dropdown.Item>
+                  <Dropdown.Item as={Link} to="/mypage/videos/new">
                     動画を登録する
-                  </DropdownLink>
-                  <DropdownLink to="/mypage/tags">タグ管理</DropdownLink>
+                  </Dropdown.Item>
+                  <Dropdown.Item as={Link} to="/mypage/tags">
+                    タグ管理
+                  </Dropdown.Item>
                   <Dropdown.Divider />
-                  <DropdownLink to="/mypage/following">フォロー中</DropdownLink>
-                  <DropdownLink to="/mypage/followers">フォロワー</DropdownLink>
-                  <DropdownLink to="/users">ユーザーを探す</DropdownLink>
+                  <Dropdown.Item as={Link} to="/mypage/following">
+                    フォロー中
+                  </Dropdown.Item>
+                  <Dropdown.Item as={Link} to="/mypage/followers">
+                    フォロワー
+                  </Dropdown.Item>
+                  <Dropdown.Item as={Link} to="/users">
+                    ユーザーを探す
+                  </Dropdown.Item>
                   <Dropdown.Divider />
-                  <DropdownLink to="/about">FAQ</DropdownLink>
+                  <Dropdown.Item as={Link} to="/about">
+                    FAQ
+                  </Dropdown.Item>
                   <Dropdown.Divider />
-                  <DropdownItemCenter onClick={signout}>
-                    ログアウト
-                  </DropdownItemCenter>
+                  <Dropdown.Item onClick={signout}>ログアウト</Dropdown.Item>
                 </Dropdown.Menu>
               </DropdownPC>
             ) : (
-              <Menu.Item>
-                <Link to="/login" style={{ fontWeight: 700 }}>
-                  ログイン
-                </Link>
+              <Menu.Item as={Link} to="/login">
+                ログイン
               </Menu.Item>
             )}
           </FlexBox>
@@ -164,31 +148,28 @@ export const AppBar: FC = ({ children }) => {
             vertical
             direction="right"
             visible={visible}
-            // secondary
             width="thin"
           >
-            <NoPaddedMenuItemSide>
-              <MenuItemLink to="/mypage/videos">マイページ</MenuItemLink>
-            </NoPaddedMenuItemSide>
-            <NoPaddedMenuItemSide>
-              <MenuItemLink to="/mypage/videos/new">
-                動画を登録する
-              </MenuItemLink>
-            </NoPaddedMenuItemSide>
+            <Menu.Item as={Link} to="/mypage/videos">
+              マイページ
+            </Menu.Item>
+            <Menu.Item as={Link} to="/mypage/videos/new">
+              動画を登録する
+            </Menu.Item>
             <SidebarDivider />
-            <NoPaddedMenuItemSide>
-              <MenuItemLink to="/mypage/following">フォロー中</MenuItemLink>
-            </NoPaddedMenuItemSide>
-            <NoPaddedMenuItemSide>
-              <MenuItemLink to="/mypage/followers">フォロワー</MenuItemLink>
-            </NoPaddedMenuItemSide>
-            <NoPaddedMenuItemSide>
-              <MenuItemLink to="/users">ユーザーを探す</MenuItemLink>
-            </NoPaddedMenuItemSide>
+            <Menu.Item as={Link} to="/mypage/following">
+              フォロー中
+            </Menu.Item>
+            <Menu.Item as={Link} to="/mypage/followers">
+              フォロワー
+            </Menu.Item>
+            <Menu.Item as={Link} to="/users">
+              ユーザーを探す
+            </Menu.Item>
             <SidebarDivider />
-            <NoPaddedMenuItemSide>
-              <MenuItemLink to="/about">FAQ</MenuItemLink>
-            </NoPaddedMenuItemSide>
+            <Menu.Item as={Link} to="/about">
+              FAQ
+            </Menu.Item>
             <SidebarDivider />
             <Menu.Item onClick={signout}>ログアウト</Menu.Item>
           </Sidebar>

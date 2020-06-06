@@ -47,9 +47,6 @@ export const useLikeVideos = ({ user, activePage, videoPerPage }: Arg) => {
     const startVideoIndex = (activePage - 1) * videoPerPage;
 
     const load = async () => {
-      console.log(
-        likeVideosRef.slice(startVideoIndex, startVideoIndex + videoPerPage)
-      );
       if (likeVideosRef.length === 0) return;
       setLoading(true);
       try {

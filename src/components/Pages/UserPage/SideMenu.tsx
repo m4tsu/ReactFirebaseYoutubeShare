@@ -1,18 +1,13 @@
 import React, { FC, useContext, useState, useEffect } from "react";
-import { Menu, Image, Grid } from "semantic-ui-react";
+import { Menu } from "semantic-ui-react";
 import { AuthContext, FirebaseContext, SideMenuContext } from "context";
-import styled from "styled-components";
 import { Link } from "react-router-dom";
 import { AppUser } from "types/AppUser";
 import { checkFollow } from "utils/checkFollow";
 import { CenteredMenu } from "components/Common/CenteredMenu";
-import { MenuItemLink } from "components/Common/MenuItemLink";
+// import { MenuItemLink } from "components/Common/MenuItemLink";
 import { UserInfo, CenteredImage } from "components/Common/SideMenuUserInfo";
 import { FollowBtn } from "./FollowBtn";
-
-const NoPaddedMenuItem = styled(Menu.Item)`
-  padding: 0 !important;
-`;
 
 type SideMenuProps = {
   user: AppUser;
@@ -64,15 +59,27 @@ export const SideMenu: FC<SideMenuProps> = ({ user }) => {
           </div>
         </UserInfo>
       </Menu.Item>
-      <NoPaddedMenuItem active={menuLocation === "videos"}>
-        <MenuItemLink to={`/${user.uid}/videos`}>登録動画一覧</MenuItemLink>
-      </NoPaddedMenuItem>
-      <NoPaddedMenuItem active={menuLocation === "following"}>
-        <MenuItemLink to={`/${user.uid}/following`}>フォロー中</MenuItemLink>
-      </NoPaddedMenuItem>
-      <NoPaddedMenuItem active={menuLocation === "followers"}>
-        <MenuItemLink to={`/${user.uid}/followers`}>フォロワー</MenuItemLink>
-      </NoPaddedMenuItem>
+      <Menu.Item
+        active={menuLocation === "videos"}
+        as={Link}
+        to={`/${user.uid}/videos`}
+      >
+        登録動画一覧
+      </Menu.Item>
+      <Menu.Item
+        active={menuLocation === "following"}
+        as={Link}
+        to={`/${user.uid}/following`}
+      >
+        フォロー中
+      </Menu.Item>
+      <Menu.Item
+        active={menuLocation === "followers"}
+        as={Link}
+        to={`/${user.uid}/followers`}
+      >
+        フォロワー
+      </Menu.Item>
     </CenteredMenu>
   );
 };

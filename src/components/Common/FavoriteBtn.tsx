@@ -64,7 +64,11 @@ export const FavoriteButton: FC<FavoriteButtonProps> = ({
       videoDocId: video.id,
     });
     setVideoLiked(true);
-    setLikeCount(likeCount + 1);
+    setLikeCount((prevCount) => {
+      const count = prevCount ? prevCount + 1 : 1;
+
+      return count;
+    });
   };
 
   const handleClickUnlike = async (

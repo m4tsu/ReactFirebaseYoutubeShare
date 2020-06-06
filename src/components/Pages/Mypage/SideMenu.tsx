@@ -6,6 +6,7 @@ import { CenteredMenu } from "components/Common/CenteredMenu";
 import { AppUser } from "types/AppUser";
 import { MenuItemLink } from "components/Common/MenuItemLink";
 import { UserInfo, CenteredImage } from "components/Common/SideMenuUserInfo";
+import { Link } from "react-router-dom";
 
 const NoPaddedMenuItem = styled(Menu.Item)`
   padding: 0 !important;
@@ -27,24 +28,44 @@ export const SideMenu: FC<SideMenuProps> = ({ currentUser }) => {
           <div>{currentUser.displayName}</div>
         </UserInfo>
       </Menu.Item>
-      <NoPaddedMenuItem active={menuLocation === "home"}>
-        <MenuItemLink to="/home">タイムライン</MenuItemLink>
-      </NoPaddedMenuItem>
-      <NoPaddedMenuItem active={menuLocation === "videos"}>
-        <MenuItemLink to="/mypage/videos">登録動画一覧</MenuItemLink>
-      </NoPaddedMenuItem>
-      <NoPaddedMenuItem active={menuLocation === "new"}>
-        <MenuItemLink to="/mypage/videos/new">動画を登録する</MenuItemLink>
-      </NoPaddedMenuItem>
-      <NoPaddedMenuItem active={menuLocation === "favorites"}>
-        <MenuItemLink to="/mypage/favorites">お気に入り</MenuItemLink>
-      </NoPaddedMenuItem>
-      <NoPaddedMenuItem active={menuLocation === "following"}>
-        <MenuItemLink to="/mypage/following">フォロー中</MenuItemLink>
-      </NoPaddedMenuItem>
-      <NoPaddedMenuItem active={menuLocation === "followers"}>
-        <MenuItemLink to="/mypage/followers">フォロワー</MenuItemLink>
-      </NoPaddedMenuItem>
+      <Menu.Item active={menuLocation === "home"} as={Link} to="/home">
+        タイムライン
+      </Menu.Item>
+      <Menu.Item
+        active={menuLocation === "videos"}
+        as={Link}
+        to="/mypage/videos"
+      >
+        登録動画一覧
+      </Menu.Item>
+      <Menu.Item
+        active={menuLocation === "new"}
+        as={Link}
+        to="/mypage/videos/new"
+      >
+        動画を登録する
+      </Menu.Item>
+      <Menu.Item
+        active={menuLocation === "favorites"}
+        as={Link}
+        to="/mypage/favorites"
+      >
+        お気に入り
+      </Menu.Item>
+      <Menu.Item
+        active={menuLocation === "following"}
+        as={Link}
+        to="/mypage/following"
+      >
+        フォロー中
+      </Menu.Item>
+      <Menu.Item
+        active={menuLocation === "followers"}
+        as={Link}
+        to="/mypage/followers"
+      >
+        フォロワー
+      </Menu.Item>
     </CenteredMenu>
   );
 };
