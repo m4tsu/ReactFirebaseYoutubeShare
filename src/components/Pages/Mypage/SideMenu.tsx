@@ -1,22 +1,17 @@
-import React, { FC, useContext } from "react";
+/* eslint-disable react/display-name */
+import React, { useContext } from "react";
 import { Menu } from "semantic-ui-react";
 import { SideMenuContext } from "context";
-import styled from "styled-components";
 import { CenteredMenu } from "components/Common/CenteredMenu";
 import { AppUser } from "types/AppUser";
-import { MenuItemLink } from "components/Common/MenuItemLink";
 import { UserInfo, CenteredImage } from "components/Common/SideMenuUserInfo";
 import { Link } from "react-router-dom";
-
-const NoPaddedMenuItem = styled(Menu.Item)`
-  padding: 0 !important;
-`;
 
 type SideMenuProps = {
   currentUser: AppUser;
 };
 
-export const SideMenu: FC<SideMenuProps> = ({ currentUser }) => {
+export const SideMenu = React.memo<SideMenuProps>(({ currentUser }) => {
   const { menuLocation } = useContext(SideMenuContext);
 
   return (
@@ -36,7 +31,7 @@ export const SideMenu: FC<SideMenuProps> = ({ currentUser }) => {
         as={Link}
         to="/mypage/videos"
       >
-        登録動画一覧
+        動画
       </Menu.Item>
       <Menu.Item
         active={menuLocation === "new"}
@@ -68,4 +63,4 @@ export const SideMenu: FC<SideMenuProps> = ({ currentUser }) => {
       </Menu.Item>
     </CenteredMenu>
   );
-};
+});

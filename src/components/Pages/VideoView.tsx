@@ -1,5 +1,5 @@
 import React, { FC } from "react";
-import { VideoIdType } from "utils/validateUrl";
+import { VideoIdType } from "hooks/validateUrl";
 import styled from "styled-components";
 import { VideoType } from "types/Video";
 

@@ -1,5 +1,5 @@
 import React, { FC, useEffect, useContext } from "react";
-import { useFollowers } from "utils/useFollowers";
+import { useFollowers } from "hooks/useFollowers";
 import { Loading } from "components/Common/Loading";
 import { SideMenuContext } from "context";
 import { Message } from "semantic-ui-react";

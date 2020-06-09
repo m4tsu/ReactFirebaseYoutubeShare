@@ -10,7 +10,7 @@ import {
   Divider,
 } from "semantic-ui-react";
 import styled from "styled-components";
-import { useAuth } from "utils/useAuth";
+import { useAuth } from "hooks/useAuth";
 import { Link } from "react-router-dom";
 import { MenuItemLink } from "components/Common/MenuItemLink";
 

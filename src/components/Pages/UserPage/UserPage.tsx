@@ -11,14 +11,14 @@ import {
 import { Videos } from "components/Pages/Videos";
 import { Video } from "components/Pages/UserPage/Video/Video";
 import { SideMenu } from "components/Pages/UserPage/SideMenu";
-import { useUser } from "utils/useUser";
+import { useUser } from "hooks/useUser";
 import { Following } from "components/Pages/Following";
 import { Followers } from "components/Pages/Followers";
 import { Loading } from "components/Common/Loading";
 import { AuthContext, TagsContext } from "context";
-import { useFetchTags } from "utils/useFetchTags";
+import { useFetchTags } from "hooks/useFetchTags";
 import styled from "styled-components";
-import { useFetchVideos } from "utils/useFetchVideos";
+import { useFetchVideos } from "hooks/useFetchVideos";
 import { NoMatch } from "../NoMatch";
 import { LikedUsers } from "../LikedUsers/LikedUsers";
 
@@ -33,7 +33,7 @@ type Params = RouteComponentProps & {
   uid: string;
 };
 
-export const UserPage: FC = () => {
+export const UserPage = React.memo(() => {
   const match = useRouteMatch<Params>();
   const { currentUser } = useContext(AuthContext);
   const { uid } = match.params;
@@ -87,4 +87,4 @@ export const UserPage: FC = () => {
       </Grid>
     </TagsContext.Provider>
   );
-};
+});

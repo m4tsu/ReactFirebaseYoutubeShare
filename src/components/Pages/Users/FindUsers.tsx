@@ -1,6 +1,6 @@
 import React, { FC, useContext, useState } from "react";
 import { FirebaseContext } from "context";
-import { findOtherUser } from "utils/findOtherUser";
+import { findOtherUser } from "hooks/findOtherUser";
 import { Form, Divider } from "semantic-ui-react";
 import { AppUser } from "types/AppUser";
 import styled from "styled-components";

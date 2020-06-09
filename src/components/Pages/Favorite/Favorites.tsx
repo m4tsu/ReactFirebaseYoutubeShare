@@ -5,7 +5,7 @@ import queryString from "query-string";
 import { SideMenuContext } from "context";
 import { useLocation, useRouteMatch, useHistory } from "react-router-dom";
 import { PaginationVideos } from "components/Pages/Mypage/PaginationVideos";
-import { useLikeVideos } from "utils/useLikeVideos";
+import { useLikeVideos } from "hooks/useLikeVideos";
 import { Loading } from "components/Common/Loading";
 
 type FavoritesProps = {

@@ -2,10 +2,10 @@ import React, { FC, useContext, useState } from "react";
 import styled from "styled-components";
 import { Icon } from "semantic-ui-react";
 import { AppUser } from "types/AppUser";
-import { useLikeVideo } from "utils/useLikeVideo";
-import { likeVideo } from "utils/likeVideo";
+import { useLikeVideo } from "hooks/useLikeVideo";
+import { likeVideo } from "hooks/likeVideo";
 import { Video } from "types/Video";
-import { unlikeVideo } from "utils/unlikeVideo";
+import { unlikeVideo } from "hooks/unlikeVideo";
 import { FirebaseContext } from "context";
 import { Link } from "react-router-dom";
 
@@ -27,6 +27,12 @@ const NotFavorited = styled(Icon)`
       color: #fbbd08 !important;
     }
   }
+`;
+
+const FavoriteWrapper = styled.div`
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
 `;
 
 const LikeCount = styled(Link)`
@@ -87,7 +93,7 @@ export const FavoriteButton: FC<FavoriteButtonProps> = ({
   };
 
   return (
-    <span>
+    <FavoriteWrapper>
       {videoLiked ? (
         <Favorited
           name="favorite"
@@ -108,6 +114,6 @@ export const FavoriteButton: FC<FavoriteButtonProps> = ({
       <LikeCount to={`/${video.user.uid}/videos/${video.id}/favorites`}>
         {likeCount}
       </LikeCount>
-    </span>
+    </FavoriteWrapper>
   );
 };

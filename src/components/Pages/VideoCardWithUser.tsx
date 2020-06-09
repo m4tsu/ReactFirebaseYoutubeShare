@@ -57,18 +57,10 @@ const VideoCardBody = styled(PaginationVideoCardBody)`
 const ButtonsWrapper = styled.div`
   display: flex;
   align-items: center;
-  div {
-    flex: 1 1 auto;
-  }
-  i {
-    flex-shrink: 0;
-    margin-left: 0.5em;
-  }
-  span {
-    display: flex;
-    flex-shrink: 0;
-    align-items: baseline;
-  }
+`;
+
+const TagButtons = styled.div`
+  flex: 1 1 auto;
 `;
 
 type VideoCardWithUserProps = {
@@ -76,45 +68,43 @@ type VideoCardWithUserProps = {
   scroll?: boolean;
 };
 
-export const VideoCardWithUser: FC<VideoCardWithUserProps> = ({
-  video,
-  scroll,
-}) => {
-  const history = useHistory();
-  const { currentUser } = useContext(AuthContext);
+// eslint-disable-next-line react/display-name
+export const VideoCardWithUser = React.memo<VideoCardWithUserProps>(
+  ({ video, scroll }) => {
+    const history = useHistory();
+    const { currentUser } = useContext(AuthContext);
 
-  const handleTagClick = (
-    e: React.MouseEvent<HTMLButtonElement, MouseEvent>,
-    data: ButtonProps
-  ) => {
-    history.push(`/${data.uid}/videos#${data.taglabel}`);
-    e.preventDefault();
-  };
+    const handleTagClick = (
+      e: React.MouseEvent<HTMLButtonElement, MouseEvent>,
+      data: ButtonProps
+    ) => {
+      history.push(`/${data.uid}/videos#${data.taglabel}`);
+      e.preventDefault();
+    };
 
-  return (
-    <Link to={`/${video.user.uid}/videos/${video.id}`}>
-      <VideoCard scroll={scroll}>
-        <Grid centered>
-          <Grid.Column width={3}>
-            <Link to={`/${video.user.uid}/videos`}>
-              <NoMarginImg circular src={video.user.photoURL} />
-            </Link>
-          </Grid.Column>
-          <Grid.Column width={13} style={{ paddingLeft: "0" }}>
-            <VideoCardHeader>
+    return (
+      <Link to={`/${video.user.uid}/videos/${video.id}`}>
+        <VideoCard scroll={scroll}>
+          <Grid centered style={{ padding: "0.5em!important" }}>
+            <Grid.Column width={3}>
               <Link to={`/${video.user.uid}/videos`}>
-                {video.user.displayName}
+                <NoMarginImg circular src={video.user.photoURL} />
               </Link>
-              <time>
-                {moment(video.createdAt.toDate()).format("YYYY/MM/DD")}
-              </time>
-            </VideoCardHeader>
+            </Grid.Column>
+            <Grid.Column width={13} style={{ paddingLeft: "0" }}>
+              <VideoCardHeader>
+                <Link to={`/${video.user.uid}/videos`}>
+                  {video.user.displayName}
+                </Link>
+                <time>
+                  {moment(video.createdAt.toDate()).format("YYYY/MM/DD")}
+                </time>
+              </VideoCardHeader>
 
-            <VideoView videoId={video.videoId} videoType={video.type} />
-            <VideoCardBody>
-              <VideoCardComment>
+              <VideoView videoId={video.videoId} videoType={video.type} />
+              <VideoCardBody>
                 <ButtonsWrapper>
-                  <div>
+                  <TagButtons>
                     {video.tags &&
                       video.tags.map((tag) => {
                         return (
@@ -130,18 +120,17 @@ export const VideoCardWithUser: FC<VideoCardWithUserProps> = ({
                           </TagButton>
                         );
                       })}
-                  </div>
+                  </TagButtons>
                   {currentUser && (
                     <FavoriteButton currentUser={currentUser} video={video} />
                   )}
                 </ButtonsWrapper>
-
-                <p>{video.comment}</p>
-              </VideoCardComment>
-            </VideoCardBody>
-          </Grid.Column>
-        </Grid>
-      </VideoCard>
-    </Link>
-  );
-};
+                <VideoCardComment>{video.comment}</VideoCardComment>
+              </VideoCardBody>
+            </Grid.Column>
+          </Grid>
+        </VideoCard>
+      </Link>
+    );
+  }
+);

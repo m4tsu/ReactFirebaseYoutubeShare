@@ -10,9 +10,9 @@ import {
   TextAreaProps,
   Icon,
 } from "semantic-ui-react";
-import { VideoIdType, validateUrl } from "utils/validateUrl";
+import { VideoIdType, validateUrl } from "hooks/validateUrl";
 import { VideoView } from "components/Pages/VideoView";
-import { addVideo } from "utils/addVideo";
+import { addVideo } from "hooks/addVideo";
 import { VideoType } from "types/Video";
 import styled from "styled-components";
 import { ShareModal } from "components/Common/ShareModal";

@@ -9,10 +9,6 @@ export const PaginationVideoCard = styled(Segment)`
   text-align: left;
   transition-duration: 0.3s;
 
-  p {
-    margin: 0.4em 0;
-  }
-
   :hover {
     box-shadow: 0 2px 8px #bbb;
   }
@@ -26,13 +22,14 @@ export const PaginationVideoCardBody = styled.div`
 `;
 
 export const TagButton = styled(Button)`
-  margin-bottom: 0.2em !important;
+  margin-bottom: 0 !important;
   margin-right: 0.5em !important;
+  padding: 0.5em 1.2em !important;
 `;
 
 export const PaginationWrapper = styled.div`
   display: flex;
   justify-content: center;
-  padding: 2em;
+  padding: 1em;
   width: 100%;
 `;

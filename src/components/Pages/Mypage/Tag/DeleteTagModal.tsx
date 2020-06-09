@@ -1,7 +1,7 @@
 import React, { FC } from "react";
 import { AppUser } from "types/AppUser";
 import { Modal, Button } from "semantic-ui-react";
-import { deleteTag } from "utils/deleteTag";
+import { deleteTag } from "hooks/deleteTag";
 
 type Props = {
   currentUser: AppUser;

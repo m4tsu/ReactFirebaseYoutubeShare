@@ -1,11 +1,11 @@
-import React, { FC, useContext, useState, useEffect } from "react";
+/* eslint-disable react/display-name */
+import React, { useContext, useState, useEffect } from "react";
 import { Menu } from "semantic-ui-react";
 import { AuthContext, FirebaseContext, SideMenuContext } from "context";
 import { Link } from "react-router-dom";
 import { AppUser } from "types/AppUser";
-import { checkFollow } from "utils/checkFollow";
+import { checkFollow } from "hooks/checkFollow";
 import { CenteredMenu } from "components/Common/CenteredMenu";
-// import { MenuItemLink } from "components/Common/MenuItemLink";
 import { UserInfo, CenteredImage } from "components/Common/SideMenuUserInfo";
 import { FollowBtn } from "./FollowBtn";
 
@@ -13,7 +13,7 @@ type SideMenuProps = {
   user: AppUser;
 };
 
-export const SideMenu: FC<SideMenuProps> = ({ user }) => {
+export const SideMenu = React.memo<SideMenuProps>(({ user }) => {
   const [isFollowing, setIsFollowing] = useState<boolean>(false);
   const [loadFollow, setLoadFollow] = useState(false);
   const { menuLocation } = useContext(SideMenuContext);
@@ -64,7 +64,7 @@ export const SideMenu: FC<SideMenuProps> = ({ user }) => {
         as={Link}
         to={`/${user.uid}/videos`}
       >
-        登録動画一覧
+        動画
       </Menu.Item>
       <Menu.Item
         active={menuLocation === "following"}
@@ -82,4 +82,4 @@ export const SideMenu: FC<SideMenuProps> = ({ user }) => {
       </Menu.Item>
     </CenteredMenu>
   );
-};
+});

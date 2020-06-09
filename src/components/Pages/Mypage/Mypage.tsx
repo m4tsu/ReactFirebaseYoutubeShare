@@ -8,14 +8,14 @@ import { SideMenu } from "components/Pages/Mypage/SideMenu";
 import { TagsContext } from "context";
 import { Following } from "components/Pages/Following";
 import { Followers } from "components/Pages/Followers";
-import { useFetchTags } from "utils/useFetchTags";
+import { useFetchTags } from "hooks/useFetchTags";
 import { AppUser } from "types/AppUser";
 import styled from "styled-components";
 import { Tags } from "components/Pages/Mypage/Tag/Tags";
 import { Favorites } from "components/Pages/Favorite/Favorites";
 import { NoMatch } from "components/Pages/NoMatch";
 import { TimeLine } from "components/Pages/Home/TimeLine";
-import { useFetchVideos } from "utils/useFetchVideos";
+import { useFetchVideos } from "hooks/useFetchVideos";
 
 const DividerSP = styled(Divider)`
   width: 100%;
@@ -28,7 +28,7 @@ type MypageProps = {
   currentUser: AppUser;
 };
 
-export const Mypage: FC<MypageProps> = ({ currentUser }) => {
+export const Mypage = React.memo<MypageProps>(({ currentUser }) => {
   const match = useRouteMatch();
   const { tags, tagsLoading } = useFetchTags({ uid: currentUser.uid });
   const { videos, videosLoading } = useFetchVideos({ uid: currentUser.uid });
@@ -76,4 +76,4 @@ export const Mypage: FC<MypageProps> = ({ currentUser }) => {
       </Grid>
     </TagsContext.Provider>
   );
-};
+});

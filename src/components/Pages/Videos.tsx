@@ -1,7 +1,7 @@
 import React, { FC, useContext, useEffect, useState, useMemo } from "react";
 import { PaginationProps, Dropdown, DropdownProps } from "semantic-ui-react";
 import queryString from "query-string";
-import { useVideos } from "utils/useVideos";
+import { useVideos } from "hooks/useVideos";
 import { useRouteMatch, useLocation, useHistory } from "react-router-dom";
 import { Loading } from "components/Common/Loading";
 import { SideMenuContext, TagsContext } from "context";
@@ -17,7 +17,7 @@ type VideosProps = {
 };
 
 const StyledDropdown = styled(Dropdown)`
-  margin-bottom: 1.5em;
+  margin-bottom: 1em;
 `;
 
 const videoPerPage = 4;
@@ -71,7 +71,6 @@ export const Videos: FC<VideosProps> = ({ user, videos, videosLoading }) => {
   const pageVideos = useMemo(() => {
     const topVideoIndex = (activePage - 1) * videoPerPage;
 
-    // return videos.slice(topVideoIndex, topVideoIndex + videoPerPage);
     return filterdVideos.slice(topVideoIndex, topVideoIndex + videoPerPage);
   }, [activePage, filterdVideos]);
 

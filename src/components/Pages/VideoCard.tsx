@@ -1,3 +1,4 @@
+/* eslint-disable react/display-name */
 import React, { FC, useContext } from "react";
 import { Video } from "types/Video";
 import styled from "styled-components";
@@ -18,27 +19,23 @@ const VideoCardBody = styled.div`
   height: 100%;
   justify-content: flex-start;
   flex-direction: column;
-  span {
-    margin-bottom: 0.5em;
-  }
 `;
 
 const ButtonsWrapper = styled.div`
+  margin-top: 0.2em;
   display: flex;
-  div {
-    flex: 1 1 auto;
-  }
-  i {
-    flex-shrink: 0;
-    margin-left: 0.5em;
-  }
+  align-items: center;
+`;
+
+const TagButtons = styled.div`
+  flex: 1 1 auto;
 `;
 
 type VideoCardProps = {
   video: Video;
 };
 
-export const VideoCard: FC<VideoCardProps> = ({ video }) => {
+export const VideoCard = React.memo<VideoCardProps>(({ video }) => {
   const history = useHistory();
   const match = useRouteMatch();
   const { currentUser } = useContext(AuthContext);
@@ -62,7 +59,7 @@ export const VideoCard: FC<VideoCardProps> = ({ video }) => {
         <VideoCardBody>
           <span>{moment(video.updatedAt.toDate()).format("YYYY/MM/DD")}</span>
           <ButtonsWrapper>
-            <div>
+            <TagButtons>
               {video.tags &&
                 video.tags.map((tag) => {
                   return (
@@ -78,17 +75,15 @@ export const VideoCard: FC<VideoCardProps> = ({ video }) => {
                     </TagButton>
                   );
                 })}
-            </div>
+            </TagButtons>
             {currentUser && (
               <FavoriteButton currentUser={currentUser} video={video} />
             )}
           </ButtonsWrapper>
 
-          <VideoCardComment>
-            <p>{video.comment}</p>
-          </VideoCardComment>
+          <VideoCardComment>{video.comment}</VideoCardComment>
         </VideoCardBody>
       </PaginationVideoCard>
     </Link>
   );
-};
+});

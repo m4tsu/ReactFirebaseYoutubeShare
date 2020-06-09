@@ -2,8 +2,8 @@ import React, { FC, useState, useEffect, useRef } from "react";
 import { firebase, db, auth } from "FirebaseConfig";
 import { FirebaseContext, AuthContext } from "context";
 import { AppUser } from "types/AppUser";
-import { writeUser } from "utils/writeUser";
-import { findUser } from "utils/findUser";
+import { writeUser } from "hooks/writeUser";
+import { findUser } from "hooks/findUser";
 
 export const FirebaseApp: FC = ({ children }) => {
   const [currentUser, setCurrentUser] = useState<AppUser | null>(null);

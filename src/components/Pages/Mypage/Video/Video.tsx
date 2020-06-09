@@ -1,7 +1,7 @@
 import React, { FC, useContext, useState } from "react";
 import { useRouteMatch, RouteComponentProps } from "react-router-dom";
 import { TwitterShareButton } from "react-share";
-import { useVideo } from "utils/useVideo";
+import { useVideo } from "hooks/useVideo";
 import { VideoView } from "components/Pages/VideoView";
 import { Loading } from "components/Common/Loading";
 import styled from "styled-components";

@@ -1,7 +1,7 @@
 import React, { FC, useContext } from "react";
 import { useRouteMatch, RouteComponentProps } from "react-router-dom";
 import moment from "moment";
-import { useVideo } from "utils/useVideo";
+import { useVideo } from "hooks/useVideo";
 import { VideoView } from "components/Pages/VideoView";
 import { Loading } from "components/Common/Loading";
 import { Divider } from "semantic-ui-react";

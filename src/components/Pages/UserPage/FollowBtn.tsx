@@ -1,8 +1,8 @@
 import React, { FC, useContext } from "react";
 import { AppUser } from "types/AppUser";
 import { Button } from "semantic-ui-react";
-import { follow } from "utils/follow";
-import { unFollow } from "utils/unFollow";
+import { follow } from "hooks/follow";
+import { unFollow } from "hooks/unFollow";
 import { FirebaseContext } from "context";
 
 type Props = {

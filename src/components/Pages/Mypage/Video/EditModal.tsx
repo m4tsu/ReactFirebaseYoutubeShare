@@ -6,7 +6,7 @@ import {
   TextArea,
   Form,
 } from "semantic-ui-react";
-import { editVideo } from "utils/editVideo";
+import { editVideo } from "hooks/editVideo";
 import { Video } from "types/Video";
 import { TagsForm } from "components/Pages/Mypage/Video/TagsForm";
 

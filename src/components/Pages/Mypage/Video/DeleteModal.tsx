@@ -1,7 +1,7 @@
 import React, { FC } from "react";
 import { Modal, Button } from "semantic-ui-react";
 import { useHistory } from "react-router";
-import { deleteVideo } from "utils/deleteVideo";
+import { deleteVideo } from "hooks/deleteVideo";
 
 type DeleteModalProps = {
   uid: string;

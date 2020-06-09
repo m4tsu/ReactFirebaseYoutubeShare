@@ -19,8 +19,6 @@ import { FindUsers } from "components/Pages/Users/FindUsers";
 import { ScrollToTop } from "components/Pages/ScrollToTop";
 
 const Main = styled(Container)`
-  /* font-family: "Yu Gothic Medium", "游ゴシック Medium", YuGothic, "游ゴシック体",
-    "ヒラギノ角ゴ Pro W3", "メイリオ", sans-serif !important; */
   margin-bottom: 40px;
   margin-top: 40px;
 `;
@@ -47,8 +45,6 @@ const App = () => {
               <Route exact path="/login" component={Signin} />
               <Route exact path="/about" component={About} />
               <Route exact path="/users" component={FindUsers} />
-              {/* <Auth> */}
-              {/* TODO 今はmypageだけログイン必要だからそっちでリダイレクト仕込む */}
               <Route path="/mypage">
                 {currentUser ? (
                   <Mypage currentUser={currentUser} />
@@ -56,7 +52,6 @@ const App = () => {
                   <Redirect to="/login" />
                 )}
               </Route>
-              {/* </Auth> */}
               <Route exact path="/home">
                 {currentUser ? (
                   <Mypage currentUser={currentUser} />

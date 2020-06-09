@@ -1,19 +1,15 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import { FirebaseApp } from "FirebaseApp";
-import { ThemeProvider } from "styled-components";
 import "semantic-ui-css/semantic.min.css";
 import "./index.scss";
-import { theme } from "theme";
 import App from "./App";
 import * as serviceWorker from "./serviceWorker";
 
 ReactDOM.render(
   <React.StrictMode>
     <FirebaseApp>
-      <ThemeProvider theme={theme}>
-        <App />
-      </ThemeProvider>
+      <App />
     </FirebaseApp>
   </React.StrictMode>,
   document.getElementById("root")

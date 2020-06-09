@@ -5,7 +5,7 @@ import styled from "styled-components";
 import { Loading } from "components/Common/Loading";
 import { SideMenuContext } from "context";
 import { VideoCardWithUser } from "components/Pages/VideoCardWithUser";
-import { useFetchTimeLine } from "utils/useFetchTimeLine";
+import { useFetchTimeLine } from "hooks/useFetchTimeLine";
 
 const TimelineWrapper = styled.div`
   height: 84vh;
