@@ -1,7 +1,6 @@
 import React, { FC, useContext, useEffect, useState, useMemo } from "react";
 import { PaginationProps, Dropdown, DropdownProps } from "semantic-ui-react";
 import queryString from "query-string";
-import { useVideos } from "hooks/useVideos";
 import { useRouteMatch, useLocation, useHistory } from "react-router-dom";
 import { Loading } from "components/Common/Loading";
 import { SideMenuContext, TagsContext } from "context";
@@ -23,9 +22,7 @@ const StyledDropdown = styled(Dropdown)`
 const videoPerPage = 4;
 
 export const Videos: FC<VideosProps> = ({ user, videos, videosLoading }) => {
-  // const [filterTag, setFilterTag] = useState<string>("");
   const [filterTag, setFilterTag] = useState<string | null>(null);
-  // const { videos, loading } = useVideos({ user, filterTag });
   const [filterdVideos, setFilteredVideos] = useState<Video[]>(videos);
   const { setMenuLocation } = useContext(SideMenuContext);
   const [activePage, setActivePage] = useState<number>(1);
@@ -59,7 +56,6 @@ export const Videos: FC<VideosProps> = ({ user, videos, videosLoading }) => {
     setActivePage(page ? Number(page) : 1);
     const tagLabel = decodeURI(location.hash.substr(1));
     if (tagLabel) {
-      // setFilterTag(tags.some((tag) => tag.label === tagLabel) ? tagLabel : "");
       setFilterTag(tagLabel);
     }
   }, [location, tags]);

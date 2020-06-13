@@ -1,4 +1,4 @@
-import React, { FC, useContext } from "react";
+import React, { useContext } from "react";
 import { Grid, Divider } from "semantic-ui-react";
 import {
   Switch,

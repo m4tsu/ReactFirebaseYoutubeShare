@@ -1,4 +1,4 @@
-import React, { FC } from "react";
+import React from "react";
 import { Grid, Divider } from "semantic-ui-react";
 import { Switch, Route, useRouteMatch } from "react-router-dom";
 import { Videos } from "components/Pages/Videos";

@@ -13,8 +13,6 @@ export const FirebaseApp: FC = ({ children }) => {
   ] = useState<firebase.auth.UserCredential | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
   const counterRef = useRef(0);
-  // const auth = firebase.auth();
-  // const db = firebase.firestore();
   useEffect(() => {
     if (credential) counterRef.current += 1;
 

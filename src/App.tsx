@@ -19,6 +19,8 @@ import { FindUsers } from "components/Pages/Users/FindUsers";
 import { ScrollToTop } from "components/Pages/ScrollToTop";
 
 const Main = styled(Container)`
+  /* font-family: "Yu Gothic Medium", "游ゴシック Medium", YuGothic, "游ゴシック体",
+    "ヒラギノ角ゴ Pro W3", "メイリオ", sans-serif !important; */
   margin-bottom: 40px;
   margin-top: 40px;
 `;

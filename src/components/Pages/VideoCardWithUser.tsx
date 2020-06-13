@@ -1,4 +1,4 @@
-import React, { FC, useContext } from "react";
+import React, { useContext } from "react";
 import { Video } from "types/Video";
 import styled from "styled-components";
 import moment from "moment";
