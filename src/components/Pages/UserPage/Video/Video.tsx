@@ -1,29 +1,28 @@
 import React, { FC, useContext } from "react";
-import { useRouteMatch, RouteComponentProps } from "react-router-dom";
+import { useRouteMatch, RouteComponentProps, Link } from "react-router-dom";
 import moment from "moment";
 import { useVideo } from "hooks/useVideo";
 import { VideoView } from "components/Pages/VideoView";
 import { Loading } from "components/Common/Loading";
-import { Divider } from "semantic-ui-react";
+import { Divider, Button } from "semantic-ui-react";
 import { Comment } from "components/Common/Comment";
-import { VideoDate } from "components/Common/VideoDate";
 import { AuthContext } from "context";
 import { FavoriteButton } from "components/Common/FavoriteBtn";
 import styled from "styled-components";
-import { TagButtons } from "./TagButtons";
+
+const TagButtons = styled.div`
+  flex: 1 1 auto;
+`;
 
 const VideoInfoWrapper = styled.div`
   display: flex;
-  align-items: center;
   time {
-    flex: 0 1 auto;
-  }
-  i {
-    flex-shrink: 0;
+    margin-right: 0.5rem;
   }
   div {
-    flex: 1 1 auto;
+    margin-right: 0.5rem;
   }
+  align-items: center;
 `;
 
 type Params = RouteComponentProps & {
@@ -49,10 +48,28 @@ export const Video: FC = () => {
     <>
       <VideoView videoId={video.videoId} videoType={video.type} />
       <VideoInfoWrapper>
-        <VideoDate>
-          {moment(video.updatedAt.toDate()).format("YYYY/MM/DD")}
-        </VideoDate>
-        <div>{video.tags && <TagButtons tags={video.tags} uid={uid} />}</div>
+        <time>{moment(video.updatedAt.toDate()).format("YYYY/MM/DD")}</time>
+        <TagButtons>
+          {video.tags &&
+            video.tags.map((tag) => {
+              return (
+                <Link
+                  to={`/${video.user.uid}/videos#${tag}`}
+                  key={`${video.id}${tag}`}
+                >
+                  <Button
+                    primary
+                    size="mini"
+                    // onClick={handleTagClick}
+                    taglabel={tag}
+                    uid={video.user.uid}
+                  >
+                    {tag}
+                  </Button>
+                </Link>
+              );
+            })}
+        </TagButtons>
         {currentUser && (
           <FavoriteButton currentUser={currentUser} video={video} />
         )}

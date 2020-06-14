@@ -19,8 +19,8 @@ import { AuthContext, TagsContext } from "context";
 import { useFetchTags } from "hooks/useFetchTags";
 import styled from "styled-components";
 import { useFetchVideos } from "hooks/useFetchVideos";
+import { LikedUsers } from "components/Pages/LikedUsers/LikedUsers";
 import { NoMatch } from "../NoMatch";
-import { LikedUsers } from "../LikedUsers/LikedUsers";
 
 const DividerSP = styled(Divider)`
   width: 100%;
@@ -46,12 +46,14 @@ export const UserPage = React.memo(() => {
     return <Loading />;
   }
 
-  if (currentUser && currentUser.uid === uid) {
-    const redirectPath =
-      location.pathname.replace(/\/.+\//, "/mypage/") + location.hash;
+  // if (currentUser && currentUser.uid === uid) {
+  //   const redirectPath =
+  //     location.pathname.replace(/\/.+?\//, "/mypage/") + location.hash;
+  //   console.log(location.pathname);
+  //   console.log(redirectPath);
 
-    return <Redirect to={redirectPath} />;
-  }
+  //   return <Redirect to={redirectPath} />;
+  // }
 
   return (
     <TagsContext.Provider value={{ tags, tagsLoading }}>
@@ -79,8 +81,10 @@ export const UserPage = React.memo(() => {
             <Route
               exact
               path={`${match.path}/videos/:id/favorites`}
-              component={LikedUsers}
-            />
+              // component={LikedUsers}
+            >
+              <LikedUsers uid={user.uid} />
+            </Route>
             <Route component={NoMatch} />
           </Switch>
         </Grid.Column>

@@ -36,17 +36,17 @@ type VideoCardProps = {
 };
 
 export const VideoCard = React.memo<VideoCardProps>(({ video }) => {
-  const history = useHistory();
   const match = useRouteMatch();
   const { currentUser } = useContext(AuthContext);
 
-  const handleTagClick = (
-    e: React.MouseEvent<HTMLButtonElement, MouseEvent>,
-    data: ButtonProps
-  ) => {
-    history.push(`/${data.uid}/videos#${data.taglabel}`);
-    e.preventDefault();
-  };
+  // const handleTagClick = (
+  //   e: React.MouseEvent<HTMLButtonElement, MouseEvent>,
+  //   data: ButtonProps
+  // ) => {
+  //   // history.push(`/${data.uid}/videos#${data.taglabel}`);
+  //   history.push(`/${match.url}#${data.taglabel}`);
+  //   e.preventDefault();
+  // };
 
   return (
     <Link to={`${match.url}/${video.id}`}>
@@ -63,21 +63,26 @@ export const VideoCard = React.memo<VideoCardProps>(({ video }) => {
               {video.tags &&
                 video.tags.map((tag) => {
                   return (
-                    <TagButton
-                      key={`${video.id}${tag}`}
-                      primary
-                      size="mini"
-                      onClick={handleTagClick}
-                      taglabel={tag}
-                      uid={video.user.uid}
-                    >
-                      {tag}
-                    </TagButton>
+                    <Link to={`${match.url}#${tag}`} key={`${video.id}${tag}`}>
+                      <TagButton
+                        primary
+                        size="mini"
+                        // onClick={handleTagClick}
+                        taglabel={tag}
+                        uid={video.user.uid}
+                      >
+                        {tag}
+                      </TagButton>
+                    </Link>
                   );
                 })}
             </TagButtons>
             {currentUser && (
-              <FavoriteButton currentUser={currentUser} video={video} />
+              <FavoriteButton
+                currentUser={currentUser}
+                video={video}
+                path={match.url}
+              />
             )}
           </ButtonsWrapper>
 

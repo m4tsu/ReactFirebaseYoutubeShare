@@ -44,12 +44,13 @@ const LikeCount = styled(Link)`
 type FavoriteButtonProps = {
   currentUser: AppUser;
   video: Video;
-  count?: number;
+  path?: string;
 };
 
 export const FavoriteButton: FC<FavoriteButtonProps> = ({
   currentUser,
   video,
+  path,
 }) => {
   const { db } = useContext(FirebaseContext);
   const [likeCount, setLikeCount] = useState<number>(video.likeCount);
@@ -111,7 +112,9 @@ export const FavoriteButton: FC<FavoriteButtonProps> = ({
           onClick={handleClickLike}
         />
       )}
-      <LikeCount to={`/${video.user.uid}/videos/${video.id}/favorites`}>
+      <LikeCount
+        to={`${path || `/${video.user.uid}/videos`}/${video.id}/favorites`}
+      >
         {likeCount}
       </LikeCount>
     </FavoriteWrapper>

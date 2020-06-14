@@ -57,6 +57,8 @@ export const Videos: FC<VideosProps> = ({ user, videos, videosLoading }) => {
     const tagLabel = decodeURI(location.hash.substr(1));
     if (tagLabel) {
       setFilterTag(tagLabel);
+    } else {
+      setFilterTag(null);
     }
   }, [location, tags]);
 

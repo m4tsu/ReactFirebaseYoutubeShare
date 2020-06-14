@@ -71,16 +71,15 @@ type VideoCardWithUserProps = {
 // eslint-disable-next-line react/display-name
 export const VideoCardWithUser = React.memo<VideoCardWithUserProps>(
   ({ video, scroll }) => {
-    const history = useHistory();
+    // const history = useHistory();
     const { currentUser } = useContext(AuthContext);
-
-    const handleTagClick = (
-      e: React.MouseEvent<HTMLButtonElement, MouseEvent>,
-      data: ButtonProps
-    ) => {
-      history.push(`/${data.uid}/videos#${data.taglabel}`);
-      e.preventDefault();
-    };
+    // const handleTagClick = (
+    //   e: React.MouseEvent<HTMLButtonElement, MouseEvent>,
+    //   data: ButtonProps
+    // ) => {
+    //   history.push(`/${data.uid}/videos#${data.taglabel}`);
+    //   e.preventDefault();
+    // };
 
     return (
       <Link to={`/${video.user.uid}/videos/${video.id}`}>
@@ -108,16 +107,20 @@ export const VideoCardWithUser = React.memo<VideoCardWithUserProps>(
                     {video.tags &&
                       video.tags.map((tag) => {
                         return (
-                          <TagButton
+                          <Link
+                            to={`/${video.user.uid}/videos#${tag}`}
                             key={`${video.id}${tag}`}
-                            primary
-                            size="mini"
-                            onClick={handleTagClick}
-                            taglabel={tag}
-                            uid={video.user.uid}
                           >
-                            {tag}
-                          </TagButton>
+                            <TagButton
+                              primary
+                              size="mini"
+                              // onClick={handleTagClick}
+                              taglabel={tag}
+                              uid={video.user.uid}
+                            >
+                              {tag}
+                            </TagButton>
+                          </Link>
                         );
                       })}
                   </TagButtons>

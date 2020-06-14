@@ -6,13 +6,13 @@ import { Header } from "semantic-ui-react";
 import { UsersList } from "../UsersList";
 
 type Params = RouteComponentProps & {
-  uid: string;
+  // uid: string;
   id: string;
 };
 
-export const LikedUsers: FC = () => {
+export const LikedUsers: FC<{ uid: string }> = ({ uid }) => {
   const match = useRouteMatch<Params>();
-  const { uid, id } = match.params;
+  const { id } = match.params;
   const { users, loading } = useLikedUsers({ uid, videoDocId: id });
 
   if (loading) {

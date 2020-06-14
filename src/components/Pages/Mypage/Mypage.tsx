@@ -16,6 +16,7 @@ import { Favorites } from "components/Pages/Favorite/Favorites";
 import { NoMatch } from "components/Pages/NoMatch";
 import { TimeLine } from "components/Pages/Home/TimeLine";
 import { useFetchVideos } from "hooks/useFetchVideos";
+import { LikedUsers } from "components/Pages/LikedUsers/LikedUsers";
 
 const DividerSP = styled(Divider)`
   width: 100%;
@@ -66,6 +67,9 @@ export const Mypage = React.memo<MypageProps>(({ currentUser }) => {
             </Route>
             <Route exact path={`${match.path}/videos/:id`}>
               <Video currentUser={currentUser} />
+            </Route>
+            <Route exact path={`${match.path}/videos/:id/favorites`}>
+              <LikedUsers uid={currentUser.uid} />
             </Route>
             <Route exact path={`${match.path}/tags`}>
               <Tags currentUser={currentUser} />

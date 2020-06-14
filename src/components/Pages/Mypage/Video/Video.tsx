@@ -1,5 +1,5 @@
 import React, { FC, useContext, useState } from "react";
-import { useRouteMatch, RouteComponentProps } from "react-router-dom";
+import { useRouteMatch, RouteComponentProps, Link } from "react-router-dom";
 import { TwitterShareButton } from "react-share";
 import { useVideo } from "hooks/useVideo";
 import { VideoView } from "components/Pages/VideoView";
@@ -11,9 +11,8 @@ import { FirebaseContext } from "context";
 import { DeleteModal } from "components/Pages/Mypage/Video/DeleteModal";
 import { EditModal } from "components/Pages/Mypage/Video/EditModal";
 import { Comment } from "components/Common/Comment";
-import { VideoDate } from "components/Common/VideoDate";
-import { TagButtons } from "components/Pages/UserPage/Video/TagButtons";
 import { AppUser } from "types/AppUser";
+import { FavoriteButton } from "components/Common/FavoriteBtn";
 
 type Params = RouteComponentProps & {
   id: string;
@@ -21,8 +20,18 @@ type Params = RouteComponentProps & {
 
 const ActionBtnContainer = styled.div`
   display: flex;
-  justify-content: space-between;
-  align-items: flex-end;
+  time {
+    margin-right: 0.5rem;
+  }
+  div {
+    margin-right: 0.5rem;
+  }
+  /* justify-content: space-between; */
+  align-items: center;
+`;
+
+const TagButtons = styled.div`
+  flex: 1 1 auto;
 `;
 
 export const Video: FC<{ currentUser: AppUser }> = ({ currentUser }) => {
@@ -58,39 +67,51 @@ export const Video: FC<{ currentUser: AppUser }> = ({ currentUser }) => {
     <>
       <VideoView videoId={video.videoId} videoType={video.type} />
       <ActionBtnContainer>
-        <div>
-          <VideoDate>
-            {moment(video.createdAt.toDate()).format("YYYY年MM月DD日")}
-          </VideoDate>
-          {video.tags && (
-            <TagButtons
-              tags={video.tags}
-              uid={currentUser.uid}
-              currentUser={currentUser}
-            />
-          )}
-        </div>
+        <time>{moment(video.createdAt.toDate()).format("YYYY年MM月DD日")}</time>
+        <TagButtons>
+          {video.tags &&
+            video.tags.map((tag) => {
+              return (
+                <Link to={`/mypage/videos#${tag}`} key={`${video.id}${tag}`}>
+                  <Button
+                    primary
+                    size="mini"
+                    // onClick={handleTagClick}
+                    taglabel={tag}
+                    uid={video.user.uid}
+                  >
+                    {tag}
+                  </Button>
+                </Link>
+              );
+            })}
+        </TagButtons>
+        {currentUser && (
+          <FavoriteButton
+            currentUser={currentUser}
+            video={video}
+            path="/mypage/videos"
+          />
+        )}
 
-        <div>
-          <TwitterShareButton
-            url={`https:/${process.env.REACT_APP_AUTH_DOMAIN}/${currentUser.uid}/videos/${id}`}
-            title={`お気に入り動画を登録しました\n ${shotenTitle}`}
-          >
-            <Button color="twitter" icon="twitter" circular as="div" />
-          </TwitterShareButton>
-          <Button
-            color="teal"
-            circular
-            icon="pencil"
-            onClick={handleClickEditBtn}
-          />
-          <Button
-            color="red"
-            circular
-            icon="trash"
-            onClick={handleClickDeleteBtn}
-          />
-        </div>
+        <TwitterShareButton
+          url={`https:/${process.env.REACT_APP_AUTH_DOMAIN}/${currentUser.uid}/videos/${id}`}
+          title={`お気に入り動画を登録しました\n ${shotenTitle}`}
+        >
+          <Button color="twitter" icon="twitter" circular as="div" />
+        </TwitterShareButton>
+        <Button
+          color="teal"
+          circular
+          icon="pencil"
+          onClick={handleClickEditBtn}
+        />
+        <Button
+          color="red"
+          circular
+          icon="trash"
+          onClick={handleClickDeleteBtn}
+        />
       </ActionBtnContainer>
       <Divider />
       <Comment>{video.comment}</Comment>
