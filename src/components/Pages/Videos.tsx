@@ -84,7 +84,6 @@ export const Videos: FC<VideosProps> = ({ user, videos, videosLoading }) => {
     { value }: DropdownProps
   ) => {
     setFilterTag((value as string) || "");
-    history.push(match.url);
   };
 
   if (videosLoading) {

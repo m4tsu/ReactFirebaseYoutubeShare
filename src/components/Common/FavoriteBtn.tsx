@@ -115,7 +115,7 @@ export const FavoriteButton: FC<FavoriteButtonProps> = ({
       <LikeCount
         to={`${path || `/${video.user.uid}/videos`}/${video.id}/favorites`}
       >
-        {likeCount || 0}
+        {!likeCount || 0 ? "" : likeCount}
       </LikeCount>
     </FavoriteWrapper>
   );

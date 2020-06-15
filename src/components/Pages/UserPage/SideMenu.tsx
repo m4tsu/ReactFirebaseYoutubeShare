@@ -67,6 +67,13 @@ export const SideMenu = React.memo<SideMenuProps>(({ user }) => {
         動画
       </Menu.Item>
       <Menu.Item
+        active={menuLocation === "favorites"}
+        as={Link}
+        to={`/${user.uid}/favorites`}
+      >
+        お気に入り
+      </Menu.Item>
+      <Menu.Item
         active={menuLocation === "following"}
         as={Link}
         to={`/${user.uid}/following`}

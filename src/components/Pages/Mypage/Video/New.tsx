@@ -172,6 +172,7 @@ export const New: FC<NewProps> = ({ currentUser }) => {
               />
             </label>
           </Form.Field>
+          <Button onClick={handleClickTitle}> Title取得</Button>
 
           <Button
             color="teal"

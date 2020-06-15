@@ -1,3 +1,4 @@
+/* eslint-disable react/display-name */
 import React, { FC } from "react";
 import { VideoIdType } from "hooks/validateUrl";
 import styled from "styled-components";
@@ -23,7 +24,7 @@ const ResponsiveVideoWrapper = styled.div`
   }
 `;
 
-export const VideoView: FC<Props> = ({ videoId, videoType, size }) => {
+export const VideoView = React.memo<Props>(({ videoId, videoType, size }) => {
   let embedSrc = "";
   if (videoType === "video") {
     embedSrc = `https://www.youtube.com/embed/${videoId}`;
@@ -63,4 +64,4 @@ export const VideoView: FC<Props> = ({ videoId, videoType, size }) => {
       />
     </ResponsiveVideoWrapper>
   );
-};
+});

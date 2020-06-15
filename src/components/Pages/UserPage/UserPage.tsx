@@ -1,12 +1,10 @@
-import React, { useContext } from "react";
+import React from "react";
 import { Grid, Divider } from "semantic-ui-react";
 import {
   Switch,
   Route,
   useRouteMatch,
   RouteComponentProps,
-  Redirect,
-  useLocation,
 } from "react-router-dom";
 import { Videos } from "components/Pages/Videos";
 import { Video } from "components/Pages/UserPage/Video/Video";
@@ -15,11 +13,12 @@ import { useUser } from "hooks/useUser";
 import { Following } from "components/Pages/Following";
 import { Followers } from "components/Pages/Followers";
 import { Loading } from "components/Common/Loading";
-import { AuthContext, TagsContext } from "context";
+import { TagsContext } from "context";
 import { useFetchTags } from "hooks/useFetchTags";
 import styled from "styled-components";
 import { useFetchVideos } from "hooks/useFetchVideos";
 import { LikedUsers } from "components/Pages/LikedUsers/LikedUsers";
+import { Favorites } from "components/Pages/Favorite/Favorites";
 import { NoMatch } from "../NoMatch";
 
 const DividerSP = styled(Divider)`
@@ -35,25 +34,14 @@ type Params = RouteComponentProps & {
 
 export const UserPage = React.memo(() => {
   const match = useRouteMatch<Params>();
-  const { currentUser } = useContext(AuthContext);
   const { uid } = match.params;
   const { user, loading } = useUser(uid);
   const { tags, tagsLoading } = useFetchTags({ uid });
   const { videos, videosLoading } = useFetchVideos({ uid });
-  const location = useLocation();
 
   if (loading || !user) {
     return <Loading />;
   }
-
-  // if (currentUser && currentUser.uid === uid) {
-  //   const redirectPath =
-  //     location.pathname.replace(/\/.+?\//, "/mypage/") + location.hash;
-  //   console.log(location.pathname);
-  //   console.log(redirectPath);
-
-  //   return <Redirect to={redirectPath} />;
-  // }
 
   return (
     <TagsContext.Provider value={{ tags, tagsLoading }}>
@@ -70,6 +58,9 @@ export const UserPage = React.memo(() => {
                 videos={videos}
                 videosLoading={videosLoading}
               />
+            </Route>
+            <Route exact path={`${match.path}/favorites`}>
+              <Favorites user={user} />
             </Route>
             <Route exact path={`${match.path}/followers`}>
               <Followers uid={user.uid} />
