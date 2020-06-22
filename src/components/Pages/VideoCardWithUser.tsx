@@ -13,6 +13,7 @@ import {
 } from "components/Common/PaginationVideoCard";
 import { NoMarginImg } from "components/Common/NoMarginImage";
 import { FavoriteButton } from "components/Common/FavoriteBtn";
+import { VideoCardTitle } from "components/Common/VideoTitle";
 
 const VideoCard = styled(Segment)<{ scroll: boolean }>`
   max-width: 540px;
@@ -55,6 +56,7 @@ const VideoCardBody = styled(PaginationVideoCardBody)`
 `;
 
 const ButtonsWrapper = styled.div`
+  margin-top: 0.2rem;
   display: flex;
   align-items: center;
 `;
@@ -71,15 +73,7 @@ type VideoCardWithUserProps = {
 // eslint-disable-next-line react/display-name
 export const VideoCardWithUser = React.memo<VideoCardWithUserProps>(
   ({ video, scroll }) => {
-    // const history = useHistory();
     const { currentUser } = useContext(AuthContext);
-    // const handleTagClick = (
-    //   e: React.MouseEvent<HTMLButtonElement, MouseEvent>,
-    //   data: ButtonProps
-    // ) => {
-    //   history.push(`/${data.uid}/videos#${data.taglabel}`);
-    //   e.preventDefault();
-    // };
 
     return (
       <Link to={`/${video.user.uid}/videos/${video.id}`}>
@@ -101,6 +95,7 @@ export const VideoCardWithUser = React.memo<VideoCardWithUserProps>(
               </VideoCardHeader>
 
               <VideoView videoId={video.videoId} videoType={video.type} />
+              <VideoCardTitle>{video.title}</VideoCardTitle>
               <VideoCardBody>
                 <ButtonsWrapper>
                   <TagButtons>
@@ -128,7 +123,7 @@ export const VideoCardWithUser = React.memo<VideoCardWithUserProps>(
                     <FavoriteButton currentUser={currentUser} video={video} />
                   )}
                 </ButtonsWrapper>
-                <VideoCardComment>{video.comment}</VideoCardComment>
+                {/* <VideoCardComment>{video.comment}</VideoCardComment> */}
               </VideoCardBody>
             </Grid.Column>
           </Grid>

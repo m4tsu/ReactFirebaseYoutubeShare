@@ -6,10 +6,18 @@ type Arg = {
   video: Video;
   db: firebase.firestore.Firestore;
   comment: string;
+  title: string;
   tags: string[];
 };
 
-export const editVideo = async ({ db, uid, video, comment, tags }: Arg) => {
+export const editVideo = async ({
+  db,
+  uid,
+  video,
+  comment,
+  title,
+  tags,
+}: Arg) => {
   const batch = db.batch();
   const tagsCol = db.collection("users").doc(uid).collection("tags");
   const videoRef = db
@@ -22,6 +30,7 @@ export const editVideo = async ({ db, uid, video, comment, tags }: Arg) => {
       videoRef,
       {
         comment,
+        title,
         tags: Array.from(new Set(tags)), // 重複消す
         updatedAt: firebase.firestore.FieldValue.serverTimestamp(),
       },

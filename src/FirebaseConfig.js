@@ -1,6 +1,7 @@
 import firebase from "firebase/app";
 import "firebase/firestore";
 import "firebase/auth";
+import "firebase/functions";
 
 export const firebaseConfig = {
   apiKey: process.env.REACT_APP_FB_API_KEY,
@@ -14,4 +15,8 @@ export const firebaseConfig = {
 firebase.initializeApp(firebaseConfig);
 const auth = firebase.auth();
 const db = firebase.firestore();
-export { firebase, auth, db };
+const functions = firebase.app().functions("asia-northeast1");
+// const getNicovideoTitle = firebase
+//   .functions()
+//   .httpsCallable("getNicovideoTitle");
+export { firebase, auth, db, functions };

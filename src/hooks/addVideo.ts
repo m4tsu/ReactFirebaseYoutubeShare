@@ -12,6 +12,7 @@ export const addVideo = async ({
   currentUser,
   videoId,
   type,
+  title,
   comment,
   tags,
 }: Arg) => {
@@ -34,7 +35,9 @@ export const addVideo = async ({
       },
       videoId,
       type,
+      title,
       comment,
+      likeCount: 0,
       tags: Array.from(new Set(tags)), // 重複消す
       createdAt: firebase.firestore.FieldValue.serverTimestamp(),
       updatedAt: firebase.firestore.FieldValue.serverTimestamp(),
@@ -49,6 +52,4 @@ export const addVideo = async ({
   } catch (err) {
     console.log(err);
   }
-
-  // return vi;
 };

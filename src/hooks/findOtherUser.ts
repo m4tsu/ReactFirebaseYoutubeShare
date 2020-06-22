@@ -2,15 +2,15 @@ import { AppUser } from "types/AppUser";
 
 type Arg = {
   db: firebase.firestore.Firestore;
-  displayName: string;
+  screenName: string;
 };
 
-export const findOtherUser = async ({ displayName, db }: Arg) => {
+export const findOtherUser = async ({ screenName, db }: Arg) => {
   const query = db
     .collection("users")
-    .orderBy("displayName")
-    .startAt(displayName)
-    .endAt(`${displayName}\uf8ff`);
+    .orderBy("screenName")
+    .startAt(screenName)
+    .endAt(`${screenName}\uf8ff`);
 
   try {
     const users = await query.get();
@@ -22,6 +22,8 @@ export const findOtherUser = async ({ displayName, db }: Arg) => {
 
     return usersData;
   } catch (err) {
+    console.log(err);
+
     return [];
   }
 };

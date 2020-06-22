@@ -20,6 +20,8 @@
   },
   "main": "lib/index.js",
   "dependencies": {
+    "@types/xml2js": "^0.4.5",
+    "axios": "^0.19.2",
     "commander": "^4.0.1",
     "csv-parse": "^4.8.2",
     "date-fns": "^2.8.1",
@@ -30,7 +32,8 @@
     "lodash": "^4.17.15",
     "node-fetch": "^2.6.0",
     "puppeteer": "^2.0.0",
-    "sprintf-js": "^1.1.2"
+    "sprintf-js": "^1.1.2",
+    "xml2js": "^0.4.23"
   },
   "devDependencies": {
     "@types/eslint": "^6.1.3",
