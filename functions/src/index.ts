@@ -1,8 +1,8 @@
 /* eslint-disable prettier/prettier */
 import * as functions from "firebase-functions";
 import * as admin from "firebase-admin";
-
-// import { incrementLikeCount } from "./likeVideoCount";
+import axios from "axios";
+import { Parser } from "xml2js";
 
 admin.initializeApp();
 export const firestore = admin.firestore();
@@ -20,13 +20,6 @@ type Video = {
   createdAt: admin.firestore.Timestamp;
   updatedAt: admin.firestore.Timestamp;
 };
-
-// type User = {
-//   uid: string;
-//   displayName: string;
-//   screenName: string;
-//   photoURL: string;
-// };
 
 type Tag = {
   label: string;
@@ -63,7 +56,6 @@ async function updateToTimelineWithUsersVideoSnapshot(
 ) {
   const newVideo = change.after.data() as Video;
   const prevVideo = change.before.data() as Video;
-  // likeのときはTimelineのUpdateしない
   if (!newVideo.updatedAt.isEqual(prevVideo.updatedAt)) {
     copyToTimelineWithUsersVideoSnapshot(change.after, context);
   }
@@ -180,12 +172,10 @@ const deleteToLikeVideosWithVideoSnapshot = async (
 
 const incrementLikeCount = async (
   snapshot: FirebaseFirestore.DocumentSnapshot
-  // context: functions.EventContext
 ) => {
   const likeVideoDoc = snapshot.data();
   if (!likeVideoDoc) return;
   const { videoRef } = likeVideoDoc;
-  // const { userId, videoDocId } = context.params;
   await firestore
     .doc(videoRef.path)
     .update({ likeCount: admin.firestore.FieldValue.increment(1) });
@@ -193,7 +183,6 @@ const incrementLikeCount = async (
 
 const decrementLikeCount = async (
   snapshot: FirebaseFirestore.DocumentSnapshot
-  // context: functions.EventContext
 ) => {
   const likeVideoDoc = snapshot.data();
   if (!likeVideoDoc) return;
@@ -245,4 +234,71 @@ export const onLikeVideoDelete = functions
   .firestore.document("/users/{userId}/likeVideos/{videoDocId}")
   .onDelete(async (snapshot) => {
     await decrementLikeCount(snapshot);
+  });
+
+export const getNicovideoTitle = functions
+  .region("asia-northeast1")
+  .https.onCall(async (data) => {
+    if (data.videoId !== undefined) {
+      const { videoId } = data;
+      const fetchUrl = `https://ext.nicovideo.jp/api/getthumbinfo/${videoId}`;
+      try {
+        const result = await axios.get(fetchUrl);
+        const xml = result.data;
+        const parser = new Parser();
+        const obj = await parser.parseStringPromise(xml);
+        const title = obj.nicovideo_thumb_response.thumb[0].title[0];
+        console.log(title);
+
+        return { title };
+      } catch (err) {
+        console.log(err);
+
+        return { title: null };
+      }
+
+      // axios
+      //   .get(fetchUrl)
+      //   .then((result) => {
+      //     const xml = result.data;
+      //     const parser = new Parser();
+      //     let title: string | null;
+      //     parser
+      //       .parseStringPromise(xml)
+      //       .then((obj) => {
+      //         // eslint-disable-next-line prefer-destructuring
+      //         title = obj.nicovideo_thumb_response.thumb[0].title[0];
+      //         console.log(title);
+      //       })
+      //       .catch(() => {
+      //         console.log("parse error");
+
+      //         return null;
+      //       });
+
+      // parser.parseString(xml, (err: any, obj: any) => {
+      //   if (err) {
+      //     title = null;
+      //   }
+      //   console.log(obj.nicovideo_thumb_response.thumb[0].title[0]);
+
+      //   // eslint-disable-next-line prefer-destructuring
+      //   title = obj.nicovideo_thumb_response.thumb[0].title[0];
+      // });
+
+      //   return title;
+      // })
+      // .catch((err) => {
+      //   // console.log(err);
+      //   console.log("parser error");
+
+      //   return err;
+      // });
+    } else {
+      console.log("no videoId");
+
+      return { title: null };
+    }
+
+    // return null;
   });

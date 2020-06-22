@@ -27,7 +27,7 @@ const ResponsiveVideoWrapper = styled.div`
 export const VideoView = React.memo<Props>(({ videoId, videoType, size }) => {
   let embedSrc = "";
   if (videoType === "video") {
-    embedSrc = `https://www.youtube.com/embed/${videoId}`;
+    embedSrc = `https://www.youtube.com/embed/${videoId}?rel=0`;
   }
   if (videoType === "playlist") {
     embedSrc = `https://www.youtube.com/embed/videoseries?list=${videoId}`;

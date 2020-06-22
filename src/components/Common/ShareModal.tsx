@@ -31,7 +31,7 @@ export const ShareModal: FC<ShareModalProps> = ({
   const history = useHistory();
   const shareUrl = `https:/${process.env.REACT_APP_AUTH_DOMAIN}${sharePath}`;
   const shotenTitle =
-    shareTitle.length > 20 ? `${shareTitle.substr(0, 20)}...` : "";
+    shareTitle.length > 40 ? `${shareTitle.substr(0, 40)}...` : "";
 
   const closeModal = () => {
     setOpen(false);
@@ -49,7 +49,8 @@ export const ShareModal: FC<ShareModalProps> = ({
       <ModalContent>
         <TwitterShareButton
           url={shareUrl}
-          title={`お気に入り動画を登録しました\n ${shotenTitle}`}
+          title={`${shotenTitle}\n 登録しました`}
+          hashtags={["つべったー"]}
         >
           <Button color="twitter" as="div">
             <Icon name="twitter" />

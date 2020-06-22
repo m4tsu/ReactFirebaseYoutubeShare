@@ -1,5 +1,12 @@
 /* eslint-disable jsx-a11y/label-has-associated-control */
-import React, { useState, useEffect, FC, FormEvent, useContext } from "react";
+import React, {
+  useState,
+  useEffect,
+  FC,
+  FormEvent,
+  useContext,
+  useCallback,
+} from "react";
 import {
   Button,
   Form,
@@ -10,6 +17,7 @@ import {
   TextAreaProps,
   Icon,
 } from "semantic-ui-react";
+import _ from "lodash";
 import { VideoIdType, validateUrl } from "hooks/validateUrl";
 import { VideoView } from "components/Pages/VideoView";
 import { addVideo } from "hooks/addVideo";
@@ -20,6 +28,7 @@ import { Description } from "components/Pages/Mypage/Video/Description";
 import { AppUser } from "types/AppUser";
 import { FirebaseContext, SideMenuContext } from "context";
 import { TagsForm } from "components/Pages/Mypage/Video/TagsForm";
+import { VideoPlayer } from "components/Pages/YoutubePlayer";
 import { HelpModal } from "./HelpModal";
 
 const StyledTextArea = styled(TextArea)`
@@ -40,10 +49,10 @@ type NewProps = {
 };
 
 const placeholder = {
-  video: "https://www.youtube.com/watch?v=ABCD123 or https://youtu.be/ABCD123",
+  video: "https://www.youtube.com/watch?v=ABCD123 | https://youtu.be/ABCD123",
   playlist: "https://www.youtube.com/playlist?list=ABCD123",
   nicovideo:
-    "https://www.nicovideo.jp/watch/sm1234567 or https://nico.ms/sm1234567",
+    "https://www.nicovideo.jp/watch/sm1234567 | https://nico.ms/sm1234567",
 };
 
 export const New: FC<NewProps> = ({ currentUser }) => {
@@ -51,12 +60,16 @@ export const New: FC<NewProps> = ({ currentUser }) => {
   const [videoType, setVideoType] = useState<VideoType>("video");
   const [urlValid, setUrlValid] = useState<boolean>(false);
   const [videoId, setVideoId] = useState<VideoIdType>(null);
+  const [videoTitle, setVideoTitle] = useState<string>("");
   const [comment, setComment] = useState<string>("");
   const [openShareModal, setOpenShareModal] = useState(false);
   const [videoTags, setVideoTags] = useState<string[]>([]);
   const [openHelpModal, setOpenHelpModal] = useState(false);
   const { setMenuLocation } = useContext(SideMenuContext);
   const { db } = useContext(FirebaseContext);
+
+  console.log(videoTitle);
+  console.log(comment);
 
   useEffect(() => {
     setMenuLocation("new");
@@ -72,8 +85,26 @@ export const New: FC<NewProps> = ({ currentUser }) => {
     setVideoId(id);
   }, [videoUrl, videoType]);
 
+  const debouncedChangeUrl = useCallback(
+    _.debounce((value: string) => {
+      setVideoUrl(value);
+      setVideoTitle("");
+    }, 800),
+    []
+  );
+
   const handleChangeUrl = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setVideoUrl(e.target.value);
+    debouncedChangeUrl(e.target.value);
+  };
+
+  const debouncedChangeTitle = useCallback(
+    _.debounce((value: string) => {
+      setVideoTitle(value);
+    }, 1000),
+    []
+  );
+  const handleChangeTitle = (e: React.ChangeEvent<HTMLInputElement>) => {
+    debouncedChangeTitle(e.target.value);
   };
 
   const handleChangeType = (
@@ -84,11 +115,18 @@ export const New: FC<NewProps> = ({ currentUser }) => {
     setVideoType(value);
   };
 
+  const debouncedChangeComment = useCallback(
+    _.debounce((value: string) => {
+      setComment(value);
+    }, 500),
+    []
+  );
+
   const handleChangeComment = (
     event: React.FormEvent<HTMLTextAreaElement>,
     data: TextAreaProps
   ) => {
-    setComment(data.value as string);
+    debouncedChangeComment(data.value as string);
   };
 
   const handleClick = () => {
@@ -98,6 +136,7 @@ export const New: FC<NewProps> = ({ currentUser }) => {
       db,
       videoId,
       type: videoType,
+      title: videoTitle,
       comment,
       tags: videoTags,
     });
@@ -111,7 +150,14 @@ export const New: FC<NewProps> = ({ currentUser }) => {
   return (
     <FormWrapper>
       <Form size="large">
-        <VideoView videoId={videoId} videoType={videoType} />
+        {/* <VideoView videoId={videoId} videoType={videoType} /> */}
+        {urlValid && (
+          <VideoPlayer
+            videoId={videoId}
+            videoType={videoType}
+            setVideoTitle={setVideoTitle}
+          />
+        )}
         <Segment stacked>
           <Form.Field>
             <Radio
@@ -156,6 +202,13 @@ export const New: FC<NewProps> = ({ currentUser }) => {
             placeholder={placeholder[videoType]}
             onChange={handleChangeUrl}
           />
+          <Form.Input
+            fluid
+            name="title"
+            label="タイトル"
+            onChange={handleChangeTitle}
+            value={videoTitle}
+          />
           <Form.Field>
             <label htmlFor="tags">タグ</label>
             <TagsForm setVideoTags={setVideoTags} />
@@ -172,7 +225,6 @@ export const New: FC<NewProps> = ({ currentUser }) => {
               />
             </label>
           </Form.Field>
-          <Button onClick={handleClickTitle}> Title取得</Button>
 
           <Button
             color="teal"
@@ -192,7 +244,7 @@ export const New: FC<NewProps> = ({ currentUser }) => {
         redirectUrl="/mypage/videos"
         open={openShareModal}
         setOpen={setOpenShareModal}
-        shareTitle={comment}
+        shareTitle={videoTitle}
       />
       <HelpModal open={openHelpModal} setOpen={setOpenHelpModal} />
     </FormWrapper>

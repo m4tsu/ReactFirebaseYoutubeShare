@@ -4,11 +4,12 @@ import moment from "moment";
 import { useVideo } from "hooks/useVideo";
 import { VideoView } from "components/Pages/VideoView";
 import { Loading } from "components/Common/Loading";
-import { Divider, Button } from "semantic-ui-react";
+import { Divider, Button, Header } from "semantic-ui-react";
 import { Comment } from "components/Common/Comment";
 import { AuthContext } from "context";
 import { FavoriteButton } from "components/Common/FavoriteBtn";
 import styled from "styled-components";
+import { VideoTitle } from "components/Common/VideoTitle";
 
 const TagButtons = styled.div`
   flex: 1 1 auto;
@@ -47,6 +48,7 @@ export const Video: FC = () => {
   return (
     <>
       <VideoView videoId={video.videoId} videoType={video.type} />
+      <VideoTitle as="h2">{video.title}</VideoTitle>
       <VideoInfoWrapper>
         <time>{moment(video.updatedAt.toDate()).format("YYYY/MM/DD")}</time>
         <TagButtons>

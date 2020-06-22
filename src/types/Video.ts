@@ -6,6 +6,7 @@ export type VideoType = "video" | "playlist" | "nicovideo";
 export type NewVideo = {
   videoId: string;
   type: VideoType;
+  title: string;
   comment: string;
   userId?: string;
   tags: string[];
@@ -15,6 +16,7 @@ export type Video = {
   id: string; // FireStore doc Id
   videoId: string;
   type: VideoType;
+  title: string;
   comment: string;
   user: {
     uid: string;

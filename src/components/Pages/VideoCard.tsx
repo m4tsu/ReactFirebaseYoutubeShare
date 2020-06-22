@@ -13,6 +13,7 @@ import {
   PaginationVideoCard,
 } from "components/Common/PaginationVideoCard";
 import { FavoriteButton } from "components/Common/FavoriteBtn";
+import { VideoCardTitle } from "components/Common/VideoTitle";
 
 const VideoCardBody = styled.div`
   display: flex;
@@ -21,10 +22,22 @@ const VideoCardBody = styled.div`
   flex-direction: column;
 `;
 
+const VideoTitle = styled.h4`
+  margin: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-weight: 600;
+`;
+
 const ButtonsWrapper = styled.div`
   margin-top: 0.2em;
   display: flex;
   align-items: center;
+  time {
+    flex-shrink: 0;
+    margin-right: 1rem;
+  }
 `;
 
 const TagButtons = styled.div`
@@ -39,15 +52,6 @@ export const VideoCard = React.memo<VideoCardProps>(({ video }) => {
   const match = useRouteMatch();
   const { currentUser } = useContext(AuthContext);
 
-  // const handleTagClick = (
-  //   e: React.MouseEvent<HTMLButtonElement, MouseEvent>,
-  //   data: ButtonProps
-  // ) => {
-  //   // history.push(`/${data.uid}/videos#${data.taglabel}`);
-  //   history.push(`/${match.url}#${data.taglabel}`);
-  //   e.preventDefault();
-  // };
-
   return (
     <Link to={`${match.url}/${video.id}`}>
       <PaginationVideoCard>
@@ -57,8 +61,11 @@ export const VideoCard = React.memo<VideoCardProps>(({ video }) => {
           // size="small"
         />
         <VideoCardBody>
-          <span>{moment(video.updatedAt.toDate()).format("YYYY/MM/DD")}</span>
+          <VideoCardTitle>{video.title}</VideoCardTitle>
+
           <ButtonsWrapper>
+            <time>{moment(video.updatedAt.toDate()).format("YYYY/MM/DD")}</time>
+
             <TagButtons>
               {video.tags &&
                 video.tags.map((tag) => {
@@ -86,7 +93,7 @@ export const VideoCard = React.memo<VideoCardProps>(({ video }) => {
             )}
           </ButtonsWrapper>
 
-          <VideoCardComment>{video.comment}</VideoCardComment>
+          {/* <VideoCardComment>{video.comment}</VideoCardComment> */}
         </VideoCardBody>
       </PaginationVideoCard>
     </Link>

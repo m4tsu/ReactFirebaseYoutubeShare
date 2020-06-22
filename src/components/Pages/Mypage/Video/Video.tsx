@@ -6,13 +6,14 @@ import { VideoView } from "components/Pages/VideoView";
 import { Loading } from "components/Common/Loading";
 import styled from "styled-components";
 import moment from "moment";
-import { Button, Divider } from "semantic-ui-react";
+import { Button, Divider, Header } from "semantic-ui-react";
 import { FirebaseContext } from "context";
 import { DeleteModal } from "components/Pages/Mypage/Video/DeleteModal";
 import { EditModal } from "components/Pages/Mypage/Video/EditModal";
 import { Comment } from "components/Common/Comment";
 import { AppUser } from "types/AppUser";
 import { FavoriteButton } from "components/Common/FavoriteBtn";
+import { VideoTitle } from "components/Common/VideoTitle";
 
 type Params = RouteComponentProps & {
   id: string;
@@ -59,13 +60,12 @@ export const Video: FC<{ currentUser: AppUser }> = ({ currentUser }) => {
   }
 
   const shotenTitle =
-    video.comment.length > 20
-      ? `${video.comment.substr(0, 20)}...`
-      : video.comment;
+    video.title.length > 40 ? `${video.title.substr(0, 40)}...` : video.title;
 
   return (
     <>
       <VideoView videoId={video.videoId} videoType={video.type} />
+      <VideoTitle as="h2">{video.title}</VideoTitle>
       <ActionBtnContainer>
         <time>{moment(video.createdAt.toDate()).format("YYYY年MM月DD日")}</time>
         <TagButtons>
@@ -96,7 +96,8 @@ export const Video: FC<{ currentUser: AppUser }> = ({ currentUser }) => {
 
         <TwitterShareButton
           url={`https:/${process.env.REACT_APP_AUTH_DOMAIN}/${currentUser.uid}/videos/${id}`}
-          title={`お気に入り動画を登録しました\n ${shotenTitle}`}
+          title={`${shotenTitle} \n 登録しました `}
+          hashtags={["つべったー"]}
         >
           <Button color="twitter" icon="twitter" circular as="div" />
         </TwitterShareButton>
@@ -129,6 +130,7 @@ export const Video: FC<{ currentUser: AppUser }> = ({ currentUser }) => {
         open={openEdit}
         setOpen={setOpenEdit}
         initialComment={video.comment ? video.comment : ""}
+        initialTitle={video.title}
       />
     </>
   );

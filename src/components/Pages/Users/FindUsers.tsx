@@ -13,17 +13,17 @@ const Label = styled.label`
 
 export const FindUsers: FC = () => {
   const { db } = useContext(FirebaseContext);
-  const [displayName, setDisplayName] = useState<string>("");
+  const [screenName, setScreenName] = useState<string>("");
   const [resultUsers, setResultUsers] = useState<AppUser[]>([]);
   const [noUser, setNoUser] = useState(false);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setDisplayName(e.target.value);
+    setScreenName(e.target.value);
   };
 
   const handleSubmit = async () => {
-    if (displayName) {
-      const users = await findOtherUser({ db, displayName });
+    if (screenName) {
+      const users = await findOtherUser({ db, screenName });
       if (users.length === 0) {
         setNoUser(true);
       } else {
@@ -36,9 +36,9 @@ export const FindUsers: FC = () => {
   return (
     <>
       <Form onSubmit={handleSubmit}>
-        <Label>Twitterの名前で探す</Label>
+        <Label>TwitterのIDで探す</Label>
         <Form.Group>
-          <Form.Input name="displayName" onChange={handleChange} />
+          <Form.Input name="screenName" onChange={handleChange} />
           <Form.Button color="twitter">探す</Form.Button>
         </Form.Group>
       </Form>
