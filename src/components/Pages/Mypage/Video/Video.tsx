@@ -6,7 +6,7 @@ import { VideoView } from "components/Pages/VideoView";
 import { Loading } from "components/Common/Loading";
 import styled from "styled-components";
 import moment from "moment";
-import { Button, Divider, Header } from "semantic-ui-react";
+import { Button, Divider } from "semantic-ui-react";
 import { FirebaseContext } from "context";
 import { DeleteModal } from "components/Pages/Mypage/Video/DeleteModal";
 import { EditModal } from "components/Pages/Mypage/Video/EditModal";
@@ -95,8 +95,8 @@ export const Video: FC<{ currentUser: AppUser }> = ({ currentUser }) => {
         )}
 
         <TwitterShareButton
-          url={`https:/${process.env.REACT_APP_AUTH_DOMAIN}/${currentUser.uid}/videos/${id}`}
-          title={`${shotenTitle} \n 登録しました `}
+          url={`https://${process.env.REACT_APP_AUTH_DOMAIN}/${currentUser.uid}/videos/${id}`}
+          title={`${shotenTitle} \n 登録しました`}
           hashtags={["つべったー"]}
         >
           <Button color="twitter" icon="twitter" circular as="div" />

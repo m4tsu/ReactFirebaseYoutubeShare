@@ -256,49 +256,9 @@ export const getNicovideoTitle = functions
 
         return { title: null };
       }
-
-      // axios
-      //   .get(fetchUrl)
-      //   .then((result) => {
-      //     const xml = result.data;
-      //     const parser = new Parser();
-      //     let title: string | null;
-      //     parser
-      //       .parseStringPromise(xml)
-      //       .then((obj) => {
-      //         // eslint-disable-next-line prefer-destructuring
-      //         title = obj.nicovideo_thumb_response.thumb[0].title[0];
-      //         console.log(title);
-      //       })
-      //       .catch(() => {
-      //         console.log("parse error");
-
-      //         return null;
-      //       });
-
-      // parser.parseString(xml, (err: any, obj: any) => {
-      //   if (err) {
-      //     title = null;
-      //   }
-      //   console.log(obj.nicovideo_thumb_response.thumb[0].title[0]);
-
-      //   // eslint-disable-next-line prefer-destructuring
-      //   title = obj.nicovideo_thumb_response.thumb[0].title[0];
-      // });
-
-      //   return title;
-      // })
-      // .catch((err) => {
-      //   // console.log(err);
-      //   console.log("parser error");
-
-      //   return err;
-      // });
     } else {
       console.log("no videoId");
 
       return { title: null };
     }
-
-    // return null;
   });

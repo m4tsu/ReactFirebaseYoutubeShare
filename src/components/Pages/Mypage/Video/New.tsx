@@ -19,7 +19,6 @@ import {
 } from "semantic-ui-react";
 import _ from "lodash";
 import { VideoIdType, validateUrl } from "hooks/validateUrl";
-import { VideoView } from "components/Pages/VideoView";
 import { addVideo } from "hooks/addVideo";
 import { VideoType } from "types/Video";
 import styled from "styled-components";
@@ -67,9 +66,6 @@ export const New: FC<NewProps> = ({ currentUser }) => {
   const [openHelpModal, setOpenHelpModal] = useState(false);
   const { setMenuLocation } = useContext(SideMenuContext);
   const { db } = useContext(FirebaseContext);
-
-  console.log(videoTitle);
-  console.log(comment);
 
   useEffect(() => {
     setMenuLocation("new");
@@ -150,7 +146,6 @@ export const New: FC<NewProps> = ({ currentUser }) => {
   return (
     <FormWrapper>
       <Form size="large">
-        {/* <VideoView videoId={videoId} videoType={videoType} /> */}
         {urlValid && (
           <VideoPlayer
             videoId={videoId}

@@ -29,14 +29,13 @@ export const ShareModal: FC<ShareModalProps> = ({
   shareTitle,
 }) => {
   const history = useHistory();
-  const shareUrl = `https:/${process.env.REACT_APP_AUTH_DOMAIN}${sharePath}`;
+  const shareUrl = `https://${process.env.REACT_APP_AUTH_DOMAIN}${sharePath}`;
   const shotenTitle =
     shareTitle.length > 40 ? `${shareTitle.substr(0, 40)}...` : "";
 
   const closeModal = () => {
     setOpen(false);
     if (redirectUrl) {
-      // history.push(redirectUrl);
       history.push({ pathname: redirectUrl });
     }
   };
