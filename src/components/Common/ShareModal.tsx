@@ -31,7 +31,7 @@ export const ShareModal: FC<ShareModalProps> = ({
   const history = useHistory();
   const shareUrl = `https://${process.env.REACT_APP_AUTH_DOMAIN}${sharePath}`;
   const shotenTitle =
-    shareTitle.length > 40 ? `${shareTitle.substr(0, 40)}...` : "";
+    shareTitle.length > 40 ? `${shareTitle.substr(0, 40)}...` : shareTitle;
 
   const closeModal = () => {
     setOpen(false);
