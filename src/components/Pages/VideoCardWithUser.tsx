@@ -2,7 +2,7 @@ import React, { useContext } from "react";
 import { Video } from "types/Video";
 import styled from "styled-components";
 import moment from "moment";
-import { Segment, Grid, ButtonProps } from "semantic-ui-react";
+import { Segment, Grid, ButtonProps, Divider } from "semantic-ui-react";
 import { VideoCardComment } from "components/Common/Comment";
 import { VideoView } from "components/Pages/VideoView";
 import { Link, useHistory } from "react-router-dom";
@@ -65,6 +65,10 @@ const TagButtons = styled.div`
   flex: 1 1 auto;
 `;
 
+const VideoCardDivider = styled(Divider)`
+  margin: 5px 0 2px 0 !important;
+`;
+
 type VideoCardWithUserProps = {
   video: Video;
   scroll?: boolean;
@@ -123,7 +127,12 @@ export const VideoCardWithUser = React.memo<VideoCardWithUserProps>(
                     <FavoriteButton currentUser={currentUser} video={video} />
                   )}
                 </ButtonsWrapper>
-                {/* <VideoCardComment>{video.comment}</VideoCardComment> */}
+                {video.comment && (
+                  <>
+                    <VideoCardDivider />
+                    <VideoCardComment>{video.comment}</VideoCardComment>
+                  </>
+                )}
               </VideoCardBody>
             </Grid.Column>
           </Grid>

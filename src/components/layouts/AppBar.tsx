@@ -83,7 +83,10 @@ export const AppBar: FC = ({ children }) => {
           </Menu.Item>
           <FlexBox>
             <NoPaddedMenuItemPC header>
-              <MenuItemLink to="/users">ユーザーを探す</MenuItemLink>
+              <MenuItemLink to="/users">
+                <Icon name="search" />
+                ユーザーを探す
+              </MenuItemLink>
             </NoPaddedMenuItemPC>
             <NoPaddedMenuItemPC header>
               <MenuItemLink to="/mypage/videos/new">
