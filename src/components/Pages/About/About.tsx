@@ -1,44 +1,36 @@
 import React, { FC } from "react";
-import { Message, Image } from "semantic-ui-react";
+import { Message } from "semantic-ui-react";
 import styled from "styled-components";
 
-const Wrap = styled.div`
-  width: 70%;
-  margin: 0 auto;
+const AboutMessage = styled(Message)`
+  font-size: 14px !important;
+  span {
+    font-size: 20px !important;
+  }
+  p {
+    margin: 0.5rem 0 !important;
+  }
+`;
+
+const Title = styled.span`
+  font-size: 16px !important;
 `;
 
 export const About: FC = () => {
-  const FAQs = [
-    {
-      header: "どんなサービス？",
-      content:
-        "人にオススメしたいYoutube動画を登録して、Twitterのフォロワーにシェアするサービスです。",
-    },
-    {
-      header: "Youtubeから直接シェアできるけど？",
-      content:
-        "シェアツイートはすぐに流れてしまいます。このサービスに動画を登録するとフォロワーはいつでも見返すことができます。また、このサービス上でユーザーをフォローすると新たな動画の登録をタイムラインでチェックできます。",
-    },
-    {
-      header: "カテゴライズなど整理する方法が欲しい",
-      content:
-        "タグ付けによるカテゴライズができます。または、Youtubeで作成した再生リストをそのまま登録することができます。ただしその場合自身のYoutubeチャンネルが公開されるので、Googleアカウント名や再生リスト等の公開設定に注意してください。",
-    },
-  ];
-
   return (
-    <Wrap>
-      <Image src={`${process.env.PUBLIC_URL}/tubetter-sample4.png`} bordered />
-      <Message color="teal">
-        {FAQs.map((faq) => {
-          return (
-            <>
-              <Message.Header>Q. {faq.header}</Message.Header>
-              <p>A. {faq.content}</p>
-            </>
-          );
-        })}
-      </Message>
-    </Wrap>
+    <AboutMessage color="teal">
+      <Title>Tubetter</Title>{" "}
+      はお気に入りの動画を登録してシェアするサービスです。
+      <p>
+        「オススメをどんどん共有したいけどツイッターだとすぐ流れてしまう...」
+      </p>
+      <p>「かといってYoutubeやニコニコ動画のアカウントは晒したくない...」</p>
+      <p>
+        このサービスに動画を登録してツイッターのフォロワーに共有して、オススメの動画を知ってもらいましょう。
+      </p>
+      <p>
+        ログインすると、フォローしたユーザーの更新をタイムラインでチェックすることもできます。
+      </p>
+    </AboutMessage>
   );
 };

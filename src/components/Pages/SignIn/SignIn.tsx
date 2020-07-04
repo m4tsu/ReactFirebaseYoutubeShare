@@ -1,10 +1,7 @@
-import React, { FC, useContext } from "react";
-import { useHistory, Redirect } from "react-router-dom";
-import { firebase } from "FirebaseConfig";
-import styled from "@emotion/styled";
-import StyledFirebaseAuth from "react-firebaseui/StyledFirebaseAuth";
-import { Grid, Header, Message, Segment, Divider } from "semantic-ui-react";
-import { FirebaseContext, AuthContext } from "context";
+import React, { FC } from "react";
+import styled from "styled-components";
+import { Grid, Message, Divider } from "semantic-ui-react";
+import { SignInButton } from "components/Pages/SignIn/SignInButton";
 
 const MessageHeader = styled(Message.Header)`
   text-align: left !important;
@@ -12,43 +9,11 @@ const MessageHeader = styled(Message.Header)`
 
 const GridWrapper = styled.main``;
 const Signin: FC = () => {
-  const { auth } = useContext(FirebaseContext);
-  const { currentUser, setCredential } = useContext(AuthContext);
-  const history = useHistory();
-  const uiConfig: firebaseui.auth.Config = {
-    signInFlow: "redirect",
-    signInOptions: [
-      {
-        provider: firebase.auth.TwitterAuthProvider.PROVIDER_ID,
-        customParameters: { lang: "ja" },
-      },
-    ],
-    callbacks: {
-      signInSuccessWithAuthResult: (authResult, redirectUrl) => {
-        setCredential(authResult as firebase.auth.UserCredential);
-        const dest = redirectUrl || "/home";
-        history.replace(dest);
-
-        return false;
-      },
-    },
-  };
-
-  if (currentUser) {
-    return <Redirect to="/" />;
-  }
-
   return (
     <GridWrapper>
       <Grid textAlign="center" verticalAlign="middle">
         <Grid.Column>
-          <Header as="h2" textAlign="center">
-            ログイン
-          </Header>
-          <Segment>
-            <StyledFirebaseAuth uiConfig={uiConfig} firebaseAuth={auth} />
-          </Segment>
-
+          <SignInButton />
           <Message info>
             <MessageHeader>
               ログインすると次のことができるようになります

@@ -2,10 +2,10 @@ import React, { useContext } from "react";
 import { Video } from "types/Video";
 import styled from "styled-components";
 import moment from "moment";
-import { Segment, Grid, ButtonProps, Divider } from "semantic-ui-react";
+import { Segment, Grid, Divider } from "semantic-ui-react";
 import { VideoCardComment } from "components/Common/Comment";
 import { VideoView } from "components/Pages/VideoView";
-import { Link, useHistory } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { AuthContext } from "context";
 import {
   PaginationVideoCardBody,
@@ -16,7 +16,7 @@ import { FavoriteButton } from "components/Common/FavoriteBtn";
 import { VideoCardTitle } from "components/Common/VideoTitle";
 
 const VideoCard = styled(Segment)<{ scroll: boolean }>`
-  max-width: 540px;
+  max-width: ${({ size }) => (size === "small" ? "480px" : "540px")};
   margin: 0 auto !important;
   margin-bottom: 1em !important;
   padding-bottom: ${({ scroll }) => (scroll ? "" : "0 !important")};
@@ -72,16 +72,17 @@ const VideoCardDivider = styled(Divider)`
 type VideoCardWithUserProps = {
   video: Video;
   scroll?: boolean;
+  size?: "small";
 };
 
 // eslint-disable-next-line react/display-name
 export const VideoCardWithUser = React.memo<VideoCardWithUserProps>(
-  ({ video, scroll }) => {
+  ({ video, scroll, size }) => {
     const { currentUser } = useContext(AuthContext);
 
     return (
       <Link to={`/${video.user.uid}/videos/${video.id}`}>
-        <VideoCard scroll={scroll}>
+        <VideoCard scroll={scroll} size={size}>
           <Grid centered style={{ padding: "0.5em!important" }}>
             <Grid.Column width={3}>
               <Link to={`/${video.user.uid}/videos`}>
@@ -97,7 +98,6 @@ export const VideoCardWithUser = React.memo<VideoCardWithUserProps>(
                   {moment(video.createdAt.toDate()).format("YYYY/MM/DD")}
                 </time>
               </VideoCardHeader>
-
               <VideoView videoId={video.videoId} videoType={video.type} />
               <VideoCardTitle>{video.title}</VideoCardTitle>
               <VideoCardBody>

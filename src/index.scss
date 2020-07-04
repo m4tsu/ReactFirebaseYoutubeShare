@@ -3,11 +3,13 @@ body {
   //   'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
   //   sans-serif;
   // font-family: "Yu Gothic Medium", "游ゴシック Medium", YuGothic, "游ゴシック体", "ヒラギノ角ゴ Pro W3", "メイリオ", sans-serif ;
+  // font-size: 16px !important;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   font-weight: 500;
   margin: 0;
   padding-top: 45px !important;
+
 }
 
 #root {
@@ -22,7 +24,7 @@ body {
   }
 
   h4 {
-    font-size: 16px;
+    font-size: 18px;
   }
 
 }

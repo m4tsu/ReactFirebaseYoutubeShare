@@ -69,7 +69,6 @@ export const VideoCard = React.memo<VideoCardProps>(({ video }) => {
 
           <ButtonsWrapper>
             <time>{moment(video.updatedAt.toDate()).format("YYYY/MM/DD")}</time>
-
             <TagButtons>
               {video.tags &&
                 video.tags.map((tag) => {

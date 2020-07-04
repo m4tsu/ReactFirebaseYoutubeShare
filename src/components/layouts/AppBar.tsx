@@ -65,6 +65,10 @@ const DropdownPC = styled(Dropdown)`
   }
 `;
 
+const Logo = styled(Image)`
+  height: 25px;
+`;
+
 export const AppBar: FC = ({ children }) => {
   const { currentUser } = useContext(AuthContext);
   const { signout } = useAuth();
@@ -79,7 +83,7 @@ export const AppBar: FC = ({ children }) => {
       <Menu fixed="top" inverted color="teal" id="AppBar">
         <HeaderContainer>
           <Menu.Item header as={Link} to="/">
-            つべったー
+            <Logo src={`${process.env.PUBLIC_URL}/logo-white.png`} />
           </Menu.Item>
           <FlexBox>
             <NoPaddedMenuItemPC header>

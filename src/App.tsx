@@ -62,7 +62,9 @@ const App = () => {
                 )}
               </Route>
               <Route path="/:uid" component={UserPage} />
-              <Route exact path="/" component={Top} />
+              <Route exact path="/">
+                {currentUser ? <Mypage currentUser={currentUser} /> : <Top />}
+              </Route>
               <Route component={NoMatch} />
             </Switch>
           </Main>

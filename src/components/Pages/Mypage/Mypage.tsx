@@ -17,6 +17,7 @@ import { NoMatch } from "components/Pages/NoMatch";
 import { TimeLine } from "components/Pages/Home/TimeLine";
 import { useFetchVideos } from "hooks/useFetchVideos";
 import { LikedUsers } from "components/Pages/LikedUsers/LikedUsers";
+import { Top } from "components/Pages/Top/Top";
 
 const DividerSP = styled(Divider)`
   width: 100%;
@@ -74,6 +75,7 @@ export const Mypage = React.memo<MypageProps>(({ currentUser }) => {
             <Route exact path={`${match.path}/tags`}>
               <Tags currentUser={currentUser} />
             </Route>
+            <Route exact path="/" component={Top} />
             <Route component={NoMatch} />
           </Switch>
         </Grid.Column>
