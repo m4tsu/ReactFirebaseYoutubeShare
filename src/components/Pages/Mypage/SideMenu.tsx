@@ -1,11 +1,19 @@
 /* eslint-disable react/display-name */
 import React, { useContext } from "react";
-import { Menu } from "semantic-ui-react";
+import { Menu, Button, Icon } from "semantic-ui-react";
 import { SideMenuContext } from "context";
 import { CenteredMenu } from "components/Common/CenteredMenu";
 import { AppUser } from "types/AppUser";
 import { UserInfo, CenteredImage } from "components/Common/SideMenuUserInfo";
 import { Link } from "react-router-dom";
+import { TwitterShareButton } from "react-share";
+import styled from "styled-components";
+
+const TweetButton = styled(Button)`
+  padding: 0.4rem 1rem !important;
+  margin-top: 1rem !important;
+  font-size: 10px !important;
+`;
 
 type SideMenuProps = {
   currentUser: AppUser;
@@ -21,6 +29,16 @@ export const SideMenu = React.memo<SideMenuProps>(({ currentUser }) => {
           <CenteredImage src={currentUser.photoURL} circular />
 
           <div>{currentUser.displayName}</div>
+          <TwitterShareButton
+            url={`https://${process.env.REACT_APP_AUTH_DOMAIN}/${currentUser.uid}/videos`}
+            title="オススメ動画をシェア | Tubetter"
+            hashtags={["つべったー"]}
+          >
+            <TweetButton color="twitter">
+              <Icon name="twitter" />
+              ツイート
+            </TweetButton>
+          </TwitterShareButton>
         </UserInfo>
       </Menu.Item>
       <Menu.Item active={menuLocation === "home"} as={Link} to="/mypage">
