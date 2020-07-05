@@ -109,9 +109,11 @@ export const AppBar: FC = ({ children }) => {
                 trigger={<Image avatar src={currentUser.photoURL} />}
               >
                 <Dropdown.Menu id="AppSideMenu">
-                  {/* <DropdownLink to="/mypage/videos">マイページ</DropdownLink> */}
+                  <Dropdown.Item as={Link} to="/mypage">
+                    タイムライン
+                  </Dropdown.Item>
                   <Dropdown.Item as={Link} to="/mypage/videos">
-                    マイページ
+                    動画
                   </Dropdown.Item>
                   <Dropdown.Item as={Link} to="/mypage/videos/new">
                     動画を登録する
@@ -130,7 +132,7 @@ export const AppBar: FC = ({ children }) => {
                     ユーザーを探す
                   </Dropdown.Item>
                   <Dropdown.Divider />
-                  <Dropdown.Item as={Link} to="/about">
+                  <Dropdown.Item as={Link} to="/faq">
                     FAQ
                   </Dropdown.Item>
                   <Dropdown.Divider />
@@ -174,7 +176,7 @@ export const AppBar: FC = ({ children }) => {
               ユーザーを探す
             </Menu.Item>
             <SidebarDivider />
-            <Menu.Item as={Link} to="/about">
+            <Menu.Item as={Link} to="/faq">
               FAQ
             </Menu.Item>
             <SidebarDivider />

@@ -20,7 +20,7 @@ export const SignInButton: FC = () => {
       signInSuccessWithAuthResult: (authResult, redirectUrl) => {
         setCredential(authResult as firebase.auth.UserCredential);
         console.log(redirectUrl);
-        const dest = redirectUrl || "/home";
+        const dest = redirectUrl || "/";
         history.replace(dest);
 
         return false;

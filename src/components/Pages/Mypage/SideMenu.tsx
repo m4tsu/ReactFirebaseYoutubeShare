@@ -23,7 +23,7 @@ export const SideMenu = React.memo<SideMenuProps>(({ currentUser }) => {
           <div>{currentUser.displayName}</div>
         </UserInfo>
       </Menu.Item>
-      <Menu.Item active={menuLocation === "home"} as={Link} to="/home">
+      <Menu.Item active={menuLocation === "home"} as={Link} to="/mypage">
         タイムライン
       </Menu.Item>
       <Menu.Item

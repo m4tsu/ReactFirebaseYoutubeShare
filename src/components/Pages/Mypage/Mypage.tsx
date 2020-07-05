@@ -44,9 +44,7 @@ export const Mypage = React.memo<MypageProps>(({ currentUser }) => {
         <DividerSP />
         <Grid.Column computer={13} mobile={16}>
           <Switch>
-            <Route exact path="/home">
-              <TimeLine currentUser={currentUser} />
-            </Route>
+            <Route exact path="/" component={Top} />
             <Route exact path={`${match.path}/videos`}>
               <Videos
                 user={currentUser}
@@ -75,7 +73,9 @@ export const Mypage = React.memo<MypageProps>(({ currentUser }) => {
             <Route exact path={`${match.path}/tags`}>
               <Tags currentUser={currentUser} />
             </Route>
-            <Route exact path="/" component={Top} />
+            <Route exact path={`${match.path}`}>
+              <TimeLine currentUser={currentUser} />
+            </Route>
             <Route component={NoMatch} />
           </Switch>
         </Grid.Column>

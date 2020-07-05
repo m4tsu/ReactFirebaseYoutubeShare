@@ -13,10 +13,10 @@ import { AuthContext, SideMenuContext, SideMenuLocation } from "context";
 import Signin from "components/Pages/SignIn/SignIn";
 import { UserPage } from "components/Pages/UserPage/UserPage";
 import { NoMatch } from "components/Pages/NoMatch";
-import { About } from "components/Pages/About/About";
 import { Top } from "components/Pages/Top/Top";
 import { FindUsers } from "components/Pages/Users/FindUsers";
 import { ScrollToTop } from "components/Pages/ScrollToTop";
+import { FAQ } from "components/Pages/FAQ/FAQ";
 
 const Main = styled(Container)`
   /* font-family: "Yu Gothic Medium", "游ゴシック Medium", YuGothic, "游ゴシック体",
@@ -45,16 +45,9 @@ const App = () => {
           <Main id="main">
             <Switch>
               <Route exact path="/login" component={Signin} />
-              <Route exact path="/about" component={About} />
+              <Route exact path="/faq" component={FAQ} />
               <Route exact path="/users" component={FindUsers} />
               <Route path="/mypage">
-                {currentUser ? (
-                  <Mypage currentUser={currentUser} />
-                ) : (
-                  <Redirect to="/login" />
-                )}
-              </Route>
-              <Route exact path="/home">
                 {currentUser ? (
                   <Mypage currentUser={currentUser} />
                 ) : (
