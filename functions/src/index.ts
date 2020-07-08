@@ -7,6 +7,15 @@ import { Parser } from "xml2js";
 admin.initializeApp();
 export const firestore = admin.firestore();
 
+type User = {
+  uid: string;
+  displayName: string;
+  photoURL: string;
+  screenName: string;
+  createdAt: string;
+  updatedAt: string;
+};
+
 type Video = {
   videoId: string;
   type: "video" | "playlist";
@@ -24,6 +33,53 @@ type Video = {
 type Tag = {
   label: string;
 };
+
+// ユーザー情報変更時に動画のuserに反映する
+async function copyToVideosWithUserSnapshot(
+  change: functions.Change<FirebaseFirestore.DocumentSnapshot>,
+  context: functions.EventContext
+) {
+  const { userId } = context.params;
+  const user = change.after.data() as User;
+  console.log(user);
+  const { uid, displayName, photoURL } = user;
+
+  const batchArray: admin.firestore.WriteBatch[] = [];
+  batchArray.push(firestore.batch());
+  let operationCounter = 0;
+  let batchIndex = 0;
+
+  const videosSnapshot = await firestore
+    .collection("users")
+    .doc(userId)
+    .collection("videos")
+    .get();
+
+  videosSnapshot.forEach((doc) => {
+    batchArray[batchIndex].set(
+      doc.ref,
+      {
+        user: {
+          uid,
+          displayName,
+          photoURL,
+        },
+      },
+      { merge: true }
+    );
+    operationCounter += 1;
+
+    if (operationCounter === 499) {
+      batchArray.push(firestore.batch());
+      batchIndex += 1;
+      operationCounter = 0;
+    }
+  });
+
+  batchArray.forEach(async (batch) => {
+    await batch.commit();
+  });
+}
 
 // 動画登録時にタイムラインにコピーを入れる
 async function copyToTimelineWithUsersVideoSnapshot(
@@ -191,6 +247,13 @@ const decrementLikeCount = async (
     .doc(videoRef.path)
     .update({ likeCount: admin.firestore.FieldValue.increment(-1) });
 };
+
+export const onUserUpdate = functions
+  .region("asia-northeast1")
+  .firestore.document("/users/{userId}")
+  .onUpdate(async (change, context) => {
+    await copyToVideosWithUserSnapshot(change, context);
+  });
 
 export const onUsersVideoCreate = functions
   .region("asia-northeast1")

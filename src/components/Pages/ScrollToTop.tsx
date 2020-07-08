@@ -8,5 +8,5 @@ export const ScrollToTop: FC = () => {
     window.scrollTo(0, 0);
   }, [pathname]);
 
-  return <></>;
+  return null;
 };
