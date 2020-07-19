@@ -17,6 +17,7 @@ import { Top } from "components/Pages/Top/Top";
 import { FindUsers } from "components/Pages/Users/FindUsers";
 import { ScrollToTop } from "components/Pages/ScrollToTop";
 import { FAQ } from "components/Pages/FAQ/FAQ";
+import { ScrollArrowToTop } from "components/ScrollArrowToTop";
 
 const Main = styled(Container)`
   /* font-family: "Yu Gothic Medium", "游ゴシック Medium", YuGothic, "游ゴシック体",
@@ -40,29 +41,29 @@ const App = () => {
   return (
     <Router>
       <ScrollToTop />
-      <AppBar>
-        <SideMenuContext.Provider value={{ menuLocation, setMenuLocation }}>
-          <Main id="main">
-            <Switch>
-              <Route exact path="/login" component={Signin} />
-              <Route exact path="/faq" component={FAQ} />
-              <Route exact path="/users" component={FindUsers} />
-              <Route path="/mypage">
-                {currentUser ? (
-                  <Mypage currentUser={currentUser} />
-                ) : (
-                  <Redirect to="/login" />
-                )}
-              </Route>
-              <Route path="/:uid" component={UserPage} />
-              <Route exact path="/">
-                {currentUser ? <Mypage currentUser={currentUser} /> : <Top />}
-              </Route>
-              <Route component={NoMatch} />
-            </Switch>
-          </Main>
-        </SideMenuContext.Provider>
-      </AppBar>
+      <AppBar />
+      <SideMenuContext.Provider value={{ menuLocation, setMenuLocation }}>
+        <Main id="main">
+          <Switch>
+            <Route exact path="/login" component={Signin} />
+            <Route exact path="/faq" component={FAQ} />
+            <Route exact path="/users" component={FindUsers} />
+            <Route path="/mypage">
+              {currentUser ? (
+                <Mypage currentUser={currentUser} />
+              ) : (
+                <Redirect to="/login" />
+              )}
+            </Route>
+            <Route path="/:uid" component={UserPage} />
+            <Route exact path="/">
+              {currentUser ? <Mypage currentUser={currentUser} /> : <Top />}
+            </Route>
+            <Route component={NoMatch} />
+          </Switch>
+        </Main>
+      </SideMenuContext.Provider>
+      <ScrollArrowToTop />
     </Router>
   );
 };

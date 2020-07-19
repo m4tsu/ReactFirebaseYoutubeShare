@@ -31,6 +31,8 @@ export const Videos: FC<VideosProps> = ({ user, videos, videosLoading }) => {
   const location = useLocation();
   const history = useHistory();
 
+  console.log(filterTag);
+
   useEffect(() => {
     setMenuLocation("videos");
 
@@ -76,7 +78,11 @@ export const Videos: FC<VideosProps> = ({ user, videos, videosLoading }) => {
     e: React.MouseEvent<HTMLAnchorElement, MouseEvent>,
     data: PaginationProps
   ) => {
-    history.push(`${match.url}?page=${data.activePage}`);
+    if (filterTag) {
+      history.push(`${match.url}?page=${data.activePage}#${filterTag}`);
+    } else {
+      history.push(`${match.url}?page=${data.activePage}`);
+    }
   };
 
   const handleFilterChange = (

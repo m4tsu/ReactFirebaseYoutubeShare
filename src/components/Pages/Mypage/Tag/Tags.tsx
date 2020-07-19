@@ -1,9 +1,10 @@
 import React, { FC, useContext, useState } from "react";
 import { TagsContext, FirebaseContext } from "context";
 import { AppUser } from "types/AppUser";
-import { Segment, Button, ButtonProps } from "semantic-ui-react";
+import { Segment, Button, ButtonProps, Form } from "semantic-ui-react";
 import styled from "styled-components";
 import { DeleteTagModal } from "components/Pages/Mypage/Tag/DeleteTagModal";
+import { addTag } from "hooks/addTag";
 
 const FlexSegment = styled(Segment)`
   display: flex;
@@ -22,6 +23,7 @@ export const Tags: FC<TagsProps> = ({ currentUser }) => {
   const { db } = useContext(FirebaseContext);
   const [openDelete, setOpenDelete] = useState(false);
   const [targetTag, setTargetTag] = useState<string>("");
+  const [newTag, setNewTag] = useState<string>("");
 
   const handleClickDelete = (
     event: React.MouseEvent<HTMLButtonElement, MouseEvent>,
@@ -31,8 +33,28 @@ export const Tags: FC<TagsProps> = ({ currentUser }) => {
     setOpenDelete(true);
   };
 
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setNewTag(e.target.value);
+  };
+
+  const handleSubmit = () => {
+    console.log(newTag);
+    addTag({ uid: currentUser.uid, db, tagLabel: newTag });
+    setNewTag("");
+  };
+
   return (
     <>
+      <Form onSubmit={handleSubmit}>
+        <Form.Group>
+          <Form.Input
+            placeholder="タグ名"
+            onChange={handleChange}
+            value={newTag}
+          />
+          <Form.Button icon="plus" color="teal" />
+        </Form.Group>
+      </Form>
       <Segment.Group>
         {tags.map((tag) => {
           return (

@@ -85,7 +85,7 @@ export const New: FC<NewProps> = ({ currentUser }) => {
     _.debounce((value: string) => {
       setVideoUrl(value);
       setVideoTitle("");
-    }, 800),
+    }, 500),
     []
   );
 
@@ -93,14 +93,8 @@ export const New: FC<NewProps> = ({ currentUser }) => {
     debouncedChangeUrl(e.target.value);
   };
 
-  const debouncedChangeTitle = useCallback(
-    _.debounce((value: string) => {
-      setVideoTitle(value);
-    }, 1000),
-    []
-  );
   const handleChangeTitle = (e: React.ChangeEvent<HTMLInputElement>) => {
-    debouncedChangeTitle(e.target.value);
+    setVideoTitle(e.target.value);
   };
 
   const handleChangeType = (
@@ -226,7 +220,7 @@ export const New: FC<NewProps> = ({ currentUser }) => {
             fluid
             size="large"
             type="submit"
-            disabled={!urlValid}
+            disabled={!urlValid || videoTitle.length === 0}
             onClick={handleClick}
           >
             この動画を登録
