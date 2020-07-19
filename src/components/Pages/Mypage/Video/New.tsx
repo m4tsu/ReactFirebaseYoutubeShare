@@ -27,7 +27,7 @@ import { Description } from "components/Pages/Mypage/Video/Description";
 import { AppUser } from "types/AppUser";
 import { FirebaseContext, SideMenuContext } from "context";
 import { TagsForm } from "components/Pages/Mypage/Video/TagsForm";
-import { VideoPlayer } from "components/Pages/YoutubePlayer";
+import { VideoPlayer, ResPonsivePlayer } from "components/Pages/YoutubePlayer";
 import { HelpModal } from "./HelpModal";
 
 const StyledTextArea = styled(TextArea)`
@@ -41,6 +41,22 @@ const FormWrapper = styled.div`
 
 const HelpIcon = styled(Icon)`
   cursor: pointer;
+`;
+
+const PlayerBG = styled.div`
+  position: relative;
+  width: 100%;
+  padding-top: 56.25%;
+  margin-bottom: 1rem;
+  background-color: grey;
+  i {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    -webkit-transform: translate(-50%, -50%);
+    -ms-transform: translate(-50%, -50%);
+  }
 `;
 
 type NewProps = {
@@ -140,12 +156,16 @@ export const New: FC<NewProps> = ({ currentUser }) => {
   return (
     <FormWrapper>
       <Form size="large">
-        {urlValid && (
+        {urlValid ? (
           <VideoPlayer
             videoId={videoId}
             videoType={videoType}
             setVideoTitle={setVideoTitle}
           />
+        ) : (
+          <PlayerBG>
+            <Icon name="video play" size="huge" />
+          </PlayerBG>
         )}
         <Segment stacked>
           <Form.Field>

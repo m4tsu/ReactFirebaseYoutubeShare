@@ -25,7 +25,11 @@ export const VideoPlayer = React.memo<Props>(
       const getNicovideoTitle = functions.httpsCallable("getNicovideoTitle");
       getNicovideoTitle({ videoId })
         .then((result) => {
-          setVideoTitle(result.data.title);
+          if (result.data.title) {
+            setVideoTitle(result.data.title);
+          } else {
+            setVideoTitle("");
+          }
         })
         .catch((err) => {
           console.log(err);
