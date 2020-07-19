@@ -38,7 +38,6 @@ export const Tags: FC<TagsProps> = ({ currentUser }) => {
   };
 
   const handleSubmit = () => {
-    console.log(newTag);
     addTag({ uid: currentUser.uid, db, tagLabel: newTag });
     setNewTag("");
   };

@@ -7,8 +7,7 @@ type Arg = {
 export const addTag = async ({ uid, db, tagLabel }: Arg) => {
   const tagsCol = db.collection("users").doc(uid).collection("tags");
   try {
-    const result = await tagsCol.doc(tagLabel).set({ label: tagLabel });
-    console.log(result);
+    await tagsCol.doc(tagLabel).set({ label: tagLabel });
   } catch (err) {
     console.log(err);
   }
