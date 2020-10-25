@@ -7,14 +7,15 @@
     "noImplicitReturns": true,
     "noUnusedLocals": true,
     "outDir": "lib",
+    "rootDir": "src",
     "removeComments": true,
     "resolveJsonModule": true,
-    "rootDir": "src",
     "sourceMap": true,
     "strict": true,
     "target": "es2017",
     "types": ["jest", "node"],
-    "typeRoots": ["node_modules/@types", "../node_modules/@types"]
+    "typeRoots": ["node_modules/@types", "../node_modules/@types"],
+    "skipLibCheck": true
   },
   "compileOnSave": true,
   "include": ["src"],

@@ -1,14 +1,21 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
-import './index.css';
-import App from './App';
-import * as serviceWorker from './serviceWorker';
+import React from "react";
+import ReactDOM from "react-dom";
+import { FirebaseApp } from "FirebaseApp";
+import "semantic-ui-css/semantic.min.css";
+import "./index.scss";
+import { ErrorProvider } from "components/Pages/Error/ErrorProvider";
+import App from "./App";
+import * as serviceWorker from "./serviceWorker";
 
 ReactDOM.render(
   <React.StrictMode>
-    <App />
+    <ErrorProvider>
+      <FirebaseApp>
+        <App />
+      </FirebaseApp>
+    </ErrorProvider>
   </React.StrictMode>,
-  document.getElementById('root')
+  document.getElementById("root")
 );
 
 // If you want your app to work offline and load faster, you can change

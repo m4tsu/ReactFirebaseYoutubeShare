@@ -55,7 +55,7 @@ module.exports = {
     "newline-before-return": "error",
     "no-console": "warn",
     "no-continue": "off",
-    quotes: ["error", "single", { avoidEscape: true }],
+    // quotes: ["error", "single", { avoidEscape: true }],
     "require-yield": "error",
     semi: ["error", "always"],
     // for react-app-env.d.ts (https://github.com/facebook/create-react-app/issues/6560)
