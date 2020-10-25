@@ -9,6 +9,7 @@ const video: Video = {
   id: "testVideDocId",
   videoId: "testVideoId",
   type: "video",
+  title: "testTitle",
   comment: "testComment",
   user: {
     uid: "testuid",
@@ -35,7 +36,7 @@ describe("<VideoCard>", () => {
   it("videoの更新日時が表示される", () => {
     const { container } = renderWithRouter(<VideoCard video={video} />);
 
-    const span = container.querySelector("span");
-    expect(span).toHaveTextContent("2019/12/10");
+    const time = container.querySelector("time");
+    expect(time).toHaveTextContent("2019/12/10");
   });
 });

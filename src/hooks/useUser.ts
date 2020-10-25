@@ -1,12 +1,13 @@
 import { useContext, useState, useEffect } from "react";
 import { AppUser } from "types/AppUser";
 import { FirebaseContext } from "context";
+import { ErrorContext } from "components/Pages/Error/ErrorProvider";
 
 export const useUser = (uid: string) => {
   const [user, setUser] = useState<AppUser | null>();
   const [loading, setLoading] = useState<boolean>(false);
-  const [error, setError] = useState<Error | null>(null);
   const { db } = useContext(FirebaseContext);
+  const { setContextError } = useContext(ErrorContext);
 
   useEffect(() => {
     const query = db.collection("users").doc(uid);
@@ -23,12 +24,12 @@ export const useUser = (uid: string) => {
           setUser(userData);
         }
       } catch (err) {
-        setError(err);
+        setContextError(err);
       }
       setLoading(false);
     };
     load();
-  }, [db, uid]);
+  }, [db, uid, setContextError]);
 
-  return { user, loading, error };
+  return { user, loading };
 };

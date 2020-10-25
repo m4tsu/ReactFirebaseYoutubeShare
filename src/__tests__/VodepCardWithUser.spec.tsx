@@ -9,6 +9,7 @@ const video: Video = {
   id: "testVideDocId",
   videoId: "testVideoId",
   type: "video",
+  title: "testTitle",
   comment: "testComment",
   user: {
     uid: "testuid",
@@ -32,7 +33,7 @@ describe("<VideoCardWithUser>", () => {
     const p = container.querySelector("p");
     expect(p).toHaveTextContent("testComment");
   });
-  it("videoの更新日時が表示される", () => {
+  it("videoのuserが表示される", () => {
     const { getByText } = renderWithRouter(<VideoCardWithUser video={video} />);
 
     expect(getByText("testDisplayName")).toHaveAttribute(

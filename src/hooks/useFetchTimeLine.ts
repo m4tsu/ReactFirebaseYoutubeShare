@@ -1,6 +1,7 @@
 import { useState, useCallback, useEffect, useContext } from "react";
 import { FirebaseContext } from "context";
 import { Video } from "types/Video";
+import { ErrorContext } from "components/Pages/Error/ErrorProvider";
 
 export const useFetchTimeLine = (uid: string) => {
   const [timeline, setTimeline] = useState<Video[]>([]);
@@ -12,6 +13,7 @@ export const useFetchTimeLine = (uid: string) => {
   const [loadingMore, setLoadingMore] = useState(false);
   const [allFetched, setAllFetched] = useState(false);
   const { db } = useContext(FirebaseContext);
+  const { setContextError } = useContext(ErrorContext);
 
   useEffect(() => {
     const TimelineCol = db.collection("users").doc(uid).collection("timeline");
@@ -35,12 +37,12 @@ export const useFetchTimeLine = (uid: string) => {
         setLastTimelineDoc(timelineSnap.docs[timelineSnap.docs.length - 1]);
         setTimeline(timelineData);
       } catch (err) {
-        console.log(err);
+        setContextError(err);
       }
       setLoading(false);
     };
     load();
-  }, [db, uid]);
+  }, [db, uid, setContextError]);
 
   const fetchMore = useCallback(async () => {
     const TimelineCol = db.collection("users").doc(uid).collection("timeline");
@@ -75,12 +77,12 @@ export const useFetchTimeLine = (uid: string) => {
 
       return timelineData;
     } catch (err) {
-      console.log(err);
+      setContextError(err);
       setLoadingMore(false);
 
       return null;
     }
-  }, [db, lastTimelineDoc, uid]);
+  }, [db, lastTimelineDoc, uid, setContextError]);
 
   return { timeline, loading, fetchMore, allFetched, loadingMore };
 };

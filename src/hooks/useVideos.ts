@@ -2,6 +2,7 @@ import { useContext, useState, useEffect } from "react";
 import { Video } from "types/Video";
 import { FirebaseContext } from "context";
 import { AppUser } from "types/AppUser";
+import { ErrorContext } from "components/Pages/Error/ErrorProvider";
 
 type Arg = {
   user: AppUser;
@@ -13,6 +14,7 @@ export const useVideos = ({ user, filterTag }: Arg) => {
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<Error | null>(null);
   const { db } = useContext(FirebaseContext);
+  const { setContextError } = useContext(ErrorContext);
 
   useEffect(() => {
     let query: firebase.firestore.Query<firebase.firestore.DocumentData>;
@@ -42,12 +44,12 @@ export const useVideos = ({ user, filterTag }: Arg) => {
         setVideos(videosData);
         setError(null);
       } catch (err) {
-        setError(err);
+        setContextError(err);
       }
       setLoading(false);
     };
     load();
-  }, [db, user, filterTag]);
+  }, [db, user, filterTag, setContextError]);
 
   return { videos, loading, error };
 };

@@ -33,6 +33,7 @@ export const VideoPlayer = React.memo<Props>(
         })
         .catch((err) => {
           console.log(err);
+          setVideoTitle("");
         });
 
       return (

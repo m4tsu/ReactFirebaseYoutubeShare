@@ -3,14 +3,17 @@ import ReactDOM from "react-dom";
 import { FirebaseApp } from "FirebaseApp";
 import "semantic-ui-css/semantic.min.css";
 import "./index.scss";
+import { ErrorProvider } from "components/Pages/Error/ErrorProvider";
 import App from "./App";
 import * as serviceWorker from "./serviceWorker";
 
 ReactDOM.render(
   <React.StrictMode>
-    <FirebaseApp>
-      <App />
-    </FirebaseApp>
+    <ErrorProvider>
+      <FirebaseApp>
+        <App />
+      </FirebaseApp>
+    </ErrorProvider>
   </React.StrictMode>,
   document.getElementById("root")
 );

@@ -41,7 +41,6 @@ async function copyToVideosWithUserSnapshot(
 ) {
   const { userId } = context.params;
   const user = change.after.data() as User;
-  console.log(user);
   const { uid, displayName, photoURL } = user;
 
   const batchArray: admin.firestore.WriteBatch[] = [];
@@ -248,6 +247,79 @@ const decrementLikeCount = async (
     .update({ likeCount: admin.firestore.FieldValue.increment(-1) });
 };
 
+const copyVideosToTimeline = async (
+  snapshot: FirebaseFirestore.DocumentSnapshot,
+  context: functions.EventContext
+) => {
+  const { userId, followingId } = context.params;
+  const timelineRef = firestore
+    .collection("users")
+    .doc(userId)
+    .collection("timeline");
+  const videosSnapshot = await firestore
+    .collection("users")
+    .doc(followingId)
+    .collection("videos")
+    .get();
+  const batchArray: admin.firestore.WriteBatch[] = [];
+  batchArray.push(firestore.batch());
+  let operationCounter = 0;
+  let batchIndex = 0;
+
+  videosSnapshot.forEach((doc) => {
+    batchArray[batchIndex].set(timelineRef.doc(doc.id), {
+      videoRef: doc.ref,
+      updatedAt: doc.data().updatedAt,
+    });
+    operationCounter += 1;
+
+    if (operationCounter === 499) {
+      batchArray.push(firestore.batch());
+      batchIndex += 1;
+      operationCounter = 0;
+    }
+  });
+
+  batchArray.forEach(async (batch) => {
+    await batch.commit();
+  });
+};
+
+const deleteVideosFromTimeline = async (
+  snapshot: FirebaseFirestore.DocumentSnapshot,
+  context: functions.EventContext
+) => {
+  const { userId, followingId } = context.params;
+  const timelineRef = firestore
+    .collection("users")
+    .doc(userId)
+    .collection("timeline");
+  const videosSnapshot = await firestore
+    .collection("users")
+    .doc(followingId)
+    .collection("videos")
+    .get();
+  const batchArray: admin.firestore.WriteBatch[] = [];
+  batchArray.push(firestore.batch());
+  let operationCounter = 0;
+  let batchIndex = 0;
+
+  videosSnapshot.forEach((doc) => {
+    batchArray[batchIndex].delete(timelineRef.doc(doc.id));
+    operationCounter += 1;
+
+    if (operationCounter === 499) {
+      batchArray.push(firestore.batch());
+      batchIndex += 1;
+      operationCounter = 0;
+    }
+  });
+
+  batchArray.forEach(async (batch) => {
+    await batch.commit();
+  });
+};
+
 export const onUserUpdate = functions
   .region("asia-northeast1")
   .firestore.document("/users/{userId}")
@@ -299,6 +371,20 @@ export const onLikeVideoDelete = functions
     await decrementLikeCount(snapshot);
   });
 
+export const onUsersFollowingCreate = functions
+  .region("asia-northeast1")
+  .firestore.document("/users/{userId}/following/{followingId}")
+  .onCreate(async (snapshot, context) => {
+    await copyVideosToTimeline(snapshot, context);
+  });
+
+export const onUsersFollowingDelete = functions
+  .region("asia-northeast1")
+  .firestore.document("/users/{userId}/following/{followingId}")
+  .onDelete(async (snapshot, context) => {
+    await deleteVideosFromTimeline(snapshot, context);
+  });
+
 export const getNicovideoTitle = functions
   .region("asia-northeast1")
   .https.onCall(async (data) => {
@@ -311,7 +397,6 @@ export const getNicovideoTitle = functions
         const parser = new Parser();
         const obj = await parser.parseStringPromise(xml);
         const title = obj.nicovideo_thumb_response.thumb[0].title[0];
-        console.log(title);
 
         return { title };
       } catch (err) {

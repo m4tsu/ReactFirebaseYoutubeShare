@@ -1,6 +1,7 @@
 import { useState, useCallback, useEffect, useContext } from "react";
 import { FirebaseContext } from "context";
 import { Video } from "types/Video";
+import { ErrorContext } from "components/Pages/Error/ErrorProvider";
 
 export const useRecentVideos = () => {
   const [recentVideos, setRecentVideoes] = useState<Video[]>([]);
@@ -12,6 +13,7 @@ export const useRecentVideos = () => {
   const [loadingMore, setLoadingMore] = useState(false);
   const [allFetched, setAllFetched] = useState(false);
   const { db } = useContext(FirebaseContext);
+  const { setContextError } = useContext(ErrorContext);
 
   useEffect(() => {
     const recentVideosCol = db
@@ -33,12 +35,12 @@ export const useRecentVideos = () => {
         setLastVideoDoc(videosSnap.docs[videosSnap.docs.length - 1]);
         setRecentVideoes(videosData);
       } catch (err) {
-        console.log(err);
+        setContextError(err);
       }
       setLoading(false);
     };
     load();
-  }, [db]);
+  }, [db, setContextError]);
 
   const fetchMore = useCallback(async () => {
     const recentVideosCol = db
@@ -73,12 +75,12 @@ export const useRecentVideos = () => {
 
       return videosData;
     } catch (err) {
-      console.log(err);
+      setContextError(err);
       setLoadingMore(false);
 
       return null;
     }
-  }, [db, lastVideoDoc]);
+  }, [db, lastVideoDoc, setContextError]);
 
   return { recentVideos, loading, fetchMore, allFetched, loadingMore };
 };

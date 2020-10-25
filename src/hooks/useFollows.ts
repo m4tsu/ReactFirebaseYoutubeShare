@@ -1,12 +1,14 @@
 import { AppUser } from "types/AppUser";
 import { useState, useContext, useEffect } from "react";
 import { FirebaseContext } from "context";
+import { ErrorContext } from "components/Pages/Error/ErrorProvider";
 
 export const useFollows = (uid: string) => {
   const [follows, setFollows] = useState<AppUser[]>([]);
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState<Error | null>(null);
   const { db } = useContext(FirebaseContext);
+  const { setContextError } = useContext(ErrorContext);
+
   useEffect(() => {
     const followsQuery = db
       .collection("users")
@@ -35,14 +37,13 @@ export const useFollows = (uid: string) => {
         );
         setFollows(followsData);
         setLoading(false);
-        setError(null);
       } catch (err) {
-        setError(err);
+        setContextError(err);
       }
     };
 
     load();
-  }, [db, uid]);
+  }, [db, uid, setContextError]);
 
-  return { follows, loading, error };
+  return { follows, loading };
 };

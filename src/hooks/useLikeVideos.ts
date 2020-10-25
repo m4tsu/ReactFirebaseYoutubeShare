@@ -1,8 +1,9 @@
 import { AppUser } from "types/AppUser";
-import { useContext, useState, useEffect, useMemo } from "react";
+import { useContext, useState, useEffect } from "react";
 import { FirebaseContext } from "context";
 import { Video } from "types/Video";
 import { LikeVideosRef } from "types/FireStoreDataType";
+import { ErrorContext } from "components/Pages/Error/ErrorProvider";
 
 type Arg = {
   user: AppUser;
@@ -15,6 +16,7 @@ export const useLikeVideos = ({ user, activePage, videoPerPage }: Arg) => {
   const [pageVideos, setPageVideos] = useState<Video[]>([]);
   const [loading, setLoading] = useState(false);
   const { db } = useContext(FirebaseContext);
+  const { setContextError } = useContext(ErrorContext);
 
   useEffect(() => {
     const load = async () => {
@@ -36,12 +38,12 @@ export const useLikeVideos = ({ user, activePage, videoPerPage }: Arg) => {
           )
         );
       } catch (err) {
-        console.log(err);
+        setContextError(err);
       }
       setLoading(false);
     };
     load();
-  }, [db, user]);
+  }, [db, user, setContextError]);
 
   useEffect(() => {
     const startVideoIndex = (activePage - 1) * videoPerPage;
@@ -67,12 +69,12 @@ export const useLikeVideos = ({ user, activePage, videoPerPage }: Arg) => {
         );
         setPageVideos(videosData);
       } catch (err) {
-        console.log(err);
+        setContextError(err);
       }
       setLoading(false);
     };
     load();
-  }, [db, activePage, likeVideosRef, videoPerPage]);
+  }, [db, activePage, likeVideosRef, videoPerPage, setContextError]);
 
   return { pageVideos, loading, totalVideoNumber: likeVideosRef.length };
 };

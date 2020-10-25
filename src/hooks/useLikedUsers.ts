@@ -1,7 +1,7 @@
 import { useContext, useState, useEffect } from "react";
-import { Video } from "types/Video";
 import { FirebaseContext } from "context";
 import { AppUser } from "types/AppUser";
+import { ErrorContext } from "components/Pages/Error/ErrorProvider";
 
 type Arg = {
   videoDocId: string;
@@ -12,6 +12,7 @@ export const useLikedUsers = ({ videoDocId, uid }: Arg) => {
   const [users, setUsers] = useState<AppUser[]>([]);
   const [loading, setLoading] = useState(false);
   const { db } = useContext(FirebaseContext);
+  const { setContextError } = useContext(ErrorContext);
 
   useEffect(() => {
     const load = async () => {
@@ -35,12 +36,12 @@ export const useLikedUsers = ({ videoDocId, uid }: Arg) => {
         setUsers(usersData);
         setLoading(false);
       } catch (err) {
-        console.log(err);
+        setContextError(err);
       }
     };
 
     load();
-  }, [db, videoDocId, uid]);
+  }, [db, videoDocId, uid, setContextError]);
 
   return { users, loading };
 };

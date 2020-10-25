@@ -6,6 +6,7 @@ import {
   Redirect,
 } from "react-router-dom";
 import { AppBar } from "components/layouts/AppBar";
+import { ErrorBoundary } from "components/Pages/Error/ErrorBoundary";
 import { Mypage } from "components/Pages/Mypage/Mypage";
 import { Container, Dimmer, Loader } from "semantic-ui-react";
 import styled from "styled-components";
@@ -42,27 +43,30 @@ const App = () => {
     <Router>
       <ScrollToTop />
       <AppBar />
-      <SideMenuContext.Provider value={{ menuLocation, setMenuLocation }}>
-        <Main id="main">
-          <Switch>
-            <Route exact path="/login" component={Signin} />
-            <Route exact path="/faq" component={FAQ} />
-            <Route exact path="/users" component={FindUsers} />
-            <Route path="/mypage">
-              {currentUser ? (
-                <Mypage currentUser={currentUser} />
-              ) : (
-                <Redirect to="/login" />
-              )}
-            </Route>
-            <Route path="/:uid" component={UserPage} />
-            <Route exact path="/">
-              {currentUser ? <Mypage currentUser={currentUser} /> : <Top />}
-            </Route>
-            <Route component={NoMatch} />
-          </Switch>
-        </Main>
-      </SideMenuContext.Provider>
+      <ErrorBoundary>
+        <SideMenuContext.Provider value={{ menuLocation, setMenuLocation }}>
+          <Main id="main">
+            <Switch>
+              <Route exact path="/login" component={Signin} />
+              <Route exact path="/faq" component={FAQ} />
+              <Route exact path="/users" component={FindUsers} />
+              <Route path="/mypage">
+                {currentUser ? (
+                  <Mypage currentUser={currentUser} />
+                ) : (
+                  <Redirect to="/login" />
+                )}
+              </Route>
+              <Route path="/:uid" component={UserPage} />
+              <Route exact path="/">
+                {currentUser ? <Mypage currentUser={currentUser} /> : <Top />}
+              </Route>
+              <Route component={NoMatch} />
+            </Switch>
+          </Main>
+        </SideMenuContext.Provider>
+      </ErrorBoundary>
+
       <ScrollArrowToTop />
     </Router>
   );
