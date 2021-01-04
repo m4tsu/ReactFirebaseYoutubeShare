@@ -31,8 +31,6 @@ export const Videos: FC<VideosProps> = ({ user, videos, videosLoading }) => {
   const location = useLocation();
   const history = useHistory();
 
-  console.log(filterTag);
-
   useEffect(() => {
     setMenuLocation("videos");
 
