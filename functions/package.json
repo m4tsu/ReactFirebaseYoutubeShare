@@ -21,7 +21,7 @@
   "main": "lib/index.js",
   "dependencies": {
     "@types/xml2js": "^0.4.5",
-    "axios": "^0.19.2",
+    "axios": "^0.21.1",
     "commander": "^4.0.1",
     "csv-parse": "^4.8.2",
     "date-fns": "^2.8.1",
